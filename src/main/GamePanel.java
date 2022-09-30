@@ -1,34 +1,37 @@
 package main;
 
-import emtity.move.Player;
+import Tiles.Grass;
+import Tiles.Wall;
+import emtity.Player;
+import gameFunction.Constant;
+import gameFunction.LoadMap;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class GamePanel extends JPanel implements Runnable{
-    final int originalTileSize = 16; // khung kinh ban dau 16 x 16
-    final int scale = 3;  //
-    public final int titleSize = originalTileSize * scale; // ficture 48 x 48.
-    final int maxScreenColum = 16;  // So khung hinh hien thi toi da tren cot
-    final int maxScreenRow = 12;    // So khung hinh hien thi toi da tren hang
-    final int screenWidth = maxScreenColum * titleSize;    // Chieu rong cua man hinh hien thi toi da
-    final int screenHeight = maxScreenRow * titleSize;  // Chieu dai cua man hien thi toi da
+public class GamePanel extends JPanel implements Runnable, Constant {
     final int FPS = 60;
+    LoadMap loadmp;
     KeyControl keyControl = new KeyControl();
     Thread gameThread;  //
-
     Player player = new Player(this, keyControl);
-
+    Wall wall = new Wall();
     /**
      * This is contructor.
      */
-    public GamePanel() {
+    public GamePanel() throws IOException {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // Set the size of this class (JPanel).
-        this.setBackground(Color.BLACK); // Set the background color.
+//        this.loadMap();
+        this.setBackground(Color.black); // Set the background color.
         this.setDoubleBuffered(true); // if set to true, all the drawing from this component will be done in offscreen painting buffer.
         this.addKeyListener(keyControl);
         this.setFocusable(true);
+    }
+
+    public void loadMap() throws IOException {
+        loadmp = new LoadMap();
+        loadmp.loadMap();
     }
 
     public void startGameThread() {
@@ -71,6 +74,7 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(graphics);
         Graphics2D graphics2D = (Graphics2D) graphics;
         try {
+            wall.draw(graphics2D);
             player.draw(graphics2D);
         } catch (IOException e) {
             throw new RuntimeException(e);
