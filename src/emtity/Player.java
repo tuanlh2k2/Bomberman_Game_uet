@@ -1,6 +1,5 @@
 package emtity;
 
-import emtity.Emtity;
 import main.GamePanel;
 import main.KeyControl;
 
@@ -9,28 +8,29 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Player extends Emtity {
+public class Player extends Entity {
     KeyControl keyControl;
     GamePanel gp;
     BufferedImage image;
-
+    // Gốc tọa độ
     public Player(GamePanel gp, KeyControl keyControl) {
         this.gp = gp;
         this.keyControl = keyControl;
+        solidArea = new Rectangle(4, 5, 27, 38); // Xu ly va cham
         setDefautValues();
         getPlayerImage();
     }
 
     public void setDefautValues() {
-        positionX = gp.titleSize;
-        positionY = gp.titleSize;
+        worldX = gp.titleSize;
+        worldY = gp.titleSize * 5;
         speed = 2;
         direction = "down";
     }
     public void getPlayerImage() {
         try {
             image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("image/classic.png"));
-            up1 = image.getSubimage(0, 0, 16, 16);;
+            up1 = image.getSubimage(0, 0, 16, 16);
             up2 = image.getSubimage(0,16,16,16);
             up3 = image.getSubimage(0,32,16,16);
 
@@ -54,22 +54,40 @@ public class Player extends Emtity {
         if (keyControl.upPressed == true || keyControl.downPressed == true
                 || keyControl.leftPressed == true || keyControl.rightPressed == true) {
             if (keyControl.upPressed == true) {
-                positionY -= speed;
                 direction = "up";
             }
             if (keyControl.downPressed == true) {
-                positionY += speed;
                 direction = "down";
             }
             if (keyControl.leftPressed == true) {
-                positionX -= speed;
                 direction = "left";
             }
             if (keyControl.rightPressed == true) {
-                positionX += speed;
                 direction = "right";
             }
 
+            //  Check tile collision.
+            collisionOn = false;
+            gp.cChecker.tileCheck(this);
+
+            // Check collision is false, player can moving.
+
+            if (collisionOn == false) {
+                switch (direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+            }
             spriteCounter++;
             if (spriteCounter > 6) {
                 if (spriteNum == 3) {
@@ -123,6 +141,6 @@ public class Player extends Emtity {
                 }
                 break;
         }
-        g2.drawImage(image, positionX, positionY, gp.titleSize, gp.titleSize, null);
+        g2.drawImage(image, worldX, worldY, gp.titleSize, gp.titleSize, null);
     }
 }
