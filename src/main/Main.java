@@ -10,11 +10,11 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Chuong trinh se tat khi click vao nut "x".
         window.setResizable(false);
         window.setTitle("Bomberman Game");
-        GamePanel gamePanel = null;
-        gamePanel = new GamePanel();
+        GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
         window.pack();
         gamePanel.startGameThread();
+        gamePanel.setupGame();
         window.setLocationRelativeTo(null); // Hien thi window ra giua man hinh.
         window.setVisible(true);
     }
