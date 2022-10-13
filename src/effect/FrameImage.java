@@ -18,13 +18,20 @@ public class FrameImage {
         this.image = image;
     }
 
-    // Copy du lieu.
+    public FrameImage() {
+        this.name = null;
+        this.image = null;
+    }
+
+    // Copy du lieu => Muc dich la tao ra ban sao cua chinh no.
+    // Khi tach ra nhieu frame thi ko co tinh trang trung vung nho.
     public FrameImage(FrameImage frameImage) {
         image = new BufferedImage(frameImage.getImageWidth(), frameImage.getImageHeight(),
                 frameImage.getImage().getType());
         Graphics g = image.getGraphics();
         g.drawImage(frameImage.getImage(), 0, 0, null);
     }
+
     /**
      * drawImage.
      */
