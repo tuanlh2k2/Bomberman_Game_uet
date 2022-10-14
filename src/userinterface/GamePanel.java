@@ -3,8 +3,7 @@ package userinterface;
 import effect.Animation;
 import effect.CacheDataLoader;
 import effect.FrameImage;
-import gameobject.Player;
-
+import gameobject.GameWorld;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -21,18 +20,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private InputManager inputManager;
     private BufferedImage bufferedImage;
     private Graphics2D bufG2D;
-    Player player = new Player(300, 300, 100, 100);
-
-
-    Animation animation1;
+    protected GameWorld gameWorld;
 
 
     public GamePanel() {
-        inputManager = new InputManager(this);
+        gameWorld = new GameWorld();
+        inputManager = new InputManager(gameWorld);
         bufferedImage = new BufferedImage(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-
-        // Test
-        animation1 = CacheDataLoader.getInstance().getAnimation("down");
     }
 
     @Override
@@ -49,14 +43,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (bufG2D != null) {
             bufG2D.setColor(Color.black);
             bufG2D.fillRect(0,0,GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT);
-
-            // draw game.
-            player.draw(bufG2D);
+            gameWorld.Render(bufG2D);
         }
     }
 
     public void updateGame() {
-        player.update();
+        gameWorld.Update();
     }
 
     public void startGame() {

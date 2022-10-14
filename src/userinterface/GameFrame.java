@@ -24,6 +24,7 @@ public class GameFrame extends JFrame {
         }
         gamePanel = new GamePanel();
         add(gamePanel);
+        this.addKeyListener(gamePanel); // Nhan duoc xu ly khi bam ban phim.
     }
 
     public void startGame(){

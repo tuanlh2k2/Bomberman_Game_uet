@@ -11,7 +11,7 @@ public class Player {
     private double speedY; // Van toc chieu Y.
 
     public static int DIR_LEFT;
-    private static int DIR_RIGHT;
+    public static int DIR_RIGHT;
     private int direction; // Huong di.
 
 
@@ -23,12 +23,13 @@ public class Player {
     }
 
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.red);
+        g2.setColor(Color.BLUE);
         g2.fillRect((int)posX, (int)posY, (int) width, (int)height );
     }
 
     public void update() {
-        setPosX(getPosX() + this.posX);
+        setPosX(getPosX() + this.speedX);
+        setPosY(getPosY() + this.speedY);
     }
 
     /**
