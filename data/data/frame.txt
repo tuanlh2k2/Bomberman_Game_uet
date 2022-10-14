@@ -1,37 +1,37 @@
 6
-idle1
+up1
 image image/gameImage.png
 x 0
 y 0
 w 16
 h 16
-idle2
+up2
 image image/gameImage.png
 x 0
 y 16
 w 16
 h 16
-idle3
+up3
 image image/gameImage.png
 x 0
 y 32
 w 16
 h 16
-idle4
+down1
 image image/gameImage.png
-x 0
-y 48
+x 32
+y 0
 w 16
 h 16
-idle5
+down2
 image image/gameImage.png
-x 16
+x 32
 y 16
 w 16
 h 16
-idle6
+down3
 image image/gameImage.png
-x 16
-y 16
+x 32
+y 32
 w 16
 h 16

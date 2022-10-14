@@ -1,34 +1,62 @@
 package userinterface;
 
 import effect.Animation;
+import effect.CacheDataLoader;
 import effect.FrameImage;
+import gameobject.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements Runnable, KeyListener {
     private Thread thread;
     private boolean isRunning;
     private static final int FPS = 80;
     private InputManager inputManager;
-//    BufferedImage image;
-//    FrameImage frame1, frame2, frame3;
-//    Animation animation;
+    private BufferedImage bufferedImage;
+    private Graphics2D bufG2D;
+    Player player = new Player(300, 300, 100, 100);
+
+
+    Animation animation1;
+
 
     public GamePanel() {
-        inputManager = new InputManager();
-//            BufferedImage image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("gameImage.png"));
-//            BufferedImage image1 = image.getSubimage(0, 0, 16, 16);
+        inputManager = new InputManager(this);
+        bufferedImage = new BufferedImage(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+
+        // Test
+        animation1 = CacheDataLoader.getInstance().getAnimation("down");
     }
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.white);
-        g.fillRect(0,0,GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT);
+        g.drawImage(bufferedImage, 0, 0, this);
+    }
+
+    public void renderGame() {
+        if (bufferedImage == null) {
+            bufferedImage = new BufferedImage(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        } else {
+            bufG2D = (Graphics2D) bufferedImage.getGraphics();
+        }
+        if (bufG2D != null) {
+            bufG2D.setColor(Color.black);
+            bufG2D.fillRect(0,0,GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT);
+
+            // draw game.
+            player.draw(bufG2D);
+        }
+    }
+
+    public void updateGame() {
+        player.update();
     }
 
     public void startGame() {
@@ -47,8 +75,9 @@ public class GamePanel extends JPanel implements Runnable {
         beginTime = System.nanoTime();
         while (isRunning) {
 
-            // Updategame.
-            // Rendergame.
+            updateGame();
+            renderGame();
+
             repaint();
             long deltaTime = System.nanoTime() - beginTime;
             try {
@@ -59,5 +88,20 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             } catch (InterruptedException ex) {}
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        inputManager.processKeyPressed(e.getKeyCode());
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        inputManager.processKeyReleased(e.getKeyCode());
     }
 }

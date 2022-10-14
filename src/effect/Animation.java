@@ -10,7 +10,7 @@ public class Animation {
     private ArrayList<FrameImage> frameImages;
     private int currentFrame; // chi frame hien tai dang duoc ve tren man hinh. (1 -> 3)
     private ArrayList<Boolean> ignoreFrames; // trong qua trinh chay hinh anh thi se huy bo mot so hinh anh.
-    private ArrayList<Double> delayFrame; // Chia thoi gian delay giua cac frame.
+    private ArrayList<Double> delayFrames; // Chia thoi gian delay giua cac frame.
     private long beginTime;
     private boolean drawRectFrame;
 
@@ -18,7 +18,7 @@ public class Animation {
      * This is contructor.
      */
     public Animation() {
-        delayFrame = new ArrayList<Double>();
+        delayFrames = new ArrayList<Double>();
         beginTime = 0;
         currentFrame = 0;
         ignoreFrames = new ArrayList<Boolean>();
@@ -33,9 +33,9 @@ public class Animation {
         this.drawRectFrame = animation.drawRectFrame;
         this.isRepeated = animation.isRepeated;
 
-        delayFrame = new ArrayList<Double>();
-        for (Double d : animation.delayFrame) {
-            delayFrame.add(d);
+        delayFrames = new ArrayList<Double>();
+        for (Double d : animation.delayFrames) {
+            delayFrames.add(d);
         }
 
         ignoreFrames = new ArrayList<Boolean>();
@@ -61,12 +61,12 @@ public class Animation {
         this.name = name;
     }
 
-    public boolean isRepeated() {
+    public boolean getIsRepeated() {
         return isRepeated;
     }
 
-    public void setRepeated(boolean repeated) {
-        isRepeated = repeated;
+    public void setIsRepeated(boolean repeated) {
+        this.isRepeated = repeated;
     }
 
     public ArrayList<FrameImage> getFrameImages() {
@@ -100,12 +100,12 @@ public class Animation {
         this.ignoreFrames = ignoreFrames;
     }
 
-    public ArrayList<Double> getDelayFrame() {
-        return delayFrame;
+    public ArrayList<Double> getDelayFrames() {
+        return delayFrames;
     }
 
-    public void setDelayFrame(ArrayList<Double> delayFrame) {
-        this.delayFrame = delayFrame;
+    public void setDelayFrames(ArrayList<Double> delayFrame) {
+        this.delayFrames = delayFrame;
     }
 
     public long getBeginTime() {
@@ -163,11 +163,10 @@ public class Animation {
     /**
      * add mot frame va list frame.
      */
-    public void addFrame(FrameImage frameImage, double timeToNextFrame) {
+    public void add(FrameImage frameImage, double timeToNextFrame) {
         ignoreFrames.add(false);
         frameImages.add(frameImage);
-        Double newTimeToNextFrame = new Double(timeToNextFrame);
-        delayFrame.add(newTimeToNextFrame);
+        delayFrames.add(new Double(timeToNextFrame));
     }
 
     /**
@@ -184,7 +183,7 @@ public class Animation {
         if (beginTime == 0) {
             beginTime = currenTime;
         } else {
-            if (currenTime - beginTime > delayFrame.get(currentFrame)) {
+            if (currenTime - beginTime > delayFrames.get(currentFrame)) {
                 nextFrame();
                 beginTime = currenTime;
             }

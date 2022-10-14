@@ -26,17 +26,18 @@ public class FrameImage {
     // Copy du lieu => Muc dich la tao ra ban sao cua chinh no.
     // Khi tach ra nhieu frame thi ko co tinh trang trung vung nho.
     public FrameImage(FrameImage frameImage) {
-        image = new BufferedImage(frameImage.getImageWidth(), frameImage.getImageHeight(),
-                frameImage.getImage().getType());
+        this.image = new BufferedImage(frameImage.getImageWidth(),
+                frameImage.getImageHeight(), frameImage.image.getType());
         Graphics g = image.getGraphics();
-        g.drawImage(frameImage.getImage(), 0, 0, null);
+        g.drawImage(frameImage.image, 0, 0, null);
+        name = frameImage.name;
     }
 
     /**
      * drawImage.
      */
     public void draw(Graphics2D g2, int x, int y) {
-        g2.drawImage(image, (x - image.getWidth()) / 2, (y - image.getHeight())/2, null);
+        g2.drawImage(image, (x - image.getWidth()) / 2, (y - image.getHeight())/2,48,48, null);
     }
 
     /**

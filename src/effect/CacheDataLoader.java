@@ -28,7 +28,7 @@ public class CacheDataLoader {
 
     public void loadData() throws IOException {
         loadFrame();
-       // loadAnimation();
+        loadAnimation();
     }
 
     /**
@@ -83,6 +83,28 @@ public class CacheDataLoader {
 
     public void loadAnimation() throws IOException {
         animations = new Hashtable<String, Animation>();
+        InputStream is = getClass().getResourceAsStream("/data/animation.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String str = br.readLine();
+        int n = Integer.parseInt(str);
+        System.out.println(n);
+
+        for (int i = 0; i < n; i++) {
+            Animation animation = new Animation();
+
+            // read name of animations.
+            str = br.readLine();
+            animation.setName(str);
+            System.out.println(animation.getName());
+
+            // read frame.
+            String[] s = br.readLine().split(" ");
+            for (int j = 0; j < s.length; j += 2) {
+                animation.add(getFrameImage(s[j]), Double.parseDouble(s[j + 1]));
+            }
+            instance.animations.put(animation.getName(), animation);
+        }
+
     }
 
     public FrameImage getFrameImage(String name) {

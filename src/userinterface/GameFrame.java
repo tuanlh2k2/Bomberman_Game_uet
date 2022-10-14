@@ -26,13 +26,8 @@ public class GameFrame extends JFrame {
         add(gamePanel);
     }
 
-    public void startGame() {
+    public void startGame(){
         gamePanel.startGame();
-    }
-
-    public static void main(String[] args) {
-        GameFrame gameFrame = new GameFrame();
-        gameFrame.setVisible(true);
-        gameFrame.startGame();
+        this.setVisible(true);
     }
 }

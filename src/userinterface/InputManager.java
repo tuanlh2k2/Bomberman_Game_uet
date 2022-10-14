@@ -3,29 +3,50 @@ package userinterface;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class InputManager implements KeyListener {
-    private boolean[] keys = new boolean[120];
-    public boolean up, down, left, right, space;
+public class InputManager {
+    private GamePanel gamePanel;
 
-    public void update() {
-        up = keys[KeyEvent.VK_UP];
-        down = keys[KeyEvent.VK_DOWN];
-        left = keys[KeyEvent.VK_LEFT];
-        right = keys[KeyEvent.VK_RIGHT];
-        space = keys[KeyEvent.VK_SPACE];
+    public InputManager(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) { // Doc du lieu khi nhap tu ban phim.
+    public void processKeyPressed(int keyCode) {
+        switch (keyCode ) {
+            case KeyEvent.VK_UP:
+                gamePanel.player.setSpeedY(-5);
+                break;
+            case KeyEvent.VK_DOWN:
+                gamePanel.player.setSpeedY(5);
+                break;
+            case KeyEvent.VK_LEFT:
+                gamePanel.player.setSpeedX(-5);
+                break;
+            case KeyEvent.VK_RIGHT:
+                gamePanel.player.setSpeedY(5);
+                break;
+            case KeyEvent.VK_SPACE:
+                System.out.println("BOM");
+                break;
+        }
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        keys[e.getKeyCode()] = true; // Khi an nut.
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        keys[e.getKeyCode()] = false;  // Tha nut bam.
+    public void processKeyReleased(int keyCode) {
+        switch (keyCode) {
+            case KeyEvent.VK_UP:
+                gamePanel.player.setSpeedY(-5);
+                break;
+            case KeyEvent.VK_DOWN:
+                gamePanel.player.setSpeedY(5);
+                break;
+            case KeyEvent.VK_LEFT:
+                gamePanel.player.setSpeedX(-5);
+                break;
+            case KeyEvent.VK_RIGHT:
+                gamePanel.player.setSpeedY(5);
+                break;
+            case KeyEvent.VK_SPACE:
+                System.out.println("BOM");
+                break;
+        }
     }
 }
