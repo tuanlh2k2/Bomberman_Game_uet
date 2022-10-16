@@ -12,6 +12,7 @@ public class GameFrame extends JFrame {
     GamePanel gamePanel;
 
     public GameFrame() {
+        super("Bomberman");
         Toolkit toolkit = this.getToolkit();
         Dimension dimension = toolkit.getScreenSize(); // Lay toa do tu phan cung.
         this.setBounds((dimension.width - SCREEN_WIDTH) / 2, (dimension.height - SCREEN_HEIGHT)/ 2,
