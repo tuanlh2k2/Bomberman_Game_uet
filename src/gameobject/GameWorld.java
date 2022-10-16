@@ -1,6 +1,6 @@
 package gameobject;
 
-import userinterface.GameFrame;
+import gameobject.paticularObject.Entity.Player;
 
 import java.awt.*;
 
@@ -9,17 +9,16 @@ public class GameWorld {
     public PhysicalMap physicalMap;
 
     public GameWorld() {
-        physicalMap = new PhysicalMap(0, 0);
-        player = new Player(300, 300, 48, 48);
+        physicalMap = new PhysicalMap(0, 0, this);
+        player = new Player(72, 72, this);
     }
 
     public void Update() {
-        player.update();
+        player.Update();
     }
 
     public void Render(Graphics2D g2) {
         physicalMap.draw(g2);
         player.draw(g2);
     }
-
 }
