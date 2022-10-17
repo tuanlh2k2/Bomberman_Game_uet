@@ -1,4 +1,4 @@
-6
+12
 up1
 image image/gameImage.png
 x 0
@@ -32,6 +32,42 @@ h 16
 down3
 image image/gameImage.png
 x 32
+y 32
+w 16
+h 16
+right1
+image image/gameImage.png
+x 16
+y 0
+w 16
+h 16
+right2
+image image/gameImage.png
+x 16
+y 16
+w 16
+h 16
+right3
+image image/gameImage.png
+x 16
+y 32
+w 16
+h 16
+left1
+image image/gameImage.png
+x 48
+y 0
+w 16
+h 16
+left2
+image image/gameImage.png
+x 48
+y 16
+w 16
+h 16
+left3
+image image/gameImage.png
+x 48
 y 32
 w 16
 h 16

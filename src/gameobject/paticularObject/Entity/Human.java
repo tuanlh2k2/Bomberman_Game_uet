@@ -1,15 +1,15 @@
 package gameobject.paticularObject.Entity;
 
 import gameobject.GameWorld;
-import gameobject.paticularObject.PaticularObject;
+import gameobject.paticularObject.ParticularObject;
 
 import java.awt.*;
 
-public abstract class Human extends PaticularObject {
-    private boolean isUping;
-    private boolean isDowning;
-    private boolean isLefting;
-    private boolean isRighting;
+public abstract class Human extends ParticularObject {
+//    private boolean isUping;
+//    private boolean isDowning;
+//    private boolean isLefting;
+//    private boolean isRighting;
     private boolean isPlantingBombs;
 
     public Human(double posX, double posY, double width, double height, int blood, GameWorld gameWorld) {
@@ -95,37 +95,37 @@ public abstract class Human extends PaticularObject {
         }
     }
 
-    public boolean isUping() {
-        return isUping;
-    }
-
-    public void setUping(boolean uping) {
-        isUping = uping;
-    }
-
-    public boolean isDowning() {
-        return isDowning;
-    }
-
-    public void setDowning(boolean downing) {
-        isDowning = downing;
-    }
-
-    public boolean isLefting() {
-        return isLefting;
-    }
-
-    public void setLefting(boolean lefting) {
-        isLefting = lefting;
-    }
-
-    public boolean isRighting() {
-        return isRighting;
-    }
-
-    public void setRighting(boolean righting) {
-        isRighting = righting;
-    }
+//    public boolean isUping() {
+//        return isUping;
+//    }
+//
+//    public void setUping(boolean uping) {
+//        isUping = uping;
+//    }
+//
+//    public boolean isDowning() {
+//        return isDowning;
+//    }
+//
+//    public void setDowning(boolean downing) {
+//        isDowning = downing;
+//    }
+//
+//    public boolean isLefting() {
+//        return isLefting;
+//    }
+//
+//    public void setLefting(boolean lefting) {
+//        isLefting = lefting;
+//    }
+//
+//    public boolean isRighting() {
+//        return isRighting;
+//    }
+//
+//    public void setRighting(boolean righting) {
+//        isRighting = righting;
+//    }
 
     public boolean isPlantingBombs() {
         return isPlantingBombs;

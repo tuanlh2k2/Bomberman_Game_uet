@@ -6,7 +6,7 @@ import gameobject.GameWorld;
 
 import java.awt.*;
 
-public abstract class PaticularObject extends GameObject {
+public abstract class ParticularObject extends GameObject {
     public static final int LEAGUE_TEAM = 1; // Doi tuong khi cham vao se ko chet.
     public static final int ENEMY_TEAM = 2; // Doi tuong enemy (ke dich).
 
@@ -36,7 +36,7 @@ public abstract class PaticularObject extends GameObject {
 
 
 
-    public PaticularObject(double posX, double posY, double width, double height, int blood, GameWorld gameWorld) {
+    public ParticularObject(double posX, double posY, double width, double height, int blood, GameWorld gameWorld) {
         super(posX, posY, gameWorld);
         setWidth(width);
         setHeight(height);
@@ -129,11 +129,31 @@ public abstract class PaticularObject extends GameObject {
         this.timeForNoBeHurt = timeForNoBeHurt;
     }
 
+    public int getTeamType() {
+        return teamType;
+    }
+
+    public void setTeamType(int teamType) {
+        this.teamType = teamType;
+    }
+
     @Override
     public void Update() {
     }
 
     public abstract void attack(); // dat bom.
+
+    // Kiem tra xem doi tuong co nam trong khu vuc view hay ko.
+    public boolean isObjectOutOfCameraView() {
+        if (getPosX() - getGameWorld().camera.getPosX() > getGameWorld().camera.getWidthView() ||
+                getPosX() - getGameWorld().camera.getPosX() < -50
+                || getPosY() - getGameWorld().camera.getPosY() > getGameWorld().camera.getHeightView()
+                || getPosY() - getGameWorld().camera.getPosY() < -50) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public Rectangle getBoundForCollisionWithMap() {
         Rectangle bound = new Rectangle();
