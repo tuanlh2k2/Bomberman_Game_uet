@@ -1,24 +1,28 @@
 package gameobject;
 
 import effect.CacheDataLoader;
+import effect.FrameImage;
 
 import java.awt.*;
 
 public class PhysicalMap extends GameObject {
     public String[] phys_map;
+    FrameImage glass = CacheDataLoader.getInstance().getFrameImage("glass");
     private int tileSize;
+
     public PhysicalMap(double x, double y, GameWorld gameWorld) {
         super(x, y, gameWorld);
         this.tileSize = 48;
         phys_map = CacheDataLoader.getInstance().getPhys_map();
+
     }
 
     public void draw(Graphics2D g2) {
         Camera camera = getGameWorld().camera;
-        g2.setColor(Color.darkGray);
         for (int i = 0; i < phys_map.length; i++) {
             for (int j = 0; j < phys_map[i].length(); j++) {
                 if (phys_map[i].charAt(j) == '#') {
+                    g2.setColor(Color.darkGray);
                     g2.fillRect((int) getPosX() + j * tileSize - (int) camera.getPosX(),
                             (int) getPosY() + i * tileSize - (int) camera.getPosY(), tileSize, tileSize);
                 }

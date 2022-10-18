@@ -69,8 +69,10 @@ public class Player extends Human {
             Rectangle checkRectTop = new Rectangle((int) bomb.getPosX(), (int) bomb.getPosY() - 48, 48, 48);
             Rectangle checkRectRight = new Rectangle((int) bomb.getPosX() + 48, (int) bomb.getPosY(), 48, 48);
             Rectangle checkRectLeft = new Rectangle((int) bomb.getPosX() - 48, (int) bomb.getPosY(), 48, 48);
+            Rectangle checkRectDown = new Rectangle((int) bomb.getPosX(), (int) bomb.getPosY() + 48, 48, 48);
             if (getGameWorld().physicalMap.haveCollisionWithTop(checkRectTop) != null) {
                 Rectangle r = getGameWorld().physicalMap.haveCollisionWithTop(checkRectTop);
+                Rectangle l = getGameWorld().physicalMap.haveCollisionWithBottom(checkRectDown);
                 if (checkRectTop.x + 15 > r.x + r.width) { // bi va cham voi tuong ben trai.
                     if (getDirection() == RIGHT_DIR || getDirection() == LEFT_DIR) {
                         bomb.setPosX(r.x + r.width); // dat bom tai vi tri mep tuong ben trai va cham.
@@ -78,8 +80,10 @@ public class Player extends Human {
                 } else if (r.x + 15 > checkRectTop.x) { // va cham o mep tuong ben phai.
                     if (getDirection() == RIGHT_DIR) {
                         bomb.setPosX(r.x);
-                    } else if (getDirection() == LEFT_DIR && getGameWorld().physicalMap.haveCollisionWithRightWall(checkRectLeft)== null) {
+                        System.out.println("k Ổn ko");
+                    } else if (getDirection() == LEFT_DIR && getGameWorld().physicalMap.haveCollisionWithRightWall(checkRectLeft) == null) {
                         bomb.setPosX(r.x - r.height);
+                        System.out.println("KO on ti nao");
                     }
                 }
             }

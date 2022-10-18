@@ -16,6 +16,7 @@ public class CacheDataLoader {
     private Hashtable<String, FrameImage> frameImages;  // Luu vao mot mang hashtable de anh xa.
     private Hashtable<String, Animation> animations; // Luu vao mot mang hashtable de anh xa.
     private String[] phys_map;
+    //private String[] background_map;
 
     private CacheDataLoader() {
     }

@@ -1,4 +1,4 @@
-30
+32
 up1
 image image/gameImage.png
 x 0
@@ -177,5 +177,17 @@ fireright3
 image image/gameImage.png
 x 32
 y 144
+w 16
+h 16
+glass
+image image/gameImage.png
+x 96
+y 0
+w 16
+h 16
+wall
+image image/gameImage.png
+x 80
+y 0
 w 16
 h 16

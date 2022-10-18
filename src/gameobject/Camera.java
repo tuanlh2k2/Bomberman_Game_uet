@@ -19,8 +19,8 @@ public class Camera extends GameObject {
     public void Update() {
         if (!isLocked) {
             Player player = getGameWorld().player;
-            if (player.getPosX() - getPosX() > 600 && (player.getDirection() == 1)) setPosX(player.getPosX() - 600);
-            if (player.getPosX() - getPosX() < 200) setPosX(player.getPosX() - 200);
+            if (player.getPosX() - getPosX() > 400 && getPosX() < 500) setPosX(player.getPosX() - 400);
+            if (player.getPosX() - getPosX() < 400 && getPosX() > 0) setPosX(player.getPosX() - 400);
         }
     }
 

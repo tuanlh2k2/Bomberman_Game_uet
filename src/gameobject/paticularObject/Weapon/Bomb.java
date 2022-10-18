@@ -31,12 +31,6 @@ public class Bomb extends Weapon {
 
     @Override
     public Rectangle getBoundForCollisionWithEnemy() {
-//        Rectangle bound = new Rectangle();
-//        bound.x = (int) (getPosX());
-//        bound.y = (int) (getPosY());
-//        bound.width = (int) getWidth();
-//        bound.height = (int) getHeight();
-//        return bound;
         Rectangle bound = new Rectangle();
         bound.x = (int) (getPosX() + 48);
         bound.y = (int) (getPosY());
