@@ -31,8 +31,14 @@ public class Bomb extends Weapon {
 
     @Override
     public Rectangle getBoundForCollisionWithEnemy() {
+//        Rectangle bound = new Rectangle();
+//        bound.x = (int) (getPosX());
+//        bound.y = (int) (getPosY());
+//        bound.width = (int) getWidth();
+//        bound.height = (int) getHeight();
+//        return bound;
         Rectangle bound = new Rectangle();
-        bound.x = (int) (getPosX());
+        bound.x = (int) (getPosX() + 48);
         bound.y = (int) (getPosY());
         bound.width = (int) getWidth();
         bound.height = (int) getHeight();
@@ -75,6 +81,7 @@ public class Bomb extends Weapon {
             setState(BEHURT);
             this.timeBegin = timeHT;
         } else if (timeHT - timeBegin > 500 * 1000000000 && getState() == BEHURT) {
+            getGameWorld().player.setShooting(false);
             setState(DEATH);
         }
     }
