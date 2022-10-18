@@ -70,9 +70,7 @@ public class ParticularObjectManager {
         synchronized (particularObjects) {
             for (int i = 0; i < particularObjects.size(); i++) {
                 ParticularObject object = particularObjects.get(i);
-
-                // Kiem tra xem doi tuong co nam ngoai man hinh hay khong.
-                if (!object.isObjectOutOfCameraView()) object.Update();
+                object.Update();
                 // Neu doi tuong chet => xoa doi tuong.
                 if (object.getState() == ParticularObject.DEATH) {
                     particularObjects.remove(i);
@@ -85,7 +83,7 @@ public class ParticularObjectManager {
     public void draw(Graphics2D g2) {
         synchronized (particularObjects) {
             for (ParticularObject object : particularObjects) {
-                if (!object.isObjectOutOfCameraView()) object.draw(g2);
+                object.draw(g2);
             }
         }
     }

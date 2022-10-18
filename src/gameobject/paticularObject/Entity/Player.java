@@ -3,6 +3,8 @@ package gameobject.paticularObject.Entity;
 import effect.Animation;
 import effect.CacheDataLoader;
 import gameobject.GameWorld;
+import gameobject.paticularObject.Weapon.Bomb;
+import gameobject.paticularObject.Weapon.Weapon;
 
 import java.awt.*;
 
@@ -11,6 +13,7 @@ public class Player extends Human {
     private Animation runLeft, runRight, runUp, runDown;
     private Animation idleup, idledown, idleleft, idleRight;
 
+    private long lastShootingTime;
     private boolean isShooting = false;
 
 
@@ -30,6 +33,11 @@ public class Player extends Human {
 
     public void Update() {
         super.Update();
+        if(isShooting){
+            if(System.nanoTime() - lastShootingTime > 500000000){
+                isShooting = false;
+            }
+        }
     }
 
     // Xét tốc độ khi chạy theo hướng.
@@ -56,6 +64,30 @@ public class Player extends Human {
     // Đặt bom.
     @Override
     public void attack() {
+        if (!isShooting) {
+            Weapon bomb = new Bomb(getPosX(), getPosY(), getGameWorld());
+            // Test dat bom.
+            if (getDirection() == LEFT_DIR && getGameWorld().physicalMap.haveCollisionWithTop(getBoundForCollisionWithMap()) != null) {
+                    Rectangle rectTopWall = getGameWorld().physicalMap.haveCollisionWithTop(getBoundForCollisionWithMap());
+                if (getPosX() - getWidth()/2 + 15 > rectTopWall.x + rectTopWall.width) {
+                    bomb.setPosX(rectTopWall.x + rectTopWall.width + getWidth()/2);
+                } else if (getPosX() + getWidth()/2 -15 < rectTopWall.x) {
+                    bomb.setPosX(rectTopWall.x - getWidth()/2);
+                }
+            } else {
+                bomb.setPosX(bomb.getPosX() - getWidth()/2);
+                bomb.setPosY(bomb.getPosY() - getHeight()/2);
+            }
+
+
+
+
+            ///
+
+            getGameWorld().weaponManager.addObject(bomb);
+            lastShootingTime = System.nanoTime();
+            isShooting = true;
+        }
     }
 
 
@@ -106,11 +138,10 @@ public class Player extends Human {
                         idledown.draw((int) (getPosX() - getGameWorld().camera.getPosX() - 12), (int) getPosY() - (int) getGameWorld().camera.getPosY() - 12, g2);
                     }
                 }
+                drawBoundForCollisionWithEnemy(g2);
 //                System.out.println(getPosX() + " : " + getPosY());
 //                idleup.Update(System.nanoTime());
 //                idleup.draw((int) (getPosX() - getGameWorld().camera.getPosX() - 12), (int) getPosY() - (int) getGameWorld().camera.getPosY() - 12, g2);
         }
-     //   drawBoundForCollisionWithMap(g2);
-       // drawBoundForCollisionWithEnemy(g2);
     }
 }

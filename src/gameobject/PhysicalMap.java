@@ -51,9 +51,9 @@ public class PhysicalMap extends GameObject {
 
     public Rectangle haveCollisionWithTop(Rectangle rect) {
         int posX1 = rect.x / tileSize;
-        posX1 -= 2;
+        posX1 -= 3;
         int posX2 = (rect.x + rect.width) / tileSize;
-        posX2 +=2;
+        posX2 +=3;
 
         int posY = rect.y / tileSize;
 
@@ -107,7 +107,8 @@ public class PhysicalMap extends GameObject {
         posY2 += 2;
 
         int posX1 = (rect.x + rect.width) / tileSize;
-        int posX2 = posX1 + 3;
+        posX1 -= 2;
+        int posX2 = posX1 + 4;
         if (posY1 < 0) posY1 = 0;
         if (posY2 >= phys_map.length) posY2 = phys_map.length - 1;
         if (posX2 >= phys_map[0].length()) posX2 = phys_map[0].length() - 1;

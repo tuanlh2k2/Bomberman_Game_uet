@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             bufG2D = (Graphics2D) bufferedImage.getGraphics();
         }
         if (bufG2D != null) {
-            bufG2D.setColor(Color.black);
+            bufG2D.setColor(Color.white);
             bufG2D.fillRect(0,0,GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT);
             gameWorld.Render(bufG2D);
         }

@@ -33,7 +33,7 @@ public class InputManager {
                 gameWorld.player.run();
                 break;
             case KeyEvent.VK_SPACE:
-                System.out.println("SPACE");
+                gameWorld.player.attack();
                 break;
         }
     }
