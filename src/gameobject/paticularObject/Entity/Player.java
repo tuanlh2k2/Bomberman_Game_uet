@@ -12,6 +12,7 @@ public class Player extends Human {
     public static final int RUNSPEED = 3;
     private Animation runLeft, runRight, runUp, runDown;
     private Animation idleup, idledown, idleleft, idleRight;
+    private Animation playerdie;
 
     private long lastShootingTime;
     private boolean isShooting = false;
@@ -19,7 +20,7 @@ public class Player extends Human {
 
     public Player(double x, double y, GameWorld gameWorld) {
         super(x, y, 48, 48, 1, gameWorld);
-
+        setTeamType(LEAGUE_TEAM);
         runLeft = CacheDataLoader.getInstance().getAnimation("left");
         runRight = CacheDataLoader.getInstance().getAnimation("right");
         runUp = CacheDataLoader.getInstance().getAnimation("up");
@@ -29,6 +30,8 @@ public class Player extends Human {
         idledown = CacheDataLoader.getInstance().getAnimation("idledown");
         idleleft = CacheDataLoader.getInstance().getAnimation("idleleft");
         idleRight = CacheDataLoader.getInstance().getAnimation("idleright");
+
+        playerdie = CacheDataLoader.getInstance().getAnimation("playerdie");
     }
 
     public void Update() {
@@ -39,13 +42,13 @@ public class Player extends Human {
     @Override
     public void run() {
         if (getDirection() == LEFT_DIR) {
-            setSpeedX(-1.5);
+            setSpeedX(-2);
         } else if (getDirection() == RIGHT_DIR) {
-            setSpeedX(1.5);
+            setSpeedX(2);
         } else if (getDirection() == TOP_DIR) {
-            setSpeedY(-1.5);
+            setSpeedY(-2);
         } else if (getDirection() == DOWN_DIR) {
-            setSpeedY(1.5);
+            setSpeedY(2);
         }
     }
 
@@ -60,53 +63,43 @@ public class Player extends Human {
     @Override
     public void attack() {
         if (!isShooting) {
-            Weapon bomb = new Bomb(getPosX() - getWidth() / 2, getPosY() - getHeight() / 2, getGameWorld());
+            Weapon bomb = new Bomb(getPosX(), getPosY(), getGameWorld());
 
             /**
              * cai dat thuat toan de dat bom dung cho => de co vu no sang cac huong co the.
              */
             // Kiem tra va cham tren va duoi.
-            Rectangle checkRectTop = new Rectangle((int) bomb.getPosX(), (int) bomb.getPosY() - 48, 48, 48);
-            Rectangle checkRectRight = new Rectangle((int) bomb.getPosX() + 48, (int) bomb.getPosY(), 48, 48);
-            Rectangle checkRectLeft = new Rectangle((int) bomb.getPosX() - 48, (int) bomb.getPosY(), 48, 48);
-            Rectangle checkRectDown = new Rectangle((int) bomb.getPosX(), (int) bomb.getPosY() + 48, 48, 48);
+            Rectangle checkRectTop = bomb.getBoundForCollisionTop();
+            Rectangle checkRectRight = bomb.getBoundForCollisionDown();
+            Rectangle checkRectLeft = bomb.getBoundForCollisionLeft();
+            Rectangle checkRectDown = bomb.getBoundForCollisionRight();
+
+            // Kiem tra va dieu chinh viec dat bom khi nhan vat di theo huong sang trai hoac sang phai.
+
             if (getGameWorld().physicalMap.haveCollisionWithTop(checkRectTop) != null) {
                 Rectangle r = getGameWorld().physicalMap.haveCollisionWithTop(checkRectTop);
-                Rectangle l = getGameWorld().physicalMap.haveCollisionWithBottom(checkRectDown);
-                if (checkRectTop.x + 15 > r.x + r.width) { // bi va cham voi tuong ben trai.
-                    if (getDirection() == RIGHT_DIR || getDirection() == LEFT_DIR) {
-                        bomb.setPosX(r.x + r.width); // dat bom tai vi tri mep tuong ben trai va cham.
-                    }
-                } else if (r.x + 15 > checkRectTop.x) { // va cham o mep tuong ben phai.
-                    if (getDirection() == RIGHT_DIR) {
-                        bomb.setPosX(r.x);
-                        System.out.println("k Ổn ko");
-                    } else if (getDirection() == LEFT_DIR && getGameWorld().physicalMap.haveCollisionWithRightWall(checkRectLeft) == null) {
-                        bomb.setPosX(r.x - r.height);
-                        System.out.println("KO on ti nao");
-                    }
+                if (checkRectTop.x + checkRectTop.width - 15 < r.x) {
+                    bomb.setPosX(r.x - r.width/2);
+                } else if (checkRectTop.x > r.x + r.width - 15) {
+                    bomb.setPosX(r.x + r.width + r.width/2);
+                } else {
+                    bomb.setPosX(r.x + r.width/2);
                 }
             }
-            // Kiem tra va cham trai va phai.
-            if (getGameWorld().physicalMap.haveCollisionWithLeftWall(checkRectRight) != null) {
-                System.out.println("co va cham");
-                Rectangle r = getGameWorld().physicalMap.haveCollisionWithLeftWall(checkRectRight);
+
+            // Kiem tra va dieu chinh viec dat bom khi nhan vat di len hoac xuong.
+            if (getGameWorld().physicalMap.haveCollisionWithRightWall(checkRectLeft) != null) {
                 Rectangle l = getGameWorld().physicalMap.haveCollisionWithRightWall(checkRectLeft);
-                if (checkRectRight.y + 20 > r.y + r.height) {
-                    bomb.setPosY(r.y + r.height);
-                }
-                if (checkRectRight.y + checkRectRight.height< r.y + 20) {
-                    bomb.setPosY(r.y - r.height);
-                }
-                if (l != null) {
-                    if (checkRectRight.y + 20 > l.y + l.height) {
-                        bomb.setPosY(l.y + l.height);
-                    }
-                    if (checkRectRight.y + checkRectRight.height< l.y + 20) {
-                        bomb.setPosY(l.y - l.height);
-                    }
+                System.out.println("wall: " + l.y + "checkLeft: " + checkRectLeft.y + "bomb: " + bomb.getPosY());
+                if (checkRectLeft.y + checkRectLeft.height - 15 < l.y) {
+                    bomb.setPosY(l.y - l.height/2);
+                } else if (checkRectLeft.y + 15 > l.y + l.height) {
+                    bomb.setPosY(l.y + checkRectLeft.height + l.height/2);
+                } else {
+                    bomb.setPosY(l.y + l.height/2);
                 }
             }
+
             getGameWorld().weaponManager.addObject(bomb);
             lastShootingTime = System.nanoTime();
             this.isShooting = true;
@@ -162,6 +155,10 @@ public class Player extends Human {
                     }
                 }
                 drawBoundForCollisionWithEnemy(g2);
+                break;
+            case BEHURT:
+                playerdie.Update(System.nanoTime());
+                playerdie.draw((int) (getPosX() - getGameWorld().camera.getPosX() - 12), (int) getPosY() - (int) getGameWorld().camera.getPosY() - 12, g2);
         }
     }
 

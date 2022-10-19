@@ -55,11 +55,12 @@ public class ParticularObjectManager {
     public ParticularObject getCollisionWithEnemyObject(ParticularObject object) {
         synchronized (particularObjects) {
             for (int i = 0; i < particularObjects.size(); i++) {
-                ParticularObject tmpOj =particularObjects.get(i);
+                ParticularObject tmpOj = particularObjects.get(i);
+
                 // Kiem tra xem hai hinh bao cua 2 doi tuong co va cham nhau hay khong ?
-                if (tmpOj.getTeamType() != object.getTeamType() &&
-                        object.getBoundForCollisionWithEnemy().intersects(tmpOj.getBoundForCollisionWithEnemy()));
-                return tmpOj;
+                if (object.getBoundForCollisionWithEnemy().intersects(tmpOj.getBoundForCollisionWithEnemy())) {
+                    return tmpOj;
+                }
             }
         }
         return null;
@@ -85,6 +86,17 @@ public class ParticularObjectManager {
             for (ParticularObject object : particularObjects) {
                 object.draw(g2);
             }
+        }
+    }
+
+    public ParticularObject checkCollisionWithFire(ParticularObject particularObject, Rectangle rect) {
+        synchronized (particularObjects) {
+            for (ParticularObject check : particularObjects) {
+                if (check != particularObject && check.getBoundForCollisionWithEnemy().intersects(rect)) {
+                    return check;
+                }
+            }
+            return null;
         }
     }
 }

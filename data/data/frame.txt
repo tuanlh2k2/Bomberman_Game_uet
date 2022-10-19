@@ -1,4 +1,4 @@
-32
+39
 up1
 image image/gameImage.png
 x 0
@@ -189,5 +189,47 @@ wall
 image image/gameImage.png
 x 80
 y 0
+w 16
+h 16
+lballom1
+image image/gameImage.png
+x 144
+y 0
+w 16
+h 16
+lballom2
+image image/gameImage.png
+x 144
+y 16
+w 16
+h 16
+lballom3
+image image/gameImage.png
+x 144
+y 32
+w 16
+h 16
+playerdie1
+image image/gameImage.png
+x 64
+y 32
+w 16
+h 16
+playerdie2
+image image/gameImage.png
+x 80
+y 32
+w 16
+h 16
+playerdie3
+image image/gameImage.png
+x 96
+y 32
+w 16
+h 16
+balloomdie1
+image image/gameImage.png
+x 144
+y 48
 w 16
 h 16

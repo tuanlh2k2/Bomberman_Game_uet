@@ -33,6 +33,7 @@ public abstract class ParticularObject extends GameObject {
     private int teamType; // loai team ( cung hoac khac).
     private long startTimeNoBeHurt; // thoi gian khong bi dau.
     private long timeForNoBeHurt; // thoi gian ket thuc khong bi dau.
+    private long timeStartBeHurt; // thoi gian bat dau bi dau.
 
 
 
@@ -45,10 +46,18 @@ public abstract class ParticularObject extends GameObject {
         direction = DOWN_DIR;
     }
 
+
     /**
      * setter and getter.
      */
 
+    public long getTimeStartBeHurt() {
+        return timeStartBeHurt;
+    }
+
+    public void setTimeStartBeHurt(long timeStartBeHurt) {
+        this.timeStartBeHurt = timeStartBeHurt;
+    }
     public int getState() {
         return state;
     }
@@ -139,6 +148,9 @@ public abstract class ParticularObject extends GameObject {
 
     @Override
     public void Update() {
+        if (getState() == BEHURT && System.nanoTime() - getTimeStartBeHurt() > 1000 * 1000000) {
+            setState(DEATH);
+        }
     }
 
     public abstract void attack(); // dat bom.
@@ -179,4 +191,5 @@ public abstract class ParticularObject extends GameObject {
         g2.drawRect(rect.x - (int) getGameWorld().camera.getPosX(), rect.y - (int) getGameWorld().camera.getPosY(), rect.width, rect.height);
     }
     public abstract void draw(Graphics2D g2);
+
 }

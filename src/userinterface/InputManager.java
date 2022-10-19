@@ -53,7 +53,6 @@ public class InputManager {
                 gameWorld.player.stopRun();
                 break;
             case KeyEvent.VK_SPACE:
-                System.out.println("END SPACE");
                 break;
         }
     }
