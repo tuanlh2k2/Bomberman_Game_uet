@@ -56,9 +56,8 @@ public class ParticularObjectManager {
         synchronized (particularObjects) {
             for (int i = 0; i < particularObjects.size(); i++) {
                 ParticularObject tmpOj = particularObjects.get(i);
-
                 // Kiem tra xem hai hinh bao cua 2 doi tuong co va cham nhau hay khong ?
-                if (object.getBoundForCollisionWithEnemy().intersects(tmpOj.getBoundForCollisionWithEnemy())) {
+                if (object.getTeamType() != tmpOj.getTeamType() && object.getBoundForCollisionWithEnemy().intersects(tmpOj.getBoundForCollisionWithEnemy())) {
                     return tmpOj;
                 }
             }
@@ -99,4 +98,12 @@ public class ParticularObjectManager {
             return null;
         }
     }
+
+//    public Rectangle checkCollisionWithRect(Rectangle rect) {
+//        synchronized (particularObjects) {
+//            for (ParticularObject check : particularObjects) {
+//            }
+//            return null;
+//        }
+//    }
 }

@@ -1,9 +1,10 @@
 package gameobject;
 
-import gameobject.paticularObject.Enemy.Balloom;
-import gameobject.paticularObject.Entity.Player;
+import gameobject.paticularObject.Entity.Enemy.Balloom;
+import gameobject.paticularObject.Entity.Bomber.Player;
 import gameobject.paticularObject.ParticularObject;
 import gameobject.paticularObject.ParticularObjectManager;
+import gameobject.paticularObject.Tile.Brick;
 import gameobject.paticularObject.Weapon.WeaponManager;
 import userinterface.GameFrame;
 
@@ -31,10 +32,21 @@ public class GameWorld {
     }
 
     public void initEnemies() {
-        ParticularObject balloom = new Balloom(72, 240, this);
-        balloom.setDirection(ParticularObject.LEFT_DIR);
-        balloom.setTeamType(ParticularObject.ENEMY_TEAM);
-        particularObjectManager.addObject(balloom);
+        for (int i = 0; i < backgroundMap.map.length; i++) {
+            for (int j = 0; j < backgroundMap.map[0].length(); j++) {
+                if (backgroundMap.map[i].charAt(j) == '1') {
+                    ParticularObject balloom = new Balloom(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    balloom.setDirection(ParticularObject.LEFT_DIR);
+                    balloom.setTeamType(ParticularObject.ENEMY_TEAM);
+                    particularObjectManager.addObject(balloom);
+                } else if (backgroundMap.map[i].charAt(j) == '*') {
+                    ParticularObject brick = new Brick(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    brick.setDirection(ParticularObject.LEFT_DIR);
+                    particularObjectManager.addObject(brick);
+                }
+            }
+            System.out.println(backgroundMap.map[i]);
+        }
     }
 
     public void Update() {

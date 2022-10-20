@@ -18,16 +18,16 @@ public class PhysicalMap extends GameObject {
     }
 
     public void draw(Graphics2D g2) {
-        Camera camera = getGameWorld().camera;
-        for (int i = 0; i < phys_map.length; i++) {
-            for (int j = 0; j < phys_map[i].length(); j++) {
-                if (phys_map[i].charAt(j) == '#') {
-                    g2.setColor(Color.darkGray);
-                    g2.fillRect((int) getPosX() + j * tileSize - (int) camera.getPosX(),
-                            (int) getPosY() + i * tileSize - (int) camera.getPosY(), tileSize, tileSize);
-                }
-            }
-        }
+//        Camera camera = getGameWorld().camera;
+//        for (int i = 0; i < phys_map.length; i++) {
+//            for (int j = 0; j < phys_map[i].length(); j++) {
+//                if (phys_map[i].charAt(j) == '#') {
+//                    g2.setColor(Color.darkGray);
+//                    g2.fillRect((int) getPosX() + j * tileSize - (int) camera.getPosX(),
+//                            (int) getPosY() + i * tileSize - (int) camera.getPosY(), tileSize, tileSize);
+//                }
+//            }
+//        }
     }
 
 //     Xu ly va cham o duoi.
@@ -41,7 +41,7 @@ public class PhysicalMap extends GameObject {
         if (posX2 >= phys_map[0].length()) posX2 = phys_map[0].length() - 1;
         for (int y = posY1; y < phys_map.length; y++) {
             for (int x = posX1; x <= posX2; x++) {
-                if (phys_map[y].charAt(x) == '#') {
+                if (phys_map[y].charAt(x) == '#' ) {
                     Rectangle r = new Rectangle((int) getPosX() + x * tileSize,
                             (int) getPosY() + y * tileSize, tileSize, tileSize);
                     if (rect.intersects(r)) { // kiem tra xem hai hinh chu nhat co giao nhau hay khong.
@@ -65,7 +65,7 @@ public class PhysicalMap extends GameObject {
 
         for (int y = posY; y >= 0; y--) {
             for (int x = posX1; x < posX2; x++) {
-                if (phys_map[y].charAt(x) == '#') {
+                if (phys_map[y].charAt(x) == '#' ) {
                     Rectangle r = new Rectangle((int) getPosX() + x * tileSize,
                             (int) getPosY() + y * tileSize, tileSize, tileSize);
                     if (rect.intersects(r)) {
@@ -119,7 +119,7 @@ public class PhysicalMap extends GameObject {
 
         for (int x = posX1; x <= posX2; x++) {
             for (int y = posY1; y < posY2; y++) {
-                if (phys_map[y].charAt(x) == '#') {
+                if (phys_map[y].charAt(x) == '#' ) {
                     Rectangle r = new Rectangle((int) getPosX() + x * tileSize,
                             (int) getPosY() + y * tileSize, tileSize, tileSize);
                     if (rect.intersects(r)) {

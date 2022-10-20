@@ -1,14 +1,16 @@
-package gameobject.paticularObject.Entity;
+package gameobject.paticularObject.Entity.Bomber;
 
 import effect.Animation;
 import effect.CacheDataLoader;
 import gameobject.GameWorld;
+import gameobject.paticularObject.Entity.Entity;
+import gameobject.paticularObject.ParticularObject;
 import gameobject.paticularObject.Weapon.Bomb;
 import gameobject.paticularObject.Weapon.Weapon;
 
 import java.awt.*;
 
-public class Player extends Human {
+public class Player extends Entity {
     public static final int RUNSPEED = 3;
     private Animation runLeft, runRight, runUp, runDown;
     private Animation idleup, idledown, idleleft, idleRight;
@@ -20,6 +22,7 @@ public class Player extends Human {
 
     public Player(double x, double y, GameWorld gameWorld) {
         super(x, y, 48, 48, 1, gameWorld);
+        setRigid(false);
         setTeamType(LEAGUE_TEAM);
         runLeft = CacheDataLoader.getInstance().getAnimation("left");
         runRight = CacheDataLoader.getInstance().getAnimation("right");
@@ -90,7 +93,6 @@ public class Player extends Human {
             // Kiem tra va dieu chinh viec dat bom khi nhan vat di len hoac xuong.
             if (getGameWorld().physicalMap.haveCollisionWithRightWall(checkRectLeft) != null) {
                 Rectangle l = getGameWorld().physicalMap.haveCollisionWithRightWall(checkRectLeft);
-                System.out.println("wall: " + l.y + "checkLeft: " + checkRectLeft.y + "bomb: " + bomb.getPosY());
                 if (checkRectLeft.y + checkRectLeft.height - 15 < l.y) {
                     bomb.setPosY(l.y - l.height/2);
                 } else if (checkRectLeft.y + 15 > l.y + l.height) {
@@ -154,7 +156,8 @@ public class Player extends Human {
                         idledown.draw((int) (getPosX() - getGameWorld().camera.getPosX() - 12), (int) getPosY() - (int) getGameWorld().camera.getPosY() - 12, g2);
                     }
                 }
-                drawBoundForCollisionWithEnemy(g2);
+//                System.out.println(getPosX() + " : " + getPosY());
+           //     drawBoundForCollisionWithEnemy(g2);
                 break;
             case BEHURT:
                 playerdie.Update(System.nanoTime());

@@ -9,11 +9,12 @@ import java.awt.*;
 public abstract class ParticularObject extends GameObject {
     public static final int LEAGUE_TEAM = 1; // Doi tuong khi cham vao se ko chet.
     public static final int ENEMY_TEAM = 2; // Doi tuong enemy (ke dich).
+    public static final int NO_TEAM = 3;
 
     public static final int LEFT_DIR = 0;
     public static final int RIGHT_DIR = 1;
-    public static final int TOP_DIR = 3;
-    public static final int DOWN_DIR = 4;
+    public static final int TOP_DIR = 2;
+    public static final int DOWN_DIR = 3;
 
     public static final int ALIVE = 0; // trang thai song.
     public static final int DEATH = 1; // chet.
@@ -29,12 +30,11 @@ public abstract class ParticularObject extends GameObject {
 
     private int damage; // do sat thuong.
     private int direction; // huong cua nhan vat.
-    protected Animation behurtForwarAnim, behurtBackAnim;
     private int teamType; // loai team ( cung hoac khac).
     private long startTimeNoBeHurt; // thoi gian khong bi dau.
     private long timeForNoBeHurt; // thoi gian ket thuc khong bi dau.
     private long timeStartBeHurt; // thoi gian bat dau bi dau.
-
+    private boolean rigid = false; // doi tuong co cho doi tuong khac di qua khong ?.
 
 
     public ParticularObject(double posX, double posY, double width, double height, int blood, GameWorld gameWorld) {
@@ -42,8 +42,7 @@ public abstract class ParticularObject extends GameObject {
         setWidth(width);
         setHeight(height);
         setBlood(blood);
-
-        direction = DOWN_DIR;
+        direction = RIGHT_DIR;
     }
 
 
@@ -140,6 +139,14 @@ public abstract class ParticularObject extends GameObject {
 
     public int getTeamType() {
         return teamType;
+    }
+
+    public boolean getRigid() {
+        return rigid;
+    }
+
+    public void setRigid(boolean rigid) {
+        this.rigid = rigid;
     }
 
     public void setTeamType(int teamType) {

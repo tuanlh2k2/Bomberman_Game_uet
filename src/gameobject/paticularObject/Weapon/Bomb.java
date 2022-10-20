@@ -14,6 +14,8 @@ public class Bomb extends Weapon {
     private long timeHT;
     public Bomb(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, 48, 48, 1, gameWorld);
+        setRigid(true);
+        setTeamType(NO_TEAM);
         bomb = CacheDataLoader.getInstance().getAnimation("bomb");
         exbomb = CacheDataLoader.getInstance().getAnimation("exbomb");
         firetop = CacheDataLoader.getInstance().getAnimation("firetop");
