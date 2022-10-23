@@ -1,5 +1,7 @@
 package effect;
 
+import gameobject.GameFuncion.Camera;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -37,7 +39,7 @@ public class FrameImage {
      * drawImage.
      */
     public void draw(Graphics2D g2, int x, int y) {
-        g2.drawImage(image, (x - image.getWidth()) / 2, (y - image.getHeight())/2,48,48, null);
+        g2.drawImage(image, x - image.getWidth()/2, (y - image.getHeight())/2,48,48, null);
     }
 
     /**

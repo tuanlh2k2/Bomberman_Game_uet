@@ -98,12 +98,4 @@ public class ParticularObjectManager {
             return null;
         }
     }
-
-//    public Rectangle checkCollisionWithRect(Rectangle rect) {
-//        synchronized (particularObjects) {
-//            for (ParticularObject check : particularObjects) {
-//            }
-//            return null;
-//        }
-//    }
 }

@@ -9,12 +9,15 @@ import java.awt.*;
 public abstract class ParticularObject extends GameObject {
     public static final int LEAGUE_TEAM = 1; // Doi tuong khi cham vao se ko chet.
     public static final int ENEMY_TEAM = 2; // Doi tuong enemy (ke dich).
-    public static final int NO_TEAM = 3;
+    public static final int NO_TEAM = 3; // Khong cho cac doi tuong 1 2 di qua.
+    public static final int WEAPON_TEAM = 4; // Khong bi bom no.
+
 
     public static final int LEFT_DIR = 0;
     public static final int RIGHT_DIR = 1;
     public static final int TOP_DIR = 2;
     public static final int DOWN_DIR = 3;
+
 
     public static final int ALIVE = 0; // trang thai song.
     public static final int DEATH = 1; // chet.
@@ -26,15 +29,19 @@ public abstract class ParticularObject extends GameObject {
     private double height;
     private double speedX;
     private double speedY;
-    private int blood; // mau cua nhan vat.
 
+
+    private int blood; // mau cua nhan vat.
+    private int runSpeed; // Toc do cua doi tuong.
     private int damage; // do sat thuong.
     private int direction; // huong cua nhan vat.
     private int teamType; // loai team ( cung hoac khac).
     private long startTimeNoBeHurt; // thoi gian khong bi dau.
     private long timeForNoBeHurt; // thoi gian ket thuc khong bi dau.
     private long timeStartBeHurt; // thoi gian bat dau bi dau.
-    private boolean rigid = false; // doi tuong co cho doi tuong khac di qua khong ?.
+    private boolean rigid; // doi tuong co cho doi tuong khac di qua khong ?.
+    private boolean bomb = false;
+    private boolean bombs = false;
 
 
     public ParticularObject(double posX, double posY, double width, double height, int blood, GameWorld gameWorld) {
@@ -153,6 +160,35 @@ public abstract class ParticularObject extends GameObject {
         this.teamType = teamType;
     }
 
+    public int getRunSpeed() {
+        return runSpeed;
+    }
+
+    public void setRunSpeed(int runSpeed) {
+        this.runSpeed = runSpeed;
+    }
+
+    public boolean getBomb() {
+        return bomb;
+    }
+
+    // cai dat viec dat bom.
+    public void setBomb(boolean bomb) {
+        if (bombs == false) {
+            this.bomb = bomb;
+        } else {
+            this.bomb = false;
+        }
+    }
+
+    public boolean isBombs() {
+        return bombs;
+    }
+
+    public void setBombs(boolean bombs) {
+        this.bombs = bombs;
+    }
+
     @Override
     public void Update() {
         if (getState() == BEHURT && System.nanoTime() - getTimeStartBeHurt() > 1000 * 1000000) {
@@ -196,6 +232,15 @@ public abstract class ParticularObject extends GameObject {
         Rectangle rect = getBoundForCollisionWithEnemy();
         g2.setColor(Color.RED);
         g2.drawRect(rect.x - (int) getGameWorld().camera.getPosX(), rect.y - (int) getGameWorld().camera.getPosY(), rect.width, rect.height);
+    }
+
+    public boolean checkTeam(ParticularObject other) {
+        if (other == null) {
+            return true;
+        } else if (this.teamType == other.teamType) {
+            return true;
+        }
+        return false;
     }
     public abstract void draw(Graphics2D g2);
 

@@ -1,4 +1,4 @@
-46
+55
 up1
 image image/gameImage.png
 x 0
@@ -272,6 +272,60 @@ h 16
 brick3
 image image/gameImage.png
 x 112
+y 48
+w 16
+h 16
+speedItem
+image image/gameImage.png
+x 32
+y 160
+w 16
+h 16
+bombItem
+image image/gameImage.png
+x 0
+y 160
+w 16
+h 16
+lOneal1
+image image/gameImage.png
+x 176
+y 0
+w 16
+h 16
+lOneal2
+image image/gameImage.png
+x 176
+y 16
+w 16
+h 16
+lOneal3
+image image/gameImage.png
+x 176
+y 32
+w 16
+h 16
+rOneal1
+image image/gameImage.png
+x 192
+y 0
+w 16
+h 16
+rOneal2
+image image/gameImage.png
+x 192
+y 16
+w 16
+h 16
+rOneal3
+image image/gameImage.png
+x 192
+y 32
+w 16
+h 16
+Onealdie
+image image/gameImage.png
+x 176
 y 48
 w 16
 h 16

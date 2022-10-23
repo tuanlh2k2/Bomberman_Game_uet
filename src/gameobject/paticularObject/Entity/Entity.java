@@ -9,6 +9,7 @@ import java.awt.*;
 public abstract class Entity extends ParticularObject {
     private boolean isPlantingBombs;
     private boolean haveCollision;
+    private boolean checkRigid;
 
     public Entity(double posX, double posY, double width, double height, int blood, GameWorld gameWorld) {
         super(posX, posY, width, height, blood, gameWorld);
@@ -21,6 +22,7 @@ public abstract class Entity extends ParticularObject {
 
     public void Update() {
         super.Update();
+        checkRigid = false;
         setHaveCollision(false);
         checkCollisionWithRigid();
         // Kiem tra va cham tuong.
@@ -104,20 +106,33 @@ public abstract class Entity extends ParticularObject {
         this.haveCollision = haveCollision;
     }
 
+    /**
+     * Check vat di qua vat ko cho di chuyen.
+     */
     public void checkCollisionWithRigid() {
         ParticularObject other = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
         if (other != null) {
             if (other.getRigid() == true) {
+                checkRigid = true;
                 Rectangle rect = other.getBoundForCollisionWithEnemy();
-                if (rect.x == (getPosX() + getWidth()/2 - 2)) {
-                    setPosX((getPosX() - 2));
-                } else if (rect.x + rect.width == getPosX() - getWidth()/2 + 2) {
-                    setPosX(getPosX() + 2);
+                if (rect.x == (getPosX() + getWidth()/2 - getSpeedX())) {
+//                    System.out.println(rect.x);
+//                    setPosX((getPosX() - 2 * getSpeedX()));
+                    setPosX(rect.x - 24);
+                    setSpeedX(0);
+                } else if (rect.x + rect.width == getPosX() - getWidth()/2 - getSpeedX()) {
+//                    setPosX(getPosX() - 2 * getSpeedX());
+                    setPosX(rect.x + rect.width + 24);
+                    setSpeedX(0);
                 }
-                if (getPosY() + getHeight()/2 - 2 == rect.y) {
-                    setPosY(getPosY() - 2);
-                } else if (getPosY() - getHeight()/2 + 2== rect.y + rect.height) {
-                    setPosY(getPosY() + 2);
+                if (getPosY() + getHeight()/2 - getSpeedY() == rect.y) {
+//                    setPosY(getPosY() - getSpeedY());
+                    setPosY(rect.y - 24);
+                    setSpeedY(0);
+                } else if (getPosY() - getHeight()/2 - getSpeedY() == rect.y + rect.height) {
+//                    setPosY(getPosY() - getSpeedY());
+                    setPosY(rect.y + rect.height + 24);
+                    setSpeedY(0);
                 }
                 setHaveCollision(true);
             }

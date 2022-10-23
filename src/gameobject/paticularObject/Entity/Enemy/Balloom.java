@@ -11,77 +11,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Balloom extends Entity {
-    private Animation lballoom, rballoom, balloomdie, fballoom;
+public class Balloom extends Enemy {
     private long setTimeReset;
     private List<Integer> listdirection = new ArrayList<>();
     public Balloom(double posX, double posY, GameWorld gameWorld) {
-        super(posX, posY, 48, 48, 1, gameWorld);
+        super(posX, posY,  gameWorld);
         setNewDirection();
-        setRigid(false);
-        lballoom = CacheDataLoader.getInstance().getAnimation("lballom");
-        rballoom = CacheDataLoader.getInstance().getAnimation("rballom");
-        balloomdie = CacheDataLoader.getInstance().getAnimation("balloomdie");
-        fballoom = CacheDataLoader.getInstance().getAnimation("fballom");
+
+        left = CacheDataLoader.getInstance().getAnimation("lballom");
+        right = CacheDataLoader.getInstance().getAnimation("rballom");
+        die = CacheDataLoader.getInstance().getAnimation("balloomdie");
+        stand = CacheDataLoader.getInstance().getAnimation("fballom");
     }
 
     @Override
     public void attack() {
     }
-
-    @Override
-    public Rectangle getBoundForCollisionWithEnemy() {
-        Rectangle bound = getBoundForCollisionWithMap();
-        return bound;
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-        switch (getState()) {
-            case ALIVE:
-                if (getDirection() == LEFT_DIR) {
-                    lballoom.Update(System.nanoTime());
-                    lballoom.draw((int) (getPosX() - getGameWorld().camera.getPosX() - getWidth()/2) + 10,
-                            (int) (getPosY() - getGameWorld().camera.getPosY() - getHeight()/2) + 10, g2);
-                    drawBoundForCollisionWithEnemy(g2);
-                } else if (getDirection() == RIGHT_DIR) {
-                    rballoom.Update(System.nanoTime());
-                    rballoom.draw((int) (getPosX() - getGameWorld().camera.getPosX() - getWidth()/2) + 10,
-                            (int) (getPosY() - getGameWorld().camera.getPosY() - getHeight()/2) + 10, g2);
-                    drawBoundForCollisionWithEnemy(g2);
-                } else {
-                    fballoom.Update(System.nanoTime());
-                    fballoom.draw((int) (getPosX() - getGameWorld().camera.getPosX() - getWidth()/2) + 10,
-                            (int) (getPosY() - getGameWorld().camera.getPosY() - getHeight()/2) + 10, g2);
-                    drawBoundForCollisionWithEnemy(g2);
-                }
-                break;
-            case BEHURT:
-                balloomdie.Update(System.nanoTime());
-                balloomdie.draw((int) (getPosX() - getGameWorld().camera.getPosX() - getWidth()/2) + 10,
-                        (int) (getPosY() - getGameWorld().camera.getPosY() - getHeight()/2) + 10, g2);
-                break;
-        }
-    }
-
     @Override
     public void Update() {
         super.Update();
-        run();
-        ParticularObject object = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
-        if (object != null) {
-            if (object.getTeamType() == ParticularObject.LEAGUE_TEAM && object.getState() == ALIVE) {
-                object.setState(BEHURT);
-                object.setTimeStartBeHurt(System.nanoTime());
-            }
-        }
     }
 
     public void run() {
-        if ( getHaveCollision() == true || System.nanoTime() - setTimeReset > 500 * 1000000000 ) {
-            setTimeReset = System.nanoTime();
+        if (getHaveCollision() == true || System.currentTimeMillis()- setTimeReset > 6000 ) {
+            setTimeReset = System.currentTimeMillis();
             setDirection(this.listdirection.get(3));
-            System.out.println(getDirection());
             resetDirection();
         }
         if (getDirection() == LEFT_DIR) {

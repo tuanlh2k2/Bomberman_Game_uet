@@ -8,10 +8,12 @@ import java.awt.event.KeyEvent;
  * Nhan gia tri tu gamePanel de xu ly.
  */
 public class InputManager {
+    GamePanel gamePanel;
     private GameWorld gameWorld;
 
-    public InputManager(GameWorld gameWorld) {
+    public InputManager( GamePanel gamePanel, GameWorld gameWorld) {
         this.gameWorld = gameWorld;
+        this.gamePanel = gamePanel;
     }
 
     public void processKeyPressed(int keyCode) {
@@ -34,6 +36,13 @@ public class InputManager {
                 break;
             case KeyEvent.VK_SPACE:
                 gameWorld.player.attack();
+                break;
+            case KeyEvent.VK_ENTER:
+                if (gamePanel.getGameState() == 1) {
+                    gamePanel.setGameState(2);
+                } else {
+                    gamePanel.setGameState(1);
+                }
                 break;
         }
     }

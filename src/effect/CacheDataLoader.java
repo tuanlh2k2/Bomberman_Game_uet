@@ -1,8 +1,12 @@
 package effect;
 
 import javax.imageio.ImageIO;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Hashtable;
 
 /**
@@ -13,10 +17,13 @@ public class CacheDataLoader {
     private String framefile = "/data/frame.txt";
     private String animationfile = "/data/animation.txt";
     private String physmapfile = "/map/lever1.txt";
+    private String soundfile = "data/sound.txt";
     private Hashtable<String, FrameImage> frameImages;  // Luu vao mot mang hashtable de anh xa.
     private Hashtable<String, Animation> animations; // Luu vao mot mang hashtable de anh xa.
+    private Hashtable<String, AudioClip> sounds;
+
+
     private String[] phys_map;
-    //private String[] background_map;
 
     private CacheDataLoader() {
     }
@@ -45,7 +52,6 @@ public class CacheDataLoader {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String str = br.readLine();
             int n = Integer.parseInt(str);
-            System.out.println(n);
 
             for (int i = 0; i < n; i++) {
                 FrameImage frame = new FrameImage();
@@ -72,7 +78,6 @@ public class CacheDataLoader {
                 // load chieu dai h.
                 s = br.readLine().split(" ");
                 int h = Integer.parseInt(s[1]);
-
                 // Load mot doi tuong anh con.
                 BufferedImage imageData = ImageIO.read(getClass().getClassLoader().getResourceAsStream(path));
                 BufferedImage image = imageData.getSubimage(x, y, w, h);
@@ -85,13 +90,15 @@ public class CacheDataLoader {
         }
     }
 
+    /**
+     * Load cac aniamtion cua hinh anh.
+     */
     public void loadAnimation() throws IOException {
         animations = new Hashtable<String, Animation>();
         InputStream is = getClass().getResourceAsStream(animationfile);
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String str = br.readLine();
         int n = Integer.parseInt(str);
-        System.out.println(n);
 
         for (int i = 0; i < n; i++) {
             Animation animation = new Animation();
@@ -99,7 +106,6 @@ public class CacheDataLoader {
             // read name of animations.
             str = br.readLine();
             animation.setName(str);
-            System.out.println(animation.getName());
 
             // read frame.
             String[] s = br.readLine().split(" ");
@@ -110,6 +116,8 @@ public class CacheDataLoader {
         }
 
     }
+
+
     public FrameImage getFrameImage(String name) {
         FrameImage frameImage = new FrameImage(instance.frameImages.get(name));
         return frameImage;
@@ -127,16 +135,10 @@ public class CacheDataLoader {
             String[] s = br.readLine().split(" ");
             int numberOfRows = Integer.parseInt(s[0]);
             int numberOfColums = Integer.parseInt(s[1]);
-            System.out.println("numberOfRows: " + numberOfRows);
-            System.out.println("numberOfColums: " + numberOfColums);
 
             instance.phys_map = new String[numberOfRows];
             for (int i = 0; i < numberOfRows; i++) {
                 phys_map[i] = br.readLine();
-            }
-
-            for (int i = 0; i < numberOfRows; i++) {
-                System.out.println(phys_map[i]);
             }
             br.close();
         } catch (Exception e) {

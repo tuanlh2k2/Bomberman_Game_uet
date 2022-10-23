@@ -3,9 +3,11 @@ package userinterface;
 import effect.Animation;
 import effect.CacheDataLoader;
 import effect.FrameImage;
+import gameobject.GameFuncion.Sound;
 import gameobject.GameWorld;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,14 +20,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private boolean isRunning;
     private static final int FPS = 80;
     private InputManager inputManager;
+    private UI ui;
     private BufferedImage bufferedImage;
     private Graphics2D bufG2D;
     protected GameWorld gameWorld;
+    Sound sound = new Sound();
 
+    private int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     public GamePanel() {
         gameWorld = new GameWorld();
-        inputManager = new InputManager(gameWorld);
+        inputManager = new InputManager( this ,gameWorld);
+        ui = new UI(this);
         bufferedImage = new BufferedImage(GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
     }
 
@@ -42,13 +50,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
         if (bufG2D != null) {
             bufG2D.setColor(Color.white);
-           // bufG2D.fillRect(0,0,GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT);
             gameWorld.Render(bufG2D);
+            ui.draw(bufG2D);
         }
     }
 
     public void updateGame() {
-        gameWorld.Update();
+        if (gameState == playState) {
+            gameWorld.Update();
+        }
     }
 
     public void startGame() {
@@ -57,6 +67,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             thread.start();
             isRunning = true;
         }
+        sound.playMusic(0);
+        gameState = playState;
     }
 
     @Override
@@ -84,7 +96,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -95,5 +106,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         inputManager.processKeyReleased(e.getKeyCode());
+    }
+
+    public int getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(int gameState) {
+        this.gameState = gameState;
     }
 }

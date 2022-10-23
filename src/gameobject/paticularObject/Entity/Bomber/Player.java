@@ -2,28 +2,29 @@ package gameobject.paticularObject.Entity.Bomber;
 
 import effect.Animation;
 import effect.CacheDataLoader;
+import gameobject.GameFuncion.Sound;
 import gameobject.GameWorld;
 import gameobject.paticularObject.Entity.Entity;
 import gameobject.paticularObject.ParticularObject;
 import gameobject.paticularObject.Weapon.Bomb;
 import gameobject.paticularObject.Weapon.Weapon;
 
+import java.applet.AudioClip;
 import java.awt.*;
 
 public class Player extends Entity {
-    public static final int RUNSPEED = 3;
     private Animation runLeft, runRight, runUp, runDown;
     private Animation idleup, idledown, idleleft, idleRight;
     private Animation playerdie;
-
+    private Sound gameover = new Sound();
     private long lastShootingTime;
-    private boolean isShooting = false;
-
 
     public Player(double x, double y, GameWorld gameWorld) {
         super(x, y, 48, 48, 1, gameWorld);
+        setRunSpeed(3);
         setRigid(false);
         setTeamType(LEAGUE_TEAM);
+
         runLeft = CacheDataLoader.getInstance().getAnimation("left");
         runRight = CacheDataLoader.getInstance().getAnimation("right");
         runUp = CacheDataLoader.getInstance().getAnimation("up");
@@ -35,6 +36,8 @@ public class Player extends Entity {
         idleRight = CacheDataLoader.getInstance().getAnimation("idleright");
 
         playerdie = CacheDataLoader.getInstance().getAnimation("playerdie");
+
+        gameover.setFile(2);
     }
 
     public void Update() {
@@ -45,13 +48,13 @@ public class Player extends Entity {
     @Override
     public void run() {
         if (getDirection() == LEFT_DIR) {
-            setSpeedX(-2);
+            setSpeedX(-getRunSpeed());
         } else if (getDirection() == RIGHT_DIR) {
-            setSpeedX(2);
+            setSpeedX(getRunSpeed());
         } else if (getDirection() == TOP_DIR) {
-            setSpeedY(-2);
+            setSpeedY(-getRunSpeed());
         } else if (getDirection() == DOWN_DIR) {
-            setSpeedY(2);
+            setSpeedY(getRunSpeed());
         }
     }
 
@@ -65,7 +68,7 @@ public class Player extends Entity {
     // Đặt bom.
     @Override
     public void attack() {
-        if (!isShooting) {
+        if (!getBomb()) {
             Weapon bomb = new Bomb(getPosX(), getPosY(), getGameWorld());
 
             /**
@@ -73,9 +76,7 @@ public class Player extends Entity {
              */
             // Kiem tra va cham tren va duoi.
             Rectangle checkRectTop = bomb.getBoundForCollisionTop();
-            Rectangle checkRectRight = bomb.getBoundForCollisionDown();
             Rectangle checkRectLeft = bomb.getBoundForCollisionLeft();
-            Rectangle checkRectDown = bomb.getBoundForCollisionRight();
 
             // Kiem tra va dieu chinh viec dat bom khi nhan vat di theo huong sang trai hoac sang phai.
 
@@ -101,15 +102,12 @@ public class Player extends Entity {
                     bomb.setPosY(l.y + l.height/2);
                 }
             }
-
-            getGameWorld().weaponManager.addObject(bomb);
+            getGameWorld().particularObjectManager.addObject(bomb);
             lastShootingTime = System.nanoTime();
-            this.isShooting = true;
+            setBomb(true);
         }
     }
 
-
-    // con phai sua....
     @Override
     public Rectangle getBoundForCollisionWithEnemy() {
         Rectangle rect = getBoundForCollisionWithMap();
@@ -156,20 +154,13 @@ public class Player extends Entity {
                         idledown.draw((int) (getPosX() - getGameWorld().camera.getPosX() - 12), (int) getPosY() - (int) getGameWorld().camera.getPosY() - 12, g2);
                     }
                 }
-//                System.out.println(getPosX() + " : " + getPosY());
-           //     drawBoundForCollisionWithEnemy(g2);
+//                drawBoundForCollisionWithEnemy(g2);
                 break;
             case BEHURT:
+                gameover.play();
                 playerdie.Update(System.nanoTime());
                 playerdie.draw((int) (getPosX() - getGameWorld().camera.getPosX() - 12), (int) getPosY() - (int) getGameWorld().camera.getPosY() - 12, g2);
+                break;
         }
-    }
-
-    public boolean isShooting() {
-        return isShooting;
-    }
-
-    public void setShooting(boolean shooting) {
-        isShooting = shooting;
     }
 }

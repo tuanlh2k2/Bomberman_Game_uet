@@ -2,6 +2,7 @@ package gameobject.paticularObject.Weapon;
 
 import effect.Animation;
 import effect.CacheDataLoader;
+import gameobject.GameFuncion.Sound;
 import gameobject.GameWorld;
 import gameobject.paticularObject.ParticularObject;
 
@@ -12,10 +13,15 @@ public class Bomb extends Weapon {
     private Animation firetop, firedown, fireleft, fireright;
     public long timeBegin;
     private long timeHT;
+    private Sound nobomb = new Sound();
+
     public Bomb(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, 48, 48, 1, gameWorld);
         setRigid(true);
-        setTeamType(NO_TEAM);
+        setTeamType(WEAPON_TEAM);
+        setState(ALIVE);
+        timeBegin = System.currentTimeMillis();
+
         bomb = CacheDataLoader.getInstance().getAnimation("bomb");
         exbomb = CacheDataLoader.getInstance().getAnimation("exbomb");
         firetop = CacheDataLoader.getInstance().getAnimation("firetop");
@@ -23,8 +29,7 @@ public class Bomb extends Weapon {
         fireleft = CacheDataLoader.getInstance().getAnimation("fireleft");
         fireright = CacheDataLoader.getInstance().getAnimation("fireright");
 
-        setState(ALIVE);
-        timeBegin = System.nanoTime();
+        nobomb.setFile(1);  // load am thanh.
     }
 
     @Override
@@ -70,17 +75,18 @@ public class Bomb extends Weapon {
                         (int) (getPosY() - getGameWorld().camera.getPosY() + 10 - getHeight()/2), g2);
             }
         }
-        drawBoundForCollisionWithEnemy(g2);
+      //  drawBoundForCollisionWithEnemy(g2);
     }
 
     @Override
     public void Update() {
-        timeHT = System.nanoTime();
-        if (timeHT - timeBegin > 500 * 1000000000 && getState() == ALIVE) {
+        timeHT = System.currentTimeMillis();
+        if (timeHT - timeBegin > 2000 && getState() == ALIVE) {
+            nobomb.play();
             setState(BEHURT);
             this.timeBegin = timeHT;
-        } else if (timeHT - timeBegin > 500 * 1000000000 && getState() == BEHURT) {
-            getGameWorld().player.setShooting(false);
+        } else if (timeHT - timeBegin > 900 && getState() == BEHURT) {
+            getGameWorld().player.setBomb(false);
             setState(DEATH);
         }
         if (getState() == BEHURT) {
@@ -89,23 +95,33 @@ public class Bomb extends Weapon {
             ParticularObject checkBottom = getGameWorld().particularObjectManager.checkCollisionWithFire(this, getBoundForCollisionDown());
             ParticularObject checkLeft = getGameWorld().particularObjectManager.checkCollisionWithFire(this, getBoundForCollisionLeft());
             ParticularObject checkRight = getGameWorld().particularObjectManager.checkCollisionWithFire(this, getBoundForCollisionRight());
-            if (checkBomb != null) {
+
+            if (checkBomb != null && this.checkTeam(checkBomb) == false) {
                 checkBomb.setState(BEHURT);
                 checkBomb.setTimeStartBeHurt(System.nanoTime());
             }
-            if (checkTop != null) {
+            if (checkTop != null
+                    && getGameWorld().physicalMap.haveCollisionWithTop(getBoundForCollisionTop()) == null
+                    && this.checkTeam(checkTop) == false) {
                 checkTop.setState(BEHURT);
                 checkTop.setTimeStartBeHurt(System.nanoTime());
             }
-            if (checkBottom != null) {
+            if (checkBottom != null
+                    && getGameWorld().physicalMap.haveCollisionWithBottom(getBoundForCollisionDown()) == null
+                    && getGameWorld().physicalMap.haveCollisionWithTop(getBoundForCollisionDown()) == null
+                    && this.checkTeam(checkBottom) == false) {
                 checkBottom.setState(BEHURT);
                 checkBottom.setTimeStartBeHurt(System.nanoTime());
             }
-            if (checkLeft != null) {
+            if (checkLeft != null
+                    && getGameWorld().physicalMap.haveCollisionWithRightWall(getBoundForCollisionLeft()) == null
+                    && this.checkTeam(checkLeft) == false) {
                 checkLeft.setState(BEHURT);
                 checkLeft.setTimeStartBeHurt(System.nanoTime());
             }
-            if (checkRight != null) {
+            if (checkRight != null
+                    && getGameWorld().physicalMap.haveCollisionWithLeftWall(getBoundForCollisionRight()) == null
+                    && this.checkTeam(checkRight) == false) {
                 checkRight.setState(BEHURT);
                 checkRight.setTimeStartBeHurt(System.nanoTime());
             }
@@ -116,7 +132,7 @@ public class Bomb extends Weapon {
     public Rectangle getBoundForCollisionTop() {
         Rectangle bound = new Rectangle();
         bound.x = (int) (getPosX() - getWidth()/2);
-        bound.y = (int) (getPosY() - getHeight()/2 - 48);
+        bound.y = (int) (getPosY() - getHeight()/2 - getScopeBom());
         bound.width = (int) getWidth();
         bound.height = (int) getHeight();
         return bound;
@@ -125,7 +141,7 @@ public class Bomb extends Weapon {
     @Override
     public Rectangle getBoundForCollisionLeft() {
         Rectangle bound = new Rectangle();
-        bound.x = (int) (getPosX() - 48 - getWidth()/2);
+        bound.x = (int) (getPosX() - getScopeBom() - getWidth()/2);
         bound.y = (int) (getPosY() - getHeight()/2);
         bound.width = (int) getWidth();
         bound.height = (int) getHeight();
@@ -136,7 +152,7 @@ public class Bomb extends Weapon {
     public Rectangle getBoundForCollisionDown() {
         Rectangle bound = new Rectangle();
         bound.x = (int) (getPosX() - getWidth()/2);
-        bound.y = (int) (getPosY() + 48 - getHeight()/2);
+        bound.y = (int) (getPosY() + getScopeBom() - getHeight()/2);
         bound.width = (int) getWidth();
         bound.height = (int) getHeight();
         return bound;
@@ -145,7 +161,7 @@ public class Bomb extends Weapon {
     @Override
     public Rectangle getBoundForCollisionRight() {
         Rectangle bound = new Rectangle();
-        bound.x = (int) (getPosX() + 48 - getWidth()/2);
+        bound.x = (int) (getPosX() + getScopeBom() - getWidth()/2);
         bound.y = (int) (getPosY() - getHeight()/2);
         bound.width = (int) getWidth();
         bound.height = (int) getHeight();

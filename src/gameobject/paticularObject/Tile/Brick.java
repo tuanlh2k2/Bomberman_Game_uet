@@ -3,7 +3,6 @@ package gameobject.paticularObject.Tile;
 import effect.Animation;
 import effect.CacheDataLoader;
 import effect.FrameImage;
-import gameobject.Camera;
 import gameobject.GameWorld;
 import gameobject.paticularObject.ParticularObject;
 
@@ -37,9 +36,9 @@ public class Brick extends ParticularObject {
                     (int) (getPosY() - getHeight()/2 - getGameWorld().camera.getPosY()), 48,48, null);
         } else if (getState() == BEHURT) {
             brickdie.Update(System.nanoTime());
-            brickdie.draw((int) (getPosX() - getWidth()/2 - getGameWorld().camera.getPosX()),(int) (getPosY() - getHeight()/2 - getGameWorld().camera.getPosY()), g2);
+            brickdie.draw((int) (getPosX() - getWidth()/2 - getGameWorld().camera.getPosX()) + 10,(int) (getPosY() - getHeight()/2 - getGameWorld().camera.getPosY()) + 10, g2);
         }
-        drawBoundForCollisionWithEnemy(g2);
+//        drawBoundForCollisionWithEnemy(g2);
     }
 
     @Override
