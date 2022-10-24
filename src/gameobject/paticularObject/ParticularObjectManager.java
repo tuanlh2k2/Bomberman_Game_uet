@@ -1,6 +1,7 @@
 package gameobject.paticularObject;
 
 import gameobject.GameWorld;
+import gameobject.paticularObject.Entity.Bomber.Player;
 import gameobject.paticularObject.ParticularObject;
 
 import java.awt.*;
@@ -43,7 +44,7 @@ public class ParticularObjectManager {
     public void RemoveObject(ParticularObject particularObject) {
         synchronized (particularObjects) {
             for (int i = 0; i < particularObjects.size(); i++) {
-                ParticularObject tmpOj =particularObjects.get(i);
+                ParticularObject tmpOj = particularObjects.get(i);
                 if (tmpOj == particularObject) {
                     particularObjects.remove(i);
                 }
@@ -73,6 +74,11 @@ public class ParticularObjectManager {
                 object.Update();
                 // Neu doi tuong chet => xoa doi tuong.
                 if (object.getState() == ParticularObject.DEATH) {
+                    // Neu la nguoi choi chet thi se thong bao.
+                    if (object instanceof Player) {
+                        System.out.println("OK");
+                        gameWorld.player.setStatePlayer(false);
+                    }
                     particularObjects.remove(i);
                 }
             }

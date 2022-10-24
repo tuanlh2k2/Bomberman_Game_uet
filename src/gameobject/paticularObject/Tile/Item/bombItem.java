@@ -8,6 +8,7 @@ import gameobject.paticularObject.ParticularObject;
 import java.awt.*;
 
 public class bombItem extends Item {
+
     private FrameImage item;
 
     public bombItem(double posX, double posY, GameWorld gameWorld) {

@@ -9,10 +9,12 @@ import gameobject.paticularObject.ParticularObject;
 import gameobject.paticularObject.Weapon.Bomb;
 import gameobject.paticularObject.Weapon.Weapon;
 
-import java.applet.AudioClip;
+//import java.applet.AudioClip;
 import java.awt.*;
 
 public class Player extends Entity {
+
+    private boolean statePlayer = true; // Kiem tra trang thai cua nguoi choi => neu fasle => gameover.
     private Animation runLeft, runRight, runUp, runDown;
     private Animation idleup, idledown, idleleft, idleRight;
     private Animation playerdie;
@@ -38,6 +40,7 @@ public class Player extends Entity {
         playerdie = CacheDataLoader.getInstance().getAnimation("playerdie");
 
         gameover.setFile(2);
+
     }
 
     public void Update() {
@@ -102,10 +105,10 @@ public class Player extends Entity {
                     bomb.setPosY(l.y + l.height/2);
                 }
             }
-            getGameWorld().particularObjectManager.addObject(bomb);
-            lastShootingTime = System.nanoTime();
-            setBomb(true);
-        }
+                getGameWorld().particularObjectManager.addObject(bomb);
+                lastShootingTime = System.nanoTime();
+                setBomb(true);
+            }
     }
 
     @Override
@@ -162,5 +165,13 @@ public class Player extends Entity {
                 playerdie.draw((int) (getPosX() - getGameWorld().camera.getPosX() - 12), (int) getPosY() - (int) getGameWorld().camera.getPosY() - 12, g2);
                 break;
         }
+    }
+
+    public boolean getStatePlayer() {
+        return statePlayer;
+    }
+
+    public void setStatePlayer(boolean statePlayer) {
+        this.statePlayer = statePlayer;
     }
 }

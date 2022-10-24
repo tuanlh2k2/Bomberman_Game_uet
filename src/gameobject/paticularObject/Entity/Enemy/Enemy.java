@@ -8,7 +8,7 @@ import gameobject.paticularObject.ParticularObject;
 import java.awt.*;
 
 public abstract class Enemy extends Entity {
-    protected Animation left, right, die, stand;;
+    protected Animation left, right, die, stand;
 
     public Enemy(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, 48, 48, 1, gameWorld);

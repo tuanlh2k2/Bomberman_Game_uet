@@ -1,33 +1,31 @@
 package gameobject.paticularObject.Entity.Enemy;
 
-import effect.Animation;
 import effect.CacheDataLoader;
 import gameobject.GameWorld;
-import gameobject.paticularObject.Entity.Entity;
-import gameobject.paticularObject.ParticularObject;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
-public class Oneal extends Enemy {
+public class Kondoria extends Enemy {
+
     private long setTimeReset;
     private Integer[] direcsion = new Integer[4];
     private int length;
     private String[] map;
-    public Oneal(double posX, double posY, GameWorld gameWorld) {
+    private boolean state = true;
+    public Kondoria(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY,  gameWorld);
         setDirection(DOWN_DIR);
         setSpeedX(1);
         setSpeedY(1);
 
         map = getGameWorld().backgroundMap.map;
-        left = CacheDataLoader.getInstance().getAnimation("lOneal");
-        right = CacheDataLoader.getInstance().getAnimation("rOneal");
-        die = CacheDataLoader.getInstance().getAnimation("Onealdie");
-        stand = CacheDataLoader.getInstance().getAnimation("fOneal");
+        left = CacheDataLoader.getInstance().getAnimation("lKondoria");
+        right = CacheDataLoader.getInstance().getAnimation("rKondoria");
+        die = CacheDataLoader.getInstance().getAnimation("Kondoriadie");
+        stand = CacheDataLoader.getInstance().getAnimation("fKondoria");
+
+        state = true;
     }
 
     @Override
@@ -35,7 +33,7 @@ public class Oneal extends Enemy {
         super.Update();
     }
 
-//    @Override
+    //    @Override
     public void run() {
         int x = (int) (getPosX());
         int y = (int) (getPosY());
@@ -43,7 +41,7 @@ public class Oneal extends Enemy {
         int yy = (int) (getPosY() / 48);
         int toX = (int) ((getGameWorld().player.getPosX()));
         int toY = (int) ((getGameWorld().player.getPosY()));
-      //  System.out.println(getPosX() + " " + getGameWorld().player.getPosX());
+        //  System.out.println(getPosX() + " " + getGameWorld().player.getPosX());
         if (x == toX && y < toY && checkWay(x/48, y/48, toX/48, toY/48) == true)  {
             setDirection(DOWN_DIR);
             setSpeedY(2);
@@ -124,5 +122,14 @@ public class Oneal extends Enemy {
             return true;
         }
         return false;
+    }
+
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 }

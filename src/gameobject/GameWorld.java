@@ -3,14 +3,12 @@ package gameobject;
 import gameobject.GameFuncion.BackgroundMap;
 import gameobject.GameFuncion.Camera;
 import gameobject.GameFuncion.PhysicalMap;
-import gameobject.paticularObject.Entity.Enemy.Balloom;
 import gameobject.paticularObject.Entity.Bomber.Player;
-import gameobject.paticularObject.Entity.Enemy.Oneal;
+import gameobject.paticularObject.Entity.Enemy.*;
 import gameobject.paticularObject.ParticularObject;
 import gameobject.paticularObject.ParticularObjectManager;
 import gameobject.paticularObject.Tile.Brick;
-import gameobject.paticularObject.Tile.Item.SpeedItem;
-import gameobject.paticularObject.Tile.Item.bombItem;
+import gameobject.paticularObject.Tile.Item. *;
 import userinterface.GameFrame;
 
 import java.awt.*;
@@ -29,7 +27,6 @@ public class GameWorld {
         backgroundMap = new BackgroundMap(0, 0, this);
 
         camera = new Camera(0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, this);
-    //    weaponManager = new WeaponManager(this);
         particularObjectManager = new ParticularObjectManager(this);
         particularObjectManager.addObject(player);
         initEnemies();
@@ -54,10 +51,26 @@ public class GameWorld {
                 } else if (backgroundMap.map[i].charAt(j) == 'b') {
                     ParticularObject bombItem = new bombItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(bombItem);
+                } else if (backgroundMap.map[i].charAt(j) == 'f') {
+                    ParticularObject flameItem = new FlameItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    particularObjectManager.addObject(flameItem);
                 } else if (backgroundMap.map[i].charAt(j) == '2') {
                     ParticularObject Oneal = new Oneal(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     Oneal.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(Oneal);
+                } else if (backgroundMap.map[i].charAt(j) == '3') {
+                    ParticularObject Minvo = new Minvo(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    Minvo.setTeamType(ParticularObject.ENEMY_TEAM);
+                    particularObjectManager.addObject(Minvo);
+                } else if (backgroundMap.map[i].charAt(j) == '4') {
+                    ParticularObject Doll = new Doll(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    Doll.setTeamType(ParticularObject.ENEMY_TEAM);
+                    particularObjectManager.addObject(Doll);
+                } else if (backgroundMap.map[i].charAt(j) == '5') {
+                    ParticularObject Kondoria = new Kondoria(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    Kondoria.setTeamType(ParticularObject.ENEMY_TEAM);
+                    particularObjectManager.addObject(Kondoria);
+
                 }
             }
         }

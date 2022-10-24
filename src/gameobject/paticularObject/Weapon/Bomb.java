@@ -75,7 +75,7 @@ public class Bomb extends Weapon {
                         (int) (getPosY() - getGameWorld().camera.getPosY() + 10 - getHeight()/2), g2);
             }
         }
-      //  drawBoundForCollisionWithEnemy(g2);
+        //drawBoundForCollisionWithEnemy(g2);
     }
 
     @Override

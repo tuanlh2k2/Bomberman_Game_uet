@@ -27,8 +27,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     Sound sound = new Sound();
 
     private int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int gameOverState = 3;
 
     public GamePanel() {
         gameWorld = new GameWorld();
@@ -39,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(bufferedImage, 0, 0, this);
+        g.drawImage(bufferedImage, 0, 56, this);
     }
 
     public void renderGame() {
@@ -50,7 +52,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
         if (bufG2D != null) {
             bufG2D.setColor(Color.white);
-            gameWorld.Render(bufG2D);
+            if (gameState == playState || gameState == pauseState){
+                gameWorld.Render(bufG2D);
+            }
+            if (gameState == gameOverState) {
+                sound.stop();
+            }
             ui.draw(bufG2D);
         }
     }
@@ -58,6 +65,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public void updateGame() {
         if (gameState == playState) {
             gameWorld.Update();
+            if (gameWorld.player.getStatePlayer() == false) {
+                setGameState(gameOverState);
+            }
         }
     }
 
@@ -67,8 +77,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             thread.start();
             isRunning = true;
         }
-        sound.playMusic(0);
-        gameState = playState;
+        gameState = titleState;
+        sound.playMusic(3);
     }
 
     @Override
@@ -114,5 +124,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public void setGameState(int gameState) {
         this.gameState = gameState;
+    }
+
+    public UI getUi() {
+        return ui;
+    }
+
+    public void setUi(UI ui) {
+        this.ui = ui;
     }
 }
