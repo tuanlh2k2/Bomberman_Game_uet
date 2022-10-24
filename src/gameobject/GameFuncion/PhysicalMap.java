@@ -103,6 +103,7 @@ public class PhysicalMap extends GameObject {
         int posX1 = (rect.x + rect.width) / tileSize;
         posX1 -= 2;
         int posX2 = posX1 + 4;
+        if (posX1 <=0) posX1 = 0;
         if (posY1 < 0) posY1 = 0;
         if (posY2 >= phys_map.length) posY2 = phys_map.length - 1;
         if (posX2 >= phys_map[0].length()) posX2 = phys_map[0].length() - 1;

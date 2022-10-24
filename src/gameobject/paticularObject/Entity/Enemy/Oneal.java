@@ -59,6 +59,7 @@ public class Oneal extends Enemy {
         }
         else {
             length = 0;
+            Random random = new Random();
             if (getHaveCollision() == true || System.currentTimeMillis() - setTimeReset > 5000) {
                 setTimeReset = System.currentTimeMillis();
                 if (map[yy + 1].charAt(xx) != '#' || map[yy + 1].charAt(xx) != '*') {
@@ -70,14 +71,14 @@ public class Oneal extends Enemy {
                 if (map[yy].charAt(xx + 1) != '#' || map[yy].charAt(xx + 1) != '*') {
                     direcsion[length++] = RIGHT_DIR;
                 }
-                if (map[yy].charAt(xx - 1) != '#' ||  map[yy].charAt(xx - 1) != '*') {
+                if (map[yy].charAt(Math.abs(xx - 1)) != '#' ||  map[yy].charAt(Math.abs(xx - 1)) != '*') {
                     direcsion[length++] = LEFT_DIR;
                 }
 
-                Random random = new Random();
                 int ranNum = (random.nextInt(101) + 1) % length;
                 setDirection(ranNum);
             }
+
             if (getDirection() == LEFT_DIR) {
                 setSpeedX(-1);
             } else if (getDirection() == RIGHT_DIR) {

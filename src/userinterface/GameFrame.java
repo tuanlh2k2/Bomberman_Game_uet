@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class GameFrame extends JFrame {
     public static final int SCREEN_WIDTH = 1000;
-    public static final int SCREEN_HEIGHT = 700;
+    public static final int SCREEN_HEIGHT = 748;
     GamePanel gamePanel;
 
     public GameFrame() {

@@ -29,7 +29,6 @@ public class GameWorld {
         backgroundMap = new BackgroundMap(0, 0, this);
 
         camera = new Camera(0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, this);
-    //    weaponManager = new WeaponManager(this);
         particularObjectManager = new ParticularObjectManager(this);
         particularObjectManager.addObject(player);
         initEnemies();

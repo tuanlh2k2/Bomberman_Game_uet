@@ -1,4 +1,4 @@
-55
+56
 up1
 image image/gameImage.png
 x 0
@@ -329,3 +329,9 @@ x 176
 y 48
 w 16
 h 16
+bomber
+image image/bomber.png
+x 0
+y 0
+w 128
+h 128
