@@ -54,6 +54,9 @@ public class GameWorld {
                 } else if (backgroundMap.map[i].charAt(j) == 'f') {
                     ParticularObject flameItem = new FlameItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(flameItem);
+                }else if (backgroundMap.map[i].charAt(j) == 'x') {
+                    ParticularObject Portal = new Portal(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    particularObjectManager.addObject(Portal);
                 } else if (backgroundMap.map[i].charAt(j) == '2') {
                     ParticularObject Oneal = new Oneal(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     Oneal.setTeamType(ParticularObject.ENEMY_TEAM);
@@ -70,7 +73,6 @@ public class GameWorld {
                     ParticularObject Kondoria = new Kondoria(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     Kondoria.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(Kondoria);
-
                 }
             }
         }

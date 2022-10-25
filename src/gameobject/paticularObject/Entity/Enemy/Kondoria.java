@@ -12,8 +12,6 @@ import java.awt.*;
 import java.util.Random;
 
 public class Kondoria extends Enemy {
-
-    ParticularObject brick = new Brick(getPosX(), getPosY(), getGameWorld());
     private long setTimeReset;
     private Integer[] direcsion = new Integer[4];
     private int length;
@@ -38,10 +36,9 @@ public class Kondoria extends Enemy {
     @Override
     public void Update() {
         super.Update();
-        if (getState() == BEHURT) {
-            unhide();
-            after = CacheDataLoader.getInstance().getAnimation("after");
-            setRigid(false);
+        if (getState() == DEATH) {
+            Brick brick = new Brick(getPosX(), getPosY(), getGameWorld());
+            getGameWorld().particularObjectManager.addObject(brick);
         }
     }
 
@@ -100,12 +97,6 @@ public class Kondoria extends Enemy {
             }
         }
     }
-
-    public void unhide() {
-//        ParticularObject brick = new Brick(getPosX(), getPosY(), getGameWorld());
-        getGameWorld().particularObjectManager.addObject(brick);
-    }
-
 
     @Override
     public void stopRun() {

@@ -16,11 +16,12 @@ public class CacheDataLoader {
     private static CacheDataLoader instance;
     private String framefile = "/data/frame.txt";
     private String animationfile = "/data/animation.txt";
-    private String physmapfile = "/map/lever1.txt";
+    private String physmapfile;
     private String soundfile = "data/sound.txt";
     private Hashtable<String, FrameImage> frameImages;  // Luu vao mot mang hashtable de anh xa.
     private Hashtable<String, Animation> animations; // Luu vao mot mang hashtable de anh xa.
     private Hashtable<String, AudioClip> sounds;
+    private int lever = 1;
 
 
     private String[] phys_map;
@@ -39,7 +40,7 @@ public class CacheDataLoader {
     public void loadData() throws IOException {
         loadFrame();
         loadAnimation();
-        loadPhysMap();
+        loadPhysMap(lever);
     }
 
     /**
@@ -118,17 +119,8 @@ public class CacheDataLoader {
     }
 
 
-    public FrameImage getFrameImage(String name) {
-        FrameImage frameImage = new FrameImage(instance.frameImages.get(name));
-        return frameImage;
-    }
-
-    public Animation getAnimation(String name) {
-        Animation animation = new Animation(instance.animations.get(name));
-        return animation;
-    }
-
-    public void loadPhysMap() {
+    public void loadPhysMap(int lever) {
+        physmapfile = "/map/lever" + lever + ".txt";
         try{
             InputStream is = getClass().getResourceAsStream(physmapfile);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -146,11 +138,34 @@ public class CacheDataLoader {
         }
     }
 
+    public void loadMap() {
+        lever++;
+        loadPhysMap(lever);
+    }
+
+    public FrameImage getFrameImage(String name) {
+        FrameImage frameImage = new FrameImage(instance.frameImages.get(name));
+        return frameImage;
+    }
+
+    public Animation getAnimation(String name) {
+        Animation animation = new Animation(instance.animations.get(name));
+        return animation;
+    }
+
     public String[] getPhys_map() {
         return phys_map;
     }
 
     public void setPhys_map(String[] phys_map) {
         this.phys_map = phys_map;
+    }
+
+    public int getLever() {
+        return lever;
+    }
+
+    public void setLever(int lever) {
+        this.lever = lever;
     }
 }
