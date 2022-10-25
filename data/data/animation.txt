@@ -70,4 +70,4 @@ rKondoria1 200000000 rKondoria2 300000000 rKondoria3 400000000
 fKondoria
 rKondoria1 200000000 lKondoria1 300000000 rKondoria2 200000000 lKondoria2 200000000 rKondoria3 200000000 lKondoria3 200000000
 Kondoriadie
-Dolldie 50000000
+Kondoriadie 50000000

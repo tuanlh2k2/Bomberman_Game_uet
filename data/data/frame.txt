@@ -1,4 +1,4 @@
-55
+78
 up1
 image image/gameImage.png
 x 0
@@ -327,5 +327,143 @@ Onealdie
 image image/gameImage.png
 x 176
 y 48
+w 16
+h 16
+bomber
+image image/bomber.png
+x 0
+y 0
+w 128
+h 128
+lMinvo1
+image image/gameImage.png
+x 128
+y 80
+w 16
+h 16
+lMinvo2
+image image/gameImage.png
+x 128
+y 96
+w 16
+h 16
+lMinvo3
+image image/gameImage.png
+x 128
+y 112
+w 16
+h 16
+rMinvo1
+image image/gameImage.png
+x 144
+y 80
+w 16
+h 16
+rMinvo2
+image image/gameImage.png
+x 144
+y 96
+w 16
+h 16
+rMinvo3
+image image/gameImage.png
+x 144
+y 112
+w 16
+h 16
+Minvodie
+image image/gameImage.png
+x 128
+y 128
+w 16
+h 16
+lDoll1
+image image/gameImage.png
+x 208
+y 0
+w 16
+h 16
+lDoll2
+image image/gameImage.png
+x 208
+y 16
+w 16
+h 16
+lDoll3
+image image/gameImage.png
+x 208
+y 32
+w 16
+h 16
+rDoll1
+image image/gameImage.png
+x 214
+y 0
+w 16
+h 16
+rDoll2
+image image/gameImage.png
+x 214
+y 16
+w 16
+h 16
+rDoll3
+image image/gameImage.png
+x 214
+y 32
+w 16
+h 16
+Dolldie
+image image/gameImage.png
+x 208
+y 48
+w 16
+h 16
+FlameItem
+image image/gameImage.png
+x 16
+y 160
+w 16
+h 16
+lKondoria1
+image image/gameImage.png
+x 160
+y 80
+w 16
+h 16
+lKondoria2
+image image/gameImage.png
+x 160
+y 96
+w 16
+h 16
+lKondoria3
+image image/gameImage.png
+x 160
+y 112
+w 16
+h 16
+rKondoria1
+image image/gameImage.png
+x 176
+y 80
+w 16
+h 16
+rKondoria2
+image image/gameImage.png
+x 176
+y 96
+w 16
+h 16
+rKondoria3
+image image/gameImage.png
+x 176
+y 112
+w 16
+h 16
+Kondoriadie
+image image/gameImage.png
+x 160
+y 128
 w 16
 h 16

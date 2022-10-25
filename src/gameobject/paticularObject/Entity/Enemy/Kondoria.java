@@ -33,7 +33,7 @@ public class Kondoria extends Enemy {
         super.Update();
     }
 
-    //    @Override
+    @Override
     public void run() {
         int x = (int) (getPosX());
         int y = (int) (getPosY());
