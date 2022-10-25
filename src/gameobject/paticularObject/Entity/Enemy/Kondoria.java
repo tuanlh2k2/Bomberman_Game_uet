@@ -1,18 +1,25 @@
 package gameobject.paticularObject.Entity.Enemy;
 
+import effect.Animation;
 import effect.CacheDataLoader;
+import gameobject.paticularObject.ParticularObject;
 import gameobject.GameWorld;
+import gameobject.paticularObject.ParticularObjectManager;
+import gameobject.paticularObject.Tile.Brick;
+
 
 import java.awt.*;
 import java.util.Random;
 
 public class Kondoria extends Enemy {
 
+    ParticularObject brick = new Brick(getPosX(), getPosY(), getGameWorld());
     private long setTimeReset;
     private Integer[] direcsion = new Integer[4];
     private int length;
     private String[] map;
     private boolean state = true;
+    private Animation after;
     public Kondoria(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY,  gameWorld);
         setDirection(DOWN_DIR);
@@ -31,6 +38,11 @@ public class Kondoria extends Enemy {
     @Override
     public void Update() {
         super.Update();
+        if (getState() == BEHURT) {
+            unhide();
+            after = CacheDataLoader.getInstance().getAnimation("after");
+            setRigid(false);
+        }
     }
 
     @Override
@@ -89,6 +101,12 @@ public class Kondoria extends Enemy {
         }
     }
 
+    public void unhide() {
+//        ParticularObject brick = new Brick(getPosX(), getPosY(), getGameWorld());
+        getGameWorld().particularObjectManager.addObject(brick);
+    }
+
+
     @Override
     public void stopRun() {
     }
@@ -123,7 +141,6 @@ public class Kondoria extends Enemy {
         }
         return false;
     }
-
 
     public boolean isState() {
         return state;
