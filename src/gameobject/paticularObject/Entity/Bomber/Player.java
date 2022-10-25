@@ -21,6 +21,18 @@ public class Player extends Entity {
     private Sound gameover = new Sound();
     private long lastShootingTime;
 
+    /**
+     * @param posX
+     * @param posY
+     * @param width
+     * @param height
+     * @param blood
+     * @param gameWorld
+     */
+    public Player(double posX, double posY, double width, double height, int blood, GameWorld gameWorld) {
+        super(posX, posY, width, height, blood, gameWorld);
+    }
+
     public Player(double x, double y, GameWorld gameWorld) {
         super(x, y, 48, 48, 1, gameWorld);
         setRunSpeed(3);
