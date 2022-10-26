@@ -6,6 +6,7 @@ import gameobject.paticularObject.ParticularObject;
 import java.awt.*;
 
 public abstract class Weapon extends ParticularObject {
+    private int amountMax = 1; // So luong bom duoc phep dat.
     private long scopeBom = 48;
     public Weapon(double posX, double posY, double width, double height, int damage, GameWorld gameWorld) {
         super(posX, posY, width, height, 1, gameWorld);
@@ -24,6 +25,14 @@ public abstract class Weapon extends ParticularObject {
 
     public void setScopeBom(long scopeBom) {
         this.scopeBom = scopeBom;
+    }
+
+    public int getAmountMax() {
+        return amountMax;
+    }
+
+    public void setAmountMax(int amountMax) {
+        this.amountMax = amountMax;
     }
 
     public abstract Rectangle getBoundForCollisionTop();

@@ -40,6 +40,8 @@ public abstract class ParticularObject extends GameObject {
     private long timeForNoBeHurt; // thoi gian ket thuc khong bi dau.
     private long timeStartBeHurt; // thoi gian bat dau bi dau.
     private boolean rigid; // doi tuong co cho doi tuong khac di qua khong ?.
+
+    private int amountWeapon = 0; // So luong vu khi hien co.
     private boolean bomb = false;
     private boolean bombs = false;
 
@@ -128,22 +130,6 @@ public abstract class ParticularObject extends GameObject {
         this.direction = direction;
     }
 
-    public long getStartTimeNoBeHurt() {
-        return startTimeNoBeHurt;
-    }
-
-    public void setStartTimeNoBeHurt(long startTimeNoBeHurt) {
-        this.startTimeNoBeHurt = startTimeNoBeHurt;
-    }
-
-    public long getTimeForNoBeHurt() {
-        return timeForNoBeHurt;
-    }
-
-    public void setTimeForNoBeHurt(long timeForNoBeHurt) {
-        this.timeForNoBeHurt = timeForNoBeHurt;
-    }
-
     public int getTeamType() {
         return teamType;
     }
@@ -187,6 +173,14 @@ public abstract class ParticularObject extends GameObject {
 
     public void setBombs(boolean bombs) {
         this.bombs = bombs;
+    }
+
+    public int getAmountWeapon() {
+        return amountWeapon;
+    }
+
+    public void setAmountWeapon(int amountWeapon) {
+        this.amountWeapon = amountWeapon;
     }
 
     @Override

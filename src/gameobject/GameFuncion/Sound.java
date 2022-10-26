@@ -16,9 +16,10 @@ public class Sound {
         soundURL[3] = getClass().getResource("/sounds/menu_game.wav");
     }
 
-    public void setFile(int i) {
+    public void setFile(String name) {
+        int position = getPosition(name);
         try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
+            AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[position]);
             clip = AudioSystem.getClip();
             clip.open(ais);
         } catch (Exception e) {
@@ -37,9 +38,21 @@ public class Sound {
         clip.stop();
     }
 
-    public void playMusic(int i) {
-        setFile(i);
+    public void playMusic() {
         play();
         loop();
+    }
+
+    public int getPosition(String name) {
+        if (name == "playGame") {
+            return 0;
+        } else if (name == "bom") {
+            return 1;
+        } else if (name == "overGame") {
+            return 2;
+        } else if (name == "startGame") {
+            return 3;
+        }
+        return -1;
     }
 }

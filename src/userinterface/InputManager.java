@@ -8,16 +8,14 @@ import java.awt.event.KeyEvent;
  * Nhan gia tri tu gamePanel de xu ly.
  */
 public class InputManager {
-    GamePanel gamePanel;
     private GameWorld gameWorld;
 
-    public InputManager( GamePanel gamePanel, GameWorld gameWorld) {
+    public InputManager(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
-        this.gamePanel = gamePanel;
     }
 
     public void processKeyPressed(int keyCode) {
-        if (gamePanel.getGameState() == gamePanel.playState) {
+        if (gameWorld.getGameState() == gameWorld.playState) {
             switch (keyCode) {
                 case KeyEvent.VK_UP:
                     gameWorld.player.setDirection(gameWorld.player.TOP_DIR);
@@ -39,43 +37,42 @@ public class InputManager {
                     gameWorld.player.attack();
                     break;
                 case KeyEvent.VK_ENTER:
-                    if (gamePanel.getGameState() == gamePanel.playState) {
-                        gamePanel.setGameState(gamePanel.pauseState);
-                        System.out.println("OK");
+                    if (gameWorld.getGameState() == gameWorld.playState) {
+                        gameWorld.setGameState(gameWorld.pauseState);
                     }
                     break;
             }
-        } else if (gamePanel.getGameState() == gamePanel.titleState) {
+        } else if (gameWorld.getGameState() == gameWorld.titleState) {
             switch (keyCode) {
                 case KeyEvent.VK_DOWN:
-                    gamePanel.getUi().commandNum++;
-                    if (gamePanel.getUi().commandNum > 1) {
-                        gamePanel.getUi().commandNum = 0;
+                    gameWorld.ui.commandNum++;
+                    if (gameWorld.ui.commandNum > 1) {
+                        gameWorld.ui.commandNum = 0;
                     }
                     break;
                 case KeyEvent.VK_UP:
-                    gamePanel.getUi().commandNum--;
-                    if (gamePanel.getUi().commandNum < 0) {
-                        gamePanel.getUi().commandNum = 1;
+                    gameWorld.ui.commandNum--;
+                    if (gameWorld.ui.commandNum < 0) {
+                        gameWorld.ui.commandNum = 1;
                     }
                     break;
                 case KeyEvent.VK_ENTER:
-                    if (gamePanel.getUi().commandNum == 0) {
-                        gamePanel.setGameState(gamePanel.playState);
-                        gamePanel.sound.stop();
-                        gamePanel.sound.playMusic(0);
+                    if (gameWorld.ui.commandNum == 0) {
+                        gameWorld.setGameState(gameWorld.playState);
+//                        gameWorld.sound.stop();
+//                        gameWorld.sound.playMusic(0);
                     } else {
                         System.exit(0);
                     }
             }
-        } else if (gamePanel.getGameState() == gamePanel.pauseState) {
-            gamePanel.setGameState(gamePanel.playState);
+        } else if (gameWorld.getGameState() == gameWorld.pauseState) {
+            gameWorld.setGameState(gameWorld.playState);
         }
     }
 
     public void processKeyReleased(int keyCode) {
-        if (gamePanel.getGameState() == gamePanel.playState
-                || gamePanel.getGameState() == gamePanel.playState) {
+        if (gameWorld.getGameState() == gameWorld.playState
+                || gameWorld.getGameState() == gameWorld.playState) {
             switch (keyCode) {
                 case KeyEvent.VK_UP:
                     gameWorld.player.stopRun();

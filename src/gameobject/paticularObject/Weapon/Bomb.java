@@ -29,7 +29,7 @@ public class Bomb extends Weapon {
         fireleft = CacheDataLoader.getInstance().getAnimation("fireleft");
         fireright = CacheDataLoader.getInstance().getAnimation("fireright");
 
-        nobomb.setFile(1);  // load am thanh.
+        nobomb.setFile("bom");  // load am thanh.
     }
 
     @Override
@@ -88,7 +88,9 @@ public class Bomb extends Weapon {
         } else if (timeHT - timeBegin > 900 && getState() == BEHURT) {
             getGameWorld().player.setBomb(false);
             setState(DEATH);
+            getGameWorld().player.setAmountWeapon(getAmountWeapon() - 1);
         }
+
         if (getState() == BEHURT) {
             ParticularObject checkBomb = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
             ParticularObject checkTop = getGameWorld().particularObjectManager.checkCollisionWithFire(this, getBoundForCollisionTop());

@@ -13,22 +13,12 @@ import gameobject.paticularObject.Weapon.Weapon;
 import java.awt.*;
 
 public class Player extends Entity {
-
     private boolean statePlayer = true; // Kiem tra trang thai cua nguoi choi => neu fasle => gameover.
     private Animation runLeft, runRight, runUp, runDown;
     private Animation idleup, idledown, idleleft, idleRight;
     private Animation playerdie;
     private Sound gameover = new Sound();
-    private long lastShootingTime;
 
-    /**
-     * @param posX
-     * @param posY
-     * @param width
-     * @param height
-     * @param blood
-     * @param gameWorld
-     */
     public Player(double posX, double posY, double width, double height, int blood, GameWorld gameWorld) {
         super(posX, posY, width, height, blood, gameWorld);
     }
@@ -36,6 +26,7 @@ public class Player extends Entity {
     public Player(double x, double y, GameWorld gameWorld) {
         super(x, y, 48, 48, 1, gameWorld);
         setRunSpeed(3);
+        setAmountWeapon(1);
         setRigid(false);
         setTeamType(LEAGUE_TEAM);
 
@@ -51,7 +42,7 @@ public class Player extends Entity {
 
         playerdie = CacheDataLoader.getInstance().getAnimation("playerdie");
 
-        gameover.setFile(2);
+        gameover.setFile("overGame");
 
     }
 
@@ -83,9 +74,8 @@ public class Player extends Entity {
     // Đặt bom.
     @Override
     public void attack() {
-        if (!getBomb()) {
+        if (!getBomb() && getAmountWeapon() < 2) {
             Weapon bomb = new Bomb(getPosX(), getPosY(), getGameWorld());
-
             /**
              * cai dat thuat toan de dat bom dung cho => de co vu no sang cac huong co the.
              */
@@ -117,8 +107,9 @@ public class Player extends Entity {
                     bomb.setPosY(l.y + l.height/2);
                 }
             }
+                setAmountWeapon(getAmountWeapon() + 1);
+                System.out.println(getAmountWeapon());
                 getGameWorld().particularObjectManager.addObject(bomb);
-                lastShootingTime = System.nanoTime();
                 setBomb(true);
             }
     }
