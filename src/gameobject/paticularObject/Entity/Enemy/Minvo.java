@@ -2,8 +2,6 @@ package gameobject.paticularObject.Entity.Enemy;
 
 import effect.CacheDataLoader;
 import gameobject.GameWorld;
-import gameobject.paticularObject.Weapon. *;
-
 
 import java.awt.*;
 import java.util.Random;
@@ -14,8 +12,7 @@ public class Minvo extends Enemy {
     private Integer[] direcsion = new Integer[4];
     private int length;
     private String[] map;
-    private boolean MinvoState = true;
-    Weapon bomb = new Bomb(getPosX(), getPosY(), getGameWorld());
+    private int heart = 2;
 
     public Minvo(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, gameWorld);
@@ -28,10 +25,18 @@ public class Minvo extends Enemy {
         right = CacheDataLoader.getInstance().getAnimation("rMinvo");
         die = CacheDataLoader.getInstance().getAnimation("Minvodie");
         stand = CacheDataLoader.getInstance().getAnimation("fMinvo");
+
     }
 
     public void Update() {
         super.Update();
+        if (getState() == DEATH) {
+            heart--;
+            setState(ALIVE);
+        }
+        if (heart == 0 && getState() == ALIVE) {
+            setState(DEATH);
+        }
     }
 
     public void run() {
@@ -41,24 +46,23 @@ public class Minvo extends Enemy {
         int yy = (int) (getPosY() / 48);
         int toX = (int) ((getGameWorld().player.getPosX()));
         int toY = (int) ((getGameWorld().player.getPosY()));
-        int toBombX = (int) ((bomb.getPosX()) - bomb.getScopeBom());
-        int toBombY = (int) ((bomb).getPosY() - bomb.getScopeBom());
         //  System.out.println(getPosX() + " " + getGameWorld().player.getPosX());
-        if (x == toX && y < toY && y > toBombY && checkWay(x/48, y/48, toX/48, toY/48) == true)  {
+        if (x == toX && y < toY && checkWay(x/48, y/48, toX/48, toY/48) == true)  {
             setDirection(DOWN_DIR);
             setSpeedY(2);
-        } else if (x == toX && y > toY && y < toBombY && checkWay(toX/48, toY/48, x/48, y/48) == true) {
+        } else if (x == toX && y > toY && checkWay(toX/48, toY/48, x/48, y/48) == true) {
             setDirection(TOP_DIR);
             setSpeedY(-2);
-        } else if (y == toY && x < toX && x > toBombX && checkWay(x/48, y/48, toX/48, toY/48) == true) {
+        } else if (y == toY && x < toX && checkWay(x/48, y/48, toX/48, toY/48) == true) {
             setDirection(RIGHT_DIR);
             setSpeedX(2);
-        } else if (y == toY && x > toX && x < toBombX && checkWay(toX/48, toY/48, x/48, y/48) == true) {
+        } else if (y == toY && x > toX && checkWay(toX/48, toY/48, x/48, y/48) == true) {
             setDirection(LEFT_DIR);
             setSpeedX(-2);
         }
         else {
             length = 0;
+            Random random = new Random();
             if (getHaveCollision() == true || System.currentTimeMillis() - setTimeReset > 5000) {
                 setTimeReset = System.currentTimeMillis();
                 if (map[yy + 1].charAt(xx) != '#' || map[yy + 1].charAt(xx) != '*') {
@@ -70,22 +74,22 @@ public class Minvo extends Enemy {
                 if (map[yy].charAt(xx + 1) != '#' || map[yy].charAt(xx + 1) != '*') {
                     direcsion[length++] = RIGHT_DIR;
                 }
-                if (map[yy].charAt(xx - 1) != '#' ||  map[yy].charAt(xx - 1) != '*') {
+                if (map[yy].charAt(Math.abs(xx - 1)) != '#' ||  map[yy].charAt(Math.abs(xx - 1)) != '*') {
                     direcsion[length++] = LEFT_DIR;
                 }
 
-                Random random = new Random();
                 int ranNum = (random.nextInt(101) + 1) % length;
                 setDirection(ranNum);
             }
+
             if (getDirection() == LEFT_DIR) {
-                setSpeedX(-1.5);
+                setSpeedX(-1);
             } else if (getDirection() == RIGHT_DIR) {
-                setSpeedX(1.5);
+                setSpeedX(1);
             } else if (getDirection() == TOP_DIR) {
-                setSpeedY(-1.5);
+                setSpeedY(-1);
             } else if (getDirection() == DOWN_DIR) {
-                setSpeedY(1.5);
+                setSpeedY(1);
             }
         }
     }
@@ -125,11 +129,4 @@ public class Minvo extends Enemy {
         return false;
     }
 
-    public boolean isMinvoState() {
-        return MinvoState;
-    }
-
-    public void setMinvoState(boolean minvoState) {
-        MinvoState = minvoState;
-    }
 }
