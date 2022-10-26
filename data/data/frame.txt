@@ -1,4 +1,4 @@
-78
+79
 up1
 image image/gameImage.png
 x 0
@@ -465,5 +465,11 @@ Kondoriadie
 image image/gameImage.png
 x 160
 y 128
+w 16
+h 16
+portal
+image image/gameImage.png
+x 64
+y 0
 w 16
 h 16

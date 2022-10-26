@@ -6,6 +6,8 @@ import gameobject.paticularObject.Entity.Bomber.Player;
 import gameobject.paticularObject.ParticularObject;
 import gameobject.paticularObject.ParticularObjectManager;
 import gameobject.paticularObject.Tile.Brick;
+import gameobject.paticularObject.Tile.Item.FlameItem;
+import gameobject.paticularObject.Tile.Item.Portal;
 import gameobject.paticularObject.Tile.Item.SpeedItem;
 import gameobject.paticularObject.Tile.Item.bombItem;
 import userinterface.GameFrame;
@@ -63,6 +65,12 @@ public class GameWorld {
                 } else if (backgroundMap.map[i].charAt(j) == 'b') {
                     ParticularObject bombItem = new bombItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(bombItem);
+                } else if (backgroundMap.map[i].charAt(j) == 'f') {
+                    ParticularObject flameItem = new FlameItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    particularObjectManager.addObject(flameItem);
+                }else if (backgroundMap.map[i].charAt(j) == 'x') {
+                    ParticularObject Portal = new Portal(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    particularObjectManager.addObject(Portal);
                 } else if (backgroundMap.map[i].charAt(j) == '2') {
                     ParticularObject Oneal = new Oneal(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     Oneal.setTeamType(ParticularObject.ENEMY_TEAM);
