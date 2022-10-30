@@ -19,7 +19,7 @@ public class BackgroundMap extends GameObject {
 
     public BackgroundMap(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, gameWorld);
-        map = CacheDataLoader.getInstance().getPhys_map();
+        map = CacheDataLoader.getInstance().getPhys_map(1);
         tileSize = 48;
 
         glass = CacheDataLoader.getInstance().getFrameImage("glass");
@@ -28,7 +28,6 @@ public class BackgroundMap extends GameObject {
 
     @Override
     public void Update() {
-
     }
 
     public void draw(Graphics2D g2) {
@@ -47,4 +46,7 @@ public class BackgroundMap extends GameObject {
         }
     }
 
+    public void setMap(int lever) {
+        this.map = CacheDataLoader.getInstance().getPhys_map(lever);
+    }
 }

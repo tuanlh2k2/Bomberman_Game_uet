@@ -3,15 +3,16 @@ package gameobject.paticularObject.Tile.Item;
 import effect.CacheDataLoader;
 import effect.FrameImage;
 import gameobject.GameWorld;
+import gameobject.paticularObject.Entity.Bomber.Player;
 import gameobject.paticularObject.ParticularObject;
 
 import java.awt.*;
 
-public class bombItem extends Item {
+public class BombItem extends Item {
 
     private FrameImage item;
 
-    public bombItem(double posX, double posY, GameWorld gameWorld) {
+    public BombItem(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, gameWorld);
         hideItem();
         setTeamType(WEAPON_TEAM);
@@ -36,8 +37,8 @@ public class bombItem extends Item {
         super.Update();
         ParticularObject checkCollisionWithPlayer = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
         if (checkCollisionWithPlayer != null) {
-            if (checkCollisionWithPlayer.getTeamType() == LEAGUE_TEAM) {
-                getGameWorld().player.setBombs(true);
+            if (checkCollisionWithPlayer instanceof Player) {
+                getGameWorld().player.setMAX_WEAPON(2);
                 setState(DEATH);
             }
         } else {

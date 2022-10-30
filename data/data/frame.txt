@@ -1,4 +1,4 @@
-79
+83
 up1
 image image/gameImage.png
 x 0
@@ -473,3 +473,27 @@ x 64
 y 0
 w 16
 h 16
+background
+image image/background.png
+x 0
+y 0
+w 1680
+h 1050
+stage1
+image image/stage1.jpg
+x 0
+y 0
+w 1000
+h 700
+monster
+image image/monster.png
+x 0
+y 0
+w 48
+h 48
+key
+image image/key.jpg
+x 0
+y 0
+w 48
+h 48

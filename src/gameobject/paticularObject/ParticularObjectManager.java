@@ -2,6 +2,7 @@ package gameobject.paticularObject;
 
 import gameobject.GameWorld;
 import gameobject.paticularObject.Entity.Bomber.Player;
+import gameobject.paticularObject.Entity.Enemy.Enemy;
 import gameobject.paticularObject.ParticularObject;
 
 import java.awt.*;
@@ -52,6 +53,11 @@ public class ParticularObjectManager {
         }
     }
 
+    // Xoa tat ca cac doi tuong.
+    public void Clear() {
+        particularObjects = Collections.synchronizedList(new LinkedList<ParticularObject>());
+    }
+
     // Kiem tra va cham voi cac doi tuong khac.
     public ParticularObject getCollisionWithEnemyObject(ParticularObject object) {
         synchronized (particularObjects) {
@@ -76,12 +82,12 @@ public class ParticularObjectManager {
                 if (object.getState() == ParticularObject.DEATH) {
                     // Neu la nguoi choi chet thi se thong bao.
                     if (object instanceof Player) {
-                        System.out.println("OK");
                         gameWorld.player.setStatePlayer(false);
                     }
                     particularObjects.remove(i);
                 }
             }
+            countEnemy();
         }
     }
 
@@ -102,6 +108,18 @@ public class ParticularObjectManager {
                 }
             }
             return null;
+        }
+    }
+
+    public void countEnemy() {
+        synchronized (particularObjects) {
+            int count = 0;
+            for (ParticularObject check : particularObjects) {
+                if (check instanceof Enemy) {
+                    count ++;
+                }
+            }
+            gameWorld.setCountEnemy(count);
         }
     }
 }

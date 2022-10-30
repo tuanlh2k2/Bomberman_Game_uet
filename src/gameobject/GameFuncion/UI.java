@@ -16,15 +16,26 @@ public class UI {
     private Font arial_40;  // khai bao phong chu.
     private Graphics2D g2;
     public int commandNum = 0; // dung de kiem tra xem dang o vi tri nao (new game hay quit).
-    FrameImage bomber = CacheDataLoader.getInstance().getFrameImage("bomber"); // load hinh anh bomber hien thi.
+    private FrameImage monster = CacheDataLoader.getInstance().getFrameImage("monster"); // load hinh anh bomber hien thi.
+    private FrameImage key = CacheDataLoader.getInstance().getFrameImage("key");
+    private FrameImage backGround = CacheDataLoader.getInstance().getFrameImage("background"); // load hinh anh bomber hien thi.
+    private FrameImage stage1 = CacheDataLoader.getInstance().getFrameImage("stage1");
+    private Sound soundPlayGame = new Sound();
+    private Sound soundStartGame = new Sound();
+    private Sound soundReadyGame = new Sound();
 
     public UI(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
         arial_40 = new Font("Arial", Font.PLAIN, 70);
+
+        soundPlayGame.setFile("playGame");
+        soundStartGame.setFile("startGame");
+        soundReadyGame.setFile("readyGame");
     }
 
     // dung de ve ra man hinh.
     public void draw(Graphics2D g2) {
+        playMusic();
         this.g2 = g2;
 
         // Hien thi chu Pause khi nguoi dung an Enter.
@@ -39,7 +50,30 @@ public class UI {
         if (gameWorld.getGameState() == gameWorld.gameOverState) {
             drawGameOver();
         }
+
+        if (gameWorld.getGameState() == gameWorld.nextLever) {
+            drawNewGame();
+        }
+
+        if (gameWorld.getGameState() == gameWorld.playState) {
+            drawPlayGame();
+        }
     }
+
+    // Hien thi man hinh khi choi.
+    public void drawPlayGame() {
+        // Ve hinh so quai con lai.
+        g2.drawImage(monster.getImage(), 48 * 18,0, 48,48, null);
+        g2.setColor(Color.orange);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
+        String text = "X" + gameWorld.getCountEnemy();
+        g2.drawString(text,48 * 19, 36);
+
+//        // Ve hinh key.
+//        g2.drawImage(key.getImage(),0, 0, 48, 48, null);
+
+    }
+
 
     // Hien thi man hinh khi tam dung (pause).
     public void drawPause() {
@@ -50,40 +84,52 @@ public class UI {
         int y = GameFrame.SCREEN_HEIGHT/2 - 48 - 24;
         g2.drawString(text, x, y);
     }
+    // Hien thi man hinh khi chuyen man.
+    public void drawNewGame() {
+        g2.drawImage(stage1.getImage(), 0, 0 , GameFrame.SCREEN_WIDTH,GameFrame.SCREEN_HEIGHT,null);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 128F));
+        String text = "STAGE " + gameWorld.getLever();
 
-    // Hien thi menu man hinh Menu.
-    public void drawTitleScreen() {
-        g2.setColor(new Color(70, 120, 80));
-        g2.fillRect(0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT);
-        // TITLE NAME.
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 96F));
-        String text = "BOMBERMAN";
         int x = getXforCenteredText(text);
-        int y = 48 * 3;
+        int y = GameFrame.SCREEN_HEIGHT/2 - 48 * 4;
 
-        //SHADOW.
+        // In bóng.
         g2.setColor(Color.black);
-        g2.drawString(text, x + 5, y + 5);
-
-        // MAIN COLOR.
+        g2.drawString(text, x + 6, y + 6);
+        // In chữ.
         g2.setColor(Color.orange);
         g2.drawString(text, x, y);
 
-        // BOMBER IMAGE.
-        x = GameFrame.SCREEN_WIDTH / 2 - 48;
-        y += 48;
-        g2.drawImage(bomber.getImage(), x, y,144,144,null);
+
+        // Ve chu plese ....
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 21F));
+        text = "Press Enter to continue....";
+
+        x = GameFrame.WIDTH/2 + 48 * 12;
+        y = GameFrame.SCREEN_HEIGHT/2 - 48 * 3;
+        g2.setColor(Color.ORANGE);
+        g2.drawString(text, x, y);
+
+    }
+
+    // Hien thi menu man hinh Menu.
+    public void drawTitleScreen() {
+        g2.drawImage(backGround.getImage(), 0,0,GameFrame.SCREEN_WIDTH,GameFrame.SCREEN_HEIGHT,null);
+
+        String text;
+        int x;
+        int y;
 
         // MENU.
         // New game.
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,32F));
         text = "NEW GAME";
         x = getXforCenteredText(text);
-        y += 48 * 5;
-        g2.setColor(Color.red);
+        y = 48 * 12;
+        g2.setColor(Color.ORANGE);
         g2.fillRect(GameFrame.SCREEN_WIDTH/2 - 120, y - 48, 256, 48);
         if (commandNum == 0) {
-            g2.setColor(Color.PINK);
+            g2.setColor(Color.green);
         } else {
             g2.setColor(Color.lightGray);
         }
@@ -96,10 +142,10 @@ public class UI {
         x = getXforCenteredText(text);
         y += 50;
 
-        g2.setColor(Color.red);
+        g2.setColor(Color.ORANGE);
         g2.fillRect(GameFrame.SCREEN_WIDTH / 2 - 120, y - 48, 256, 48);
         if (commandNum == 1) {
-            g2.setColor(Color.PINK);
+            g2.setColor(Color.green);
         } else {
             g2.setColor(Color.lightGray);
         }
@@ -123,5 +169,21 @@ public class UI {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         int x = GameFrame.SCREEN_WIDTH/2 - length/2;
         return x;
+    }
+
+    public void playMusic() {
+        if (gameWorld.getGameState() == gameWorld.playState) {
+            soundReadyGame.stop();
+            soundStartGame.stop();
+            soundPlayGame.playMusic();
+        } else if (gameWorld.getGameState() == gameWorld.titleState) {
+            soundReadyGame.stop();
+            soundPlayGame.stop();
+            soundStartGame.playMusic();
+        } else if (gameWorld.getGameState() == gameWorld.nextLever){
+            soundStartGame.stop();
+            soundPlayGame.stop();
+            soundReadyGame.playMusic();
+        }
     }
 }

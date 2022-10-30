@@ -15,7 +15,7 @@ public class PhysicalMap extends GameObject {
     public PhysicalMap(double x, double y, GameWorld gameWorld) {
         super(x, y, gameWorld);
         this.tileSize = 48;
-        phys_map = CacheDataLoader.getInstance().getPhys_map();
+        phys_map = CacheDataLoader.getInstance().getPhys_map(1);
 
     }
 
@@ -123,5 +123,9 @@ public class PhysicalMap extends GameObject {
     }
     @Override
     public void Update() {
+    }
+
+    public void setPhys_map(int lever) {
+        this.phys_map = CacheDataLoader.getInstance().getPhys_map(lever);
     }
 }

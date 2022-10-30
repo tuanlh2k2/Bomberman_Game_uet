@@ -13,14 +13,14 @@ import java.util.Hashtable;
  * Dung de load du lieu trong file.
  */
 public class CacheDataLoader {
+    public static final int MAX_LEVER = 2;
     private static CacheDataLoader instance;
     private String framefile = "/data/frame.txt";
     private String animationfile = "/data/animation.txt";
     private String physmapfile;
-    private String soundfile = "data/sound.txt";
     private Hashtable<String, FrameImage> frameImages;  // Luu vao mot mang hashtable de anh xa.
     private Hashtable<String, Animation> animations; // Luu vao mot mang hashtable de anh xa.
-    private Hashtable<String, AudioClip> sounds;
+    private Hashtable<Integer, String[]> maps;
     private int lever = 1;
 
 
@@ -40,7 +40,7 @@ public class CacheDataLoader {
     public void loadData() throws IOException {
         loadFrame();
         loadAnimation();
-        loadPhysMap(lever);
+        loadPhysMap();
     }
 
     /**
@@ -119,28 +119,26 @@ public class CacheDataLoader {
     }
 
 
-    public void loadPhysMap(int lever) {
-        physmapfile = "/map/lever" + lever + ".txt";
-        try{
-            InputStream is = getClass().getResourceAsStream(physmapfile);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String[] s = br.readLine().split(" ");
-            int numberOfRows = Integer.parseInt(s[0]);
-            int numberOfColums = Integer.parseInt(s[1]);
+    public void loadPhysMap() {
+        maps = new Hashtable<Integer, String[]>();
+        for (int lever = 1; lever <= MAX_LEVER; lever++) {
+            physmapfile = "/map/lever" + lever + ".txt";
+            try{
+                InputStream is = getClass().getResourceAsStream(physmapfile);
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                String[] s = br.readLine().split(" ");
+                int numberOfRows = Integer.parseInt(s[0]);
 
-            instance.phys_map = new String[numberOfRows];
-            for (int i = 0; i < numberOfRows; i++) {
-                phys_map[i] = br.readLine();
+                instance.phys_map = new String[numberOfRows];
+                for (int i = 0; i < numberOfRows; i++) {
+                    phys_map[i] = br.readLine();
+                }
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            maps.put(lever, phys_map);
         }
-    }
-
-    public void loadMap() {
-        lever++;
-        loadPhysMap(lever);
     }
 
     public FrameImage getFrameImage(String name) {
@@ -153,19 +151,7 @@ public class CacheDataLoader {
         return animation;
     }
 
-    public String[] getPhys_map() {
-        return phys_map;
-    }
-
-    public void setPhys_map(String[] phys_map) {
-        this.phys_map = phys_map;
-    }
-
-    public int getLever() {
-        return lever;
-    }
-
-    public void setLever(int lever) {
-        this.lever = lever;
+    public String[] getPhys_map(int lever) {
+        return instance.maps.get(lever);
     }
 }

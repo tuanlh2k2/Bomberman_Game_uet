@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(bufferedImage, 0, 56, this);
+        g.drawImage(bufferedImage, 0, 0, this);
     }
 
     public void renderGame() {

@@ -13,20 +13,18 @@ import gameobject.paticularObject.Weapon.Weapon;
 import java.awt.*;
 
 public class Player extends Entity {
+    private int MAX_WEAPON = 1; // số bom có thể đặt tối đa.
+    private int count_bomb = 0; // đếm số bom đã đặt.
+    private boolean oppenTheDoor = false; // Kiem tra xem nhan vat da mo cua hay chua.
     private boolean statePlayer = true; // Kiem tra trang thai cua nguoi choi => neu fasle => gameover.
     private Animation runLeft, runRight, runUp, runDown;
     private Animation idleup, idledown, idleleft, idleRight;
     private Animation playerdie;
     private Sound gameover = new Sound();
 
-    public Player(double posX, double posY, double width, double height, int blood, GameWorld gameWorld) {
-        super(posX, posY, width, height, blood, gameWorld);
-    }
-
     public Player(double x, double y, GameWorld gameWorld) {
         super(x, y, 48, 48, 1, gameWorld);
         setRunSpeed(3);
-        setAmountWeapon(1);
         setRigid(false);
         setTeamType(LEAGUE_TEAM);
 
@@ -74,7 +72,7 @@ public class Player extends Entity {
     // Đặt bom.
     @Override
     public void attack() {
-        if (!getBomb() && getAmountWeapon() < 2) {
+        if (this.count_bomb < MAX_WEAPON) {
             Weapon bomb = new Bomb(getPosX(), getPosY(), getGameWorld());
             /**
              * cai dat thuat toan de dat bom dung cho => de co vu no sang cac huong co the.
@@ -107,10 +105,8 @@ public class Player extends Entity {
                     bomb.setPosY(l.y + l.height/2);
                 }
             }
-                setAmountWeapon(getAmountWeapon() + 1);
-                System.out.println(getAmountWeapon());
+                this.count_bomb ++;
                 getGameWorld().particularObjectManager.addObject(bomb);
-                setBomb(true);
             }
     }
 
@@ -176,5 +172,29 @@ public class Player extends Entity {
 
     public void setStatePlayer(boolean statePlayer) {
         this.statePlayer = statePlayer;
+    }
+
+    public boolean getOppenTheDoor() {
+        return oppenTheDoor;
+    }
+
+    public void setOppenTheDoor(boolean oppenTheDoor) {
+        this.oppenTheDoor = oppenTheDoor;
+    }
+
+    public int getMAX_WEAPON() {
+        return MAX_WEAPON;
+    }
+
+    public void setMAX_WEAPON(int MAX_WEAPON) {
+        this.MAX_WEAPON = MAX_WEAPON;
+    }
+
+    public int getCount_bomb() {
+        return count_bomb;
+    }
+
+    public void setCount_bomb(int count_bomb) {
+        this.count_bomb = count_bomb;
     }
 }

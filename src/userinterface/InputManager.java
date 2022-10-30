@@ -58,15 +58,17 @@ public class InputManager {
                     break;
                 case KeyEvent.VK_ENTER:
                     if (gameWorld.ui.commandNum == 0) {
-                        gameWorld.setGameState(gameWorld.playState);
-//                        gameWorld.sound.stop();
-//                        gameWorld.sound.playMusic(0);
+                        gameWorld.setGameState(gameWorld.nextLever);
                     } else {
                         System.exit(0);
                     }
             }
         } else if (gameWorld.getGameState() == gameWorld.pauseState) {
             gameWorld.setGameState(gameWorld.playState);
+        } else if (gameWorld.getGameState() == gameWorld.nextLever) {
+            if (keyCode == KeyEvent.VK_ENTER) {
+                gameWorld.setGameState(gameWorld.playState);
+            }
         }
     }
 

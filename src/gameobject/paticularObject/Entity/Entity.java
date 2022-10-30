@@ -116,21 +116,16 @@ public abstract class Entity extends ParticularObject {
                 checkRigid = true;
                 Rectangle rect = other.getBoundForCollisionWithEnemy();
                 if (rect.x == (getPosX() + getWidth()/2 - getSpeedX())) {
-//                    System.out.println(rect.x);
-//                    setPosX((getPosX() - 2 * getSpeedX()));
                     setPosX(rect.x - 24);
                     setSpeedX(0);
                 } else if (rect.x + rect.width == getPosX() - getWidth()/2 - getSpeedX()) {
-//                    setPosX(getPosX() - 2 * getSpeedX());
                     setPosX(rect.x + rect.width + 24);
                     setSpeedX(0);
                 }
                 if (getPosY() + getHeight()/2 - getSpeedY() == rect.y) {
-//                    setPosY(getPosY() - getSpeedY());
                     setPosY(rect.y - 24);
                     setSpeedY(0);
                 } else if (getPosY() - getHeight()/2 - getSpeedY() == rect.y + rect.height) {
-//                    setPosY(getPosY() - getSpeedY());
                     setPosY(rect.y + rect.height + 24);
                     setSpeedY(0);
                 }

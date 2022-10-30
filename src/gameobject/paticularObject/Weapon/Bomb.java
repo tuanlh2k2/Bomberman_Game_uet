@@ -86,9 +86,8 @@ public class Bomb extends Weapon {
             setState(BEHURT);
             this.timeBegin = timeHT;
         } else if (timeHT - timeBegin > 900 && getState() == BEHURT) {
-            getGameWorld().player.setBomb(false);
             setState(DEATH);
-            getGameWorld().player.setAmountWeapon(getAmountWeapon() - 1);
+            getGameWorld().player.setCount_bomb(getGameWorld().player.getCount_bomb()  - 1);
         }
 
         if (getState() == BEHURT) {

@@ -79,7 +79,7 @@ public class Minvo extends Enemy {
                 }
 
                 int ranNum = (random.nextInt(101) + 1) % length;
-                setDirection(ranNum);
+                setDirection(direcsion[ranNum]);
             }
 
             if (getDirection() == LEFT_DIR) {

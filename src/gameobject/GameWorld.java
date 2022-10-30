@@ -1,5 +1,6 @@
 package gameobject;
 
+import effect.CacheDataLoader;
 import gameobject.GameFuncion.*;
 import gameobject.paticularObject.Entity.Enemy.*;
 import gameobject.paticularObject.Entity.Bomber.Player;
@@ -9,17 +10,20 @@ import gameobject.paticularObject.Tile.Brick;
 import gameobject.paticularObject.Tile.Item.FlameItem;
 import gameobject.paticularObject.Tile.Item.Portal;
 import gameobject.paticularObject.Tile.Item.SpeedItem;
-import gameobject.paticularObject.Tile.Item.bombItem;
+import gameobject.paticularObject.Tile.Item.BombItem;
 import userinterface.GameFrame;
 
 import java.awt.*;
 
 public class GameWorld {
+    private int lever = 1;
+    private int countEnemy = 0;
     private int gameState;
     public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int gameOverState = 3;
+    public final int nextLever = 4;
 
     public Player player;
     public PhysicalMap physicalMap;
@@ -27,14 +31,10 @@ public class GameWorld {
     public BackgroundMap backgroundMap;
     public Camera camera;
     public UI ui;
-    Sound soundPlayGame = new Sound();
-    Sound soundStartGame = new Sound();
 
     public GameWorld() {
         setGameState(titleState);
         ui = new UI(this);
-        soundPlayGame.setFile("playGame");
-        soundStartGame.setFile("startGame");
         physicalMap = new PhysicalMap(0, 0, this);
         backgroundMap = new BackgroundMap(0, 0, this);
         camera = new Camera(0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, this);
@@ -63,15 +63,16 @@ public class GameWorld {
                     ParticularObject speedItem = new SpeedItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(speedItem);
                 } else if (backgroundMap.map[i].charAt(j) == 'b') {
-                    ParticularObject bombItem = new bombItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject bombItem = new BombItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(bombItem);
                 } else if (backgroundMap.map[i].charAt(j) == 'f') {
                     ParticularObject flameItem = new FlameItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(flameItem);
-                }else if (backgroundMap.map[i].charAt(j) == 'x') {
-                    ParticularObject Portal = new Portal(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                } else if (backgroundMap.map[i].charAt(j) == 'x') {
+                    ParticularObject Portal = new Portal ( j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(Portal);
-                } else if (backgroundMap.map[i].charAt(j) == '2') {
+                }
+                else if (backgroundMap.map[i].charAt(j) == '2') {
                     ParticularObject Oneal = new Oneal(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     Oneal.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(Oneal);
@@ -98,8 +99,23 @@ public class GameWorld {
             camera.Update();
             if (player.getStatePlayer() == false) {
                 setGameState(gameOverState);
+            } if (player.getOppenTheDoor() == true && this.lever < CacheDataLoader.MAX_LEVER) {
+                setGameState(nextLever);
+                this.lever++;
             }
         }
+        if (getGameState() == nextLever) {
+            nextLever();
+        }
+    }
+
+    // Next lever.
+    public void nextLever() {
+        player.setOppenTheDoor(false);
+        camera = new Camera(0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, this);
+        particularObjectManager.Clear();
+        backgroundMap.setMap(this.lever);
+        initEnemies();
     }
 
     public void Render(Graphics2D g2) {
@@ -107,10 +123,7 @@ public class GameWorld {
         if (getGameState() == playState || getGameState() == pauseState) {
             backgroundMap.draw(g2);
             particularObjectManager.draw(g2);
-            soundStartGame.stop();
-            soundPlayGame.playMusic();
-        } else if (gameState == titleState) {
-            soundStartGame.playMusic();
+            ui.draw(g2);
         }
     }
 
@@ -120,5 +133,21 @@ public class GameWorld {
 
     public void setGameState(int gameState) {
         this.gameState = gameState;
+    }
+
+    public int getLever() {
+        return lever;
+    }
+
+    public void setLever(int lever) {
+        this.lever = lever;
+    }
+
+    public int getCountEnemy() {
+        return countEnemy;
+    }
+
+    public void setCountEnemy(int countEnemy) {
+        this.countEnemy = countEnemy;
     }
 }

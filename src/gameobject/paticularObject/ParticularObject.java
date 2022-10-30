@@ -36,14 +36,8 @@ public abstract class ParticularObject extends GameObject {
     private int damage; // do sat thuong.
     private int direction; // huong cua nhan vat.
     private int teamType; // loai team ( cung hoac khac).
-    private long startTimeNoBeHurt; // thoi gian khong bi dau.
-    private long timeForNoBeHurt; // thoi gian ket thuc khong bi dau.
     private long timeStartBeHurt; // thoi gian bat dau bi dau.
     private boolean rigid; // doi tuong co cho doi tuong khac di qua khong ?.
-
-    private int amountWeapon = 0; // So luong vu khi hien co.
-    private boolean bomb = false;
-    private boolean bombs = false;
 
 
     public ParticularObject(double posX, double posY, double width, double height, int blood, GameWorld gameWorld) {
@@ -154,35 +148,6 @@ public abstract class ParticularObject extends GameObject {
         this.runSpeed = runSpeed;
     }
 
-    public boolean getBomb() {
-        return bomb;
-    }
-
-    // cai dat viec dat bom.
-    public void setBomb(boolean bomb) {
-        if (bombs == false) {
-            this.bomb = bomb;
-        } else {
-            this.bomb = false;
-        }
-    }
-
-    public boolean isBombs() {
-        return bombs;
-    }
-
-    public void setBombs(boolean bombs) {
-        this.bombs = bombs;
-    }
-
-    public int getAmountWeapon() {
-        return amountWeapon;
-    }
-
-    public void setAmountWeapon(int amountWeapon) {
-        this.amountWeapon = amountWeapon;
-    }
-
     @Override
     public void Update() {
         if (getState() == BEHURT && System.nanoTime() - getTimeStartBeHurt() > 1000 * 1000000) {
@@ -237,5 +202,4 @@ public abstract class ParticularObject extends GameObject {
         return false;
     }
     public abstract void draw(Graphics2D g2);
-
 }

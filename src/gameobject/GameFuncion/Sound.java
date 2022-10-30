@@ -14,6 +14,7 @@ public class Sound {
         soundURL[1] = getClass().getResource("/sounds/nobomb.wav");
         soundURL[2] = getClass().getResource("/sounds/overgame.wav");
         soundURL[3] = getClass().getResource("/sounds/menu_game.wav");
+        soundURL[4] = getClass().getResource("/sounds/ready.wav");
     }
 
     public void setFile(String name) {
@@ -52,6 +53,8 @@ public class Sound {
             return 2;
         } else if (name == "startGame") {
             return 3;
+        } else if (name == "readyGame") {
+            return 4;
         }
         return -1;
     }
