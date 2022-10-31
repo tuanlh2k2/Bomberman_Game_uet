@@ -16,7 +16,7 @@ import userinterface.GameFrame;
 import java.awt.*;
 
 public class GameWorld {
-    private int lever = 1;
+    private int lever = 2;
     private int countEnemy = 0;
     private int gameState;
     public final int titleState = 0;
@@ -24,6 +24,7 @@ public class GameWorld {
     public final int pauseState = 2;
     public final int gameOverState = 3;
     public final int nextLever = 4;
+    public final int winGame = 5;
 
     public Player player;
     public PhysicalMap physicalMap;
@@ -49,12 +50,14 @@ public class GameWorld {
                     player = new Player(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * backgroundMap.tileSize + 24, this);
                     player.setTeamType(ParticularObject.LEAGUE_TEAM);
                     particularObjectManager.addObject(player);
-                } else if (backgroundMap.map[i].charAt(j) == '1') {
-                    ParticularObject balloom = new Balloom(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
-                    balloom.setDirection(ParticularObject.LEFT_DIR);
-                    balloom.setTeamType(ParticularObject.ENEMY_TEAM);
-                    particularObjectManager.addObject(balloom);
-                } else if (backgroundMap.map[i].charAt(j) == '*')
+                }
+//                else if (backgroundMap.map[i].charAt(j) == '1') {
+//                    ParticularObject balloom = new Balloom(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+//                    balloom.setDirection(ParticularObject.LEFT_DIR);
+//                    balloom.setTeamType(ParticularObject.ENEMY_TEAM);
+//                    particularObjectManager.addObject(balloom);
+//                }
+                else if (backgroundMap.map[i].charAt(j) == '*')
                 {
                     ParticularObject brick = new Brick(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     brick.setDirection(ParticularObject.LEFT_DIR);
@@ -72,23 +75,23 @@ public class GameWorld {
                     ParticularObject Portal = new Portal ( j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(Portal);
                 }
-                else if (backgroundMap.map[i].charAt(j) == '2') {
-                    ParticularObject Oneal = new Oneal(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
-                    Oneal.setTeamType(ParticularObject.ENEMY_TEAM);
-                    particularObjectManager.addObject(Oneal);
-                } else if (backgroundMap.map[i].charAt(j) == '3') {
-                    ParticularObject Minvo = new Minvo(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
-                    Minvo.setTeamType(ParticularObject.ENEMY_TEAM);
-                    particularObjectManager.addObject(Minvo);
-                } else if (backgroundMap.map[i].charAt(j) == '4') {
-                    ParticularObject Doll = new Doll(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
-                    Doll.setTeamType(ParticularObject.ENEMY_TEAM);
-                    particularObjectManager.addObject(Doll);
-                } else if (backgroundMap.map[i].charAt(j) == '5') {
-                    ParticularObject Kondoria = new Kondoria(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
-                    Kondoria.setTeamType(ParticularObject.ENEMY_TEAM);
-                    particularObjectManager.addObject(Kondoria);
-                }
+//                else if (backgroundMap.map[i].charAt(j) == '2') {
+//                    ParticularObject Oneal = new Oneal(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+//                    Oneal.setTeamType(ParticularObject.ENEMY_TEAM);
+//                    particularObjectManager.addObject(Oneal);
+//                } else if (backgroundMap.map[i].charAt(j) == '3') {
+//                    ParticularObject Minvo = new Minvo(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+//                    Minvo.setTeamType(ParticularObject.ENEMY_TEAM);
+//                    particularObjectManager.addObject(Minvo);
+//                } else if (backgroundMap.map[i].charAt(j) == '4') {
+//                    ParticularObject Doll = new Doll(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+//                    Doll.setTeamType(ParticularObject.ENEMY_TEAM);
+//                    particularObjectManager.addObject(Doll);
+//                } else if (backgroundMap.map[i].charAt(j) == '5') {
+//                    ParticularObject Kondoria = new Kondoria(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+//                    Kondoria.setTeamType(ParticularObject.ENEMY_TEAM);
+//                    particularObjectManager.addObject(Kondoria);
+//                }
             }
         }
     }
@@ -99,9 +102,13 @@ public class GameWorld {
             camera.Update();
             if (player.getStatePlayer() == false) {
                 setGameState(gameOverState);
-            } if (player.getOppenTheDoor() == true && this.lever < CacheDataLoader.MAX_LEVER) {
+            }
+            if (player.getOppenTheDoor() == true && this.lever < CacheDataLoader.MAX_LEVER) {
                 setGameState(nextLever);
                 this.lever++;
+            }
+            if (player.getOppenTheDoor() == true && this.lever == CacheDataLoader.MAX_LEVER) {
+                setGameState(winGame);
             }
         }
         if (getGameState() == nextLever) {

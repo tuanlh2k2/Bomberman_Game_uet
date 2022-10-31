@@ -42,7 +42,8 @@ public class InputManager {
                     }
                     break;
             }
-        } else if (gameWorld.getGameState() == gameWorld.titleState) {
+        } else if (gameWorld.getGameState() == gameWorld.titleState
+                || gameWorld.getGameState() == gameWorld.gameOverState) {
             switch (keyCode) {
                 case KeyEvent.VK_DOWN:
                     gameWorld.ui.commandNum++;

@@ -1,4 +1,4 @@
-83
+84
 up1
 image image/gameImage.png
 x 0
@@ -492,8 +492,14 @@ y 0
 w 48
 h 48
 key
-image image/key.jpg
+image image/key.png
 x 0
 y 0
-w 48
-h 48
+w 16
+h 16
+win
+image image/win.png
+x 0
+y 0
+w 1000
+h 871
