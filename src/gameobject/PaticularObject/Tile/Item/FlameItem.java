@@ -1,19 +1,17 @@
-package gameobject.paticularObject.Tile.Item;
+package gameobject.PaticularObject.Tile.Item;
 
 import effect.CacheDataLoader;
 import effect.FrameImage;
 import gameobject.GameWorld;
-import gameobject.paticularObject.ParticularObject;
-import gameobject.paticularObject.Weapon.Bomb;
-import gameobject.paticularObject.Weapon.Weapon;
+import gameobject.PaticularObject.ParticularObject;
 
 import java.awt.*;
 
+/**
+ * Item tăng độ dài của flame (lửa).
+ */
 public class FlameItem extends Item {
     private FrameImage item;
-
-    Weapon bomb = new Bomb(getPosX(), getPosY(), getGameWorld());
-
     public FlameItem(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, gameWorld);
         hideItem();
@@ -23,7 +21,6 @@ public class FlameItem extends Item {
 
     @Override
     public void attack() {
-
     }
 
     @Override
@@ -40,7 +37,8 @@ public class FlameItem extends Item {
         ParticularObject checkCollisionWithPlayer = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
         if (checkCollisionWithPlayer != null) {
             if (checkCollisionWithPlayer.getTeamType() == LEAGUE_TEAM) {
-                bomb.setScopeBom(bomb.getScopeBom() + 16);
+                soundEatItem.play();
+                getGameWorld().setScopeBom(96);
                 setState(DEATH);
             }
         } else {

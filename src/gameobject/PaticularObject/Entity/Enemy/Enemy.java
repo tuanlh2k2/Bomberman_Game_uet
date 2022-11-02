@@ -1,9 +1,9 @@
-package gameobject.paticularObject.Entity.Enemy;
+package gameobject.PaticularObject.Entity.Enemy;
 
 import effect.Animation;
 import gameobject.GameWorld;
-import gameobject.paticularObject.Entity.Entity;
-import gameobject.paticularObject.ParticularObject;
+import gameobject.PaticularObject.Entity.Entity;
+import gameobject.PaticularObject.ParticularObject;
 
 import java.awt.*;
 
@@ -12,7 +12,7 @@ public abstract class Enemy extends Entity {
 
     public Enemy(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, 48, 48, 1, gameWorld);
-        setRigid(true);
+        setRigid(false);
     }
 
     @Override
@@ -23,7 +23,8 @@ public abstract class Enemy extends Entity {
         if (object != null && getState() == ALIVE) {
             if (object.getTeamType() == ParticularObject.LEAGUE_TEAM && object.getState() == ALIVE) {
                 object.setState(BEHURT);
-                object.setTimeStartBeHurt(System.nanoTime());
+                object.setBlood(object.getBlood() - 1);
+                object.setTimeStartBeHurt(System.currentTimeMillis());
             }
         }
     }

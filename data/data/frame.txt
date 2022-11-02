@@ -1,4 +1,4 @@
-84
+87
 up1
 image image/gameImage.png
 x 0
@@ -112,72 +112,72 @@ image image/gameImage.png
 x 16
 y 64
 w 16
-h 16
+h 36
 firetop2
 image image/gameImage.png
 x 32
 y 64
 w 16
-h 16
+h 36
 firetop3
 image image/gameImage.png
 x 48
 y 64
 w 16
-h 16
+h 36
 firedown1
 image image/gameImage.png
 x 16
-y 96
+y 76
 w 16
-h 16
+h 36
 firedown2
 image image/gameImage.png
 x 32
-y 96
+y 76
 w 16
-h 16
+h 36
 firedown3
 image image/gameImage.png
 x 48
-y 96
+y 76
 w 16
-h 16
+h 36
 fireleft1
 image image/gameImage.png
 x 0
 y 112
-w 16
+w 36
 h 16
 fireleft2
 image image/gameImage.png
 x 0
 y 128
-w 16
+w 36
 h 16
 fireleft3
 image image/gameImage.png
 x 0
 y 144
-w 16
+w 36
 h 16
 fireright1
 image image/gameImage.png
-x 32
+x 12
 y 112
-w 16
+w 36
 h 16
 fireright2
 image image/gameImage.png
-x 32
+x 12
 y 128
-w 16
+w 36
 h 16
 fireright3
 image image/gameImage.png
-x 32
+x 12
 y 144
-w 16
+w 36
 h 16
 glass
 image image/gameImage.png
@@ -503,3 +503,21 @@ x 0
 y 0
 w 1000
 h 871
+heart
+image image/heart.png
+x 0
+y 0
+w 16
+h 16
+bloodItem
+image image/gameImage.png
+x 64
+y 160
+w 16
+h 16
+immortalItem
+image image/gameImage.png
+x 80
+y 160
+w 16
+h 16

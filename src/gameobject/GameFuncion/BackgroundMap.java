@@ -35,13 +35,8 @@ public class BackgroundMap extends GameObject {
 
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[0].length(); j++) {
-                if (map[i].charAt(j) == '#') {
-                    g2.drawImage(wall.getImage(), (int) getPosX() + j * tileSize - (int) camera.getPosX(),
+                g2.drawImage(glass.getImage(), (int) getPosX() + j * tileSize - (int) camera.getPosX(),
                             (int) getPosY() + i * tileSize - (int) camera.getPosY(),tileSize,tileSize, null);
-                } else {
-                    g2.drawImage(glass.getImage(), (int) getPosX() + j * tileSize - (int) camera.getPosX(),
-                            (int) getPosY() + i * tileSize - (int) camera.getPosY(),tileSize,tileSize, null);
-                }
             }
         }
     }

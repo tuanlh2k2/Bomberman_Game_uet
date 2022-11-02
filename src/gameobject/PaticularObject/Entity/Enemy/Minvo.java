@@ -1,41 +1,43 @@
-package gameobject.paticularObject.Entity.Enemy;
+package gameobject.PaticularObject.Entity.Enemy;
 
-import effect.Animation;
 import effect.CacheDataLoader;
 import gameobject.GameWorld;
-import gameobject.paticularObject.Entity.Entity;
-import gameobject.paticularObject.ParticularObject;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
-public class Oneal extends Enemy {
+public class Minvo extends Enemy {
+
     private long setTimeReset;
     private Integer[] direcsion = new Integer[4];
     private int length;
     private String[] map;
-    public Oneal(double posX, double posY, GameWorld gameWorld) {
-        super(posX, posY,  gameWorld);
-        setDirection(DOWN_DIR);
-        setSpeedX(1);
-        setSpeedY(1);
+    private int heart = 2;
+
+    public Minvo(double posX, double posY, GameWorld gameWorld) {
+        super(posX, posY, gameWorld);
+        setDirection(TOP_DIR);
+        setSpeedX(1.5);
+        setSpeedY(1.5);
 
         map = getGameWorld().backgroundMap.map;
-        left = CacheDataLoader.getInstance().getAnimation("lOneal");
-        right = CacheDataLoader.getInstance().getAnimation("rOneal");
-        die = CacheDataLoader.getInstance().getAnimation("Onealdie");
-        stand = CacheDataLoader.getInstance().getAnimation("fOneal");
+        left = CacheDataLoader.getInstance().getAnimation("lMinvo");
+        right = CacheDataLoader.getInstance().getAnimation("rMinvo");
+        die = CacheDataLoader.getInstance().getAnimation("Minvodie");
+        stand = CacheDataLoader.getInstance().getAnimation("fMinvo");
+
     }
 
-    @Override
     public void Update() {
         super.Update();
+        if (getState() == DEATH) {
+            heart--;
+            setState(ALIVE);
+        }
+        if (heart == 0 && getState() == ALIVE) {
+            setState(DEATH);
+        }
     }
 
-//    @Override
     public void run() {
         int x = (int) (getPosX());
         int y = (int) (getPosY());
@@ -43,7 +45,7 @@ public class Oneal extends Enemy {
         int yy = (int) (getPosY() / 48);
         int toX = (int) ((getGameWorld().player.getPosX()));
         int toY = (int) ((getGameWorld().player.getPosY()));
-      //  System.out.println(getPosX() + " " + getGameWorld().player.getPosX());
+        //  System.out.println(getPosX() + " " + getGameWorld().player.getPosX());
         if (x == toX && y < toY && checkWay(x/48, y/48, toX/48, toY/48) == true)  {
             setDirection(DOWN_DIR);
             setSpeedY(2);
@@ -76,7 +78,7 @@ public class Oneal extends Enemy {
                 }
 
                 int ranNum = (random.nextInt(101) + 1) % length;
-                setDirection(ranNum);
+                setDirection(direcsion[ranNum]);
             }
 
             if (getDirection() == LEFT_DIR) {
@@ -125,4 +127,5 @@ public class Oneal extends Enemy {
         }
         return false;
     }
+
 }

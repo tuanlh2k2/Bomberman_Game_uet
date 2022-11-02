@@ -21,6 +21,7 @@ public class UI {
     private FrameImage backGround = CacheDataLoader.getInstance().getFrameImage("background"); // load hinh anh bomber hien thi.
     private FrameImage stage1 = CacheDataLoader.getInstance().getFrameImage("stage1");
     private FrameImage winGame = CacheDataLoader.getInstance().getFrameImage("win");
+    private FrameImage heart = CacheDataLoader.getInstance().getFrameImage("heart");
     private Sound soundPlayGame = new Sound();
     private Sound soundStartGame = new Sound();
     private Sound soundReadyGame = new Sound();
@@ -73,7 +74,7 @@ public class UI {
         g2.setColor(Color.white);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
         String text = "Lever " + gameWorld.getLever();
-        g2.drawString(text,0, 36);
+        g2.drawString(text,48 * 5, 36);
 
         // Ve hinh so quai con lai.
         g2.drawImage(monster.getImage(), 48 * 18,0, 48,48, null);
@@ -89,6 +90,10 @@ public class UI {
         text = "X" + (gameWorld.getCountEnemy() == 0 ? 1 : 0);
         g2.drawString(text,48 * 17 + 10, 36);
 
+        // Ve so mang con lai.
+        for (int i = 0; i < gameWorld.player.getBlood(); i++) {
+            g2.drawImage(heart.getImage(),48 * i, 5, 36, 36, null);
+        }
     }
 
 

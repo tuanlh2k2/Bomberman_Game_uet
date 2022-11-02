@@ -1,10 +1,10 @@
-package gameobject.paticularObject.Tile;
+package gameobject.PaticularObject.Tile;
 
 import effect.Animation;
 import effect.CacheDataLoader;
 import effect.FrameImage;
 import gameobject.GameWorld;
-import gameobject.paticularObject.ParticularObject;
+import gameobject.PaticularObject.ParticularObject;
 
 import java.awt.*;
 

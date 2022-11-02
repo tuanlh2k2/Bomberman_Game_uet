@@ -1,15 +1,19 @@
-package gameobject.paticularObject.Tile.Item;
+package gameobject.PaticularObject.Tile.Item;
 
+import gameobject.GameFuncion.Sound;
 import gameobject.GameWorld;
-import gameobject.paticularObject.ParticularObject;
-import gameobject.paticularObject.Tile.Brick;
+import gameobject.PaticularObject.ParticularObject;
+import gameobject.PaticularObject.Tile.Brick;
 
 import java.awt.*;
 
 public abstract class Item extends ParticularObject {
-    private boolean hide = true;
+    Sound soundEatItem = new Sound();
+    private boolean hide = true; // moi item deu bi an.
     public Item(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, 48, 48, 1, gameWorld);
+
+        soundEatItem.setFile("eatItem");
     }
 
     public void hideItem() {

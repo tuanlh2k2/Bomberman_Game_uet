@@ -1,25 +1,28 @@
-package gameobject.paticularObject.Tile.Item;
+package gameobject.PaticularObject.Tile.Item;
 
 import effect.CacheDataLoader;
 import effect.FrameImage;
 import gameobject.GameWorld;
-import gameobject.paticularObject.ParticularObject;
+import gameobject.PaticularObject.Entity.Bomber.Player;
+import gameobject.PaticularObject.ParticularObject;
 
 import java.awt.*;
 
-public class SpeedItem extends Item {
+/**
+ * Item tăng máu của người chơi.
+ */
+public class BloodItem extends Item {
     private FrameImage item;
-    public SpeedItem(double posX, double posY, GameWorld gameWorld) {
+    public BloodItem(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, gameWorld);
         hideItem();
         setTeamType(WEAPON_TEAM);
-        item = CacheDataLoader.getInstance().getFrameImage("speedItem");
+        item = CacheDataLoader.getInstance().getFrameImage("bloodItem");
     }
 
     @Override
     public void attack() {
     }
-
 
     @Override
     public void draw(Graphics2D g2) {
@@ -27,7 +30,6 @@ public class SpeedItem extends Item {
             g2.drawImage(item.getImage(), (int) (getPosX() - getWidth()/2 - getGameWorld().camera.getPosX()),
                     (int) (getPosY() - getHeight()/2 - getGameWorld().camera.getPosY()), 48,48, null);
         }
-//        drawBoundForCollisionWithEnemy(g2);
     }
 
     @Override
@@ -35,8 +37,9 @@ public class SpeedItem extends Item {
         super.Update();
         ParticularObject checkCollisionWithPlayer = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
         if (checkCollisionWithPlayer != null) {
-            if (checkCollisionWithPlayer.getTeamType() == LEAGUE_TEAM) {
-                checkCollisionWithPlayer.setRunSpeed(4);
+            if (checkCollisionWithPlayer instanceof Player) {
+                soundEatItem.play();
+                getGameWorld().player.setBlood(getGameWorld().player.getBlood() + 1);
                 setState(DEATH);
             }
         } else {

@@ -1,4 +1,4 @@
-package gameobject.paticularObject.Entity.Enemy;
+package gameobject.PaticularObject.Entity.Enemy;
 
 import gameobject.GameWorld;
 

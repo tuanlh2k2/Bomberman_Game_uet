@@ -1,6 +1,5 @@
-package gameobject.paticularObject;
+package gameobject.PaticularObject;
 
-import effect.Animation;
 import gameobject.GameObject;
 import gameobject.GameWorld;
 
@@ -23,6 +22,7 @@ public abstract class ParticularObject extends GameObject {
     public static final int DEATH = 1; // chet.
     public static final int BEHURT = 2; // bi dau.
     public static final int NOBEHURT = 3; // khong bi thuong khi hoi sinh.
+    public static final int IMMORTAL = 4; // Trạng thái bất tử.
     private int state = ALIVE; // trang thai cua nhan vat.
 
     private double width;
@@ -37,6 +37,8 @@ public abstract class ParticularObject extends GameObject {
     private int direction; // huong cua nhan vat.
     private int teamType; // loai team ( cung hoac khac).
     private long timeStartBeHurt; // thoi gian bat dau bi dau.
+    private long timeStartNoBeHurt; // thoi gian bat dau bi dau.
+    private long timeStartImmotal; // thoi gian bat dau bat tu.
     private boolean rigid; // doi tuong co cho doi tuong khac di qua khong ?.
 
 
@@ -148,26 +150,27 @@ public abstract class ParticularObject extends GameObject {
         this.runSpeed = runSpeed;
     }
 
+    public void setTimeStartImmotal(long timeStartImmotal) {
+        this.timeStartImmotal = timeStartImmotal;
+    }
+
     @Override
     public void Update() {
-        if (getState() == BEHURT && System.nanoTime() - getTimeStartBeHurt() > 1000 * 1000000) {
+        if (getState() == BEHURT && getBlood() > 0 ) {
+            setState(NOBEHURT);
+            timeStartNoBeHurt = System.currentTimeMillis();
+        } else if (getState() == BEHURT && System.currentTimeMillis() - getTimeStartBeHurt() > 1000) {
             setState(DEATH);
+        } else if (getState() == NOBEHURT) {
+            if (System.currentTimeMillis() - timeStartNoBeHurt > 1500) {
+                setState(ALIVE);
+            }
+        } else if (getState() == IMMORTAL && System.currentTimeMillis() - timeStartImmotal > 5000) {
+            setState(ALIVE);
         }
     }
 
     public abstract void attack(); // dat bom.
-
-    // Kiem tra xem doi tuong co nam trong khu vuc view hay ko.
-    public boolean isObjectOutOfCameraView() {
-        if (getPosX() - getGameWorld().camera.getPosX() > getGameWorld().camera.getWidthView() ||
-                getPosX() - getGameWorld().camera.getPosX() < -50
-                || getPosY() - getGameWorld().camera.getPosY() > getGameWorld().camera.getHeightView()
-                || getPosY() - getGameWorld().camera.getPosY() < -50) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     public Rectangle getBoundForCollisionWithMap() {
         Rectangle bound = new Rectangle();
@@ -180,26 +183,11 @@ public abstract class ParticularObject extends GameObject {
 
     public abstract Rectangle getBoundForCollisionWithEnemy();
 
-    public void drawBoundForCollisionWithMap(Graphics2D g2){
-        Rectangle rect = getBoundForCollisionWithMap();
-        g2.setColor(Color.BLUE);
-        g2.drawRect(rect.x - (int) getGameWorld().camera.getPosX(),
-                rect.y - (int) getGameWorld().camera.getPosY(), rect.width, rect.height);
-    }
-
     public void drawBoundForCollisionWithEnemy(Graphics2D g2){
         Rectangle rect = getBoundForCollisionWithEnemy();
         g2.setColor(Color.RED);
         g2.drawRect(rect.x - (int) getGameWorld().camera.getPosX(), rect.y - (int) getGameWorld().camera.getPosY(), rect.width, rect.height);
     }
 
-    public boolean checkTeam(ParticularObject other) {
-        if (other == null) {
-            return true;
-        } else if (this.teamType == other.teamType) {
-            return true;
-        }
-        return false;
-    }
     public abstract void draw(Graphics2D g2);
 }

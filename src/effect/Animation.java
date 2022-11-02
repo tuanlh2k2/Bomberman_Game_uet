@@ -218,4 +218,14 @@ public class Animation {
                     x - image.getHeight() / 2, image.getWidth(), image.getHeight());
         }
     }
+
+    // Vẽ hình chứa đầy đủ thuộc tính.
+    public void draw(int x, int y, int width, int height, Graphics2D g2){
+        BufferedImage image = getCurrentImage();
+        g2.drawImage(image, x - image.getWidth() / 2,y - image.getHeight() / 2, width, height, null);
+        if (drawRectFrame) {
+            g2.drawRect(x - image.getWidth() / 2,
+                    x - image.getHeight() / 2, image.getWidth(), image.getHeight());
+        }
+    }
 }

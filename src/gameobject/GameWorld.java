@@ -2,15 +2,13 @@ package gameobject;
 
 import effect.CacheDataLoader;
 import gameobject.GameFuncion.*;
-import gameobject.paticularObject.Entity.Enemy.*;
-import gameobject.paticularObject.Entity.Bomber.Player;
-import gameobject.paticularObject.ParticularObject;
-import gameobject.paticularObject.ParticularObjectManager;
-import gameobject.paticularObject.Tile.Brick;
-import gameobject.paticularObject.Tile.Item.FlameItem;
-import gameobject.paticularObject.Tile.Item.Portal;
-import gameobject.paticularObject.Tile.Item.SpeedItem;
-import gameobject.paticularObject.Tile.Item.BombItem;
+import gameobject.PaticularObject.Entity.Enemy.*;
+import gameobject.PaticularObject.Entity.Bomber.Player;
+import gameobject.PaticularObject.ParticularObject;
+import gameobject.PaticularObject.ParticularObjectManager;
+import gameobject.PaticularObject.Tile.Brick;
+import gameobject.PaticularObject.Tile.Item.*;
+import gameobject.PaticularObject.Tile.Wall;
 import userinterface.GameFrame;
 
 import java.awt.*;
@@ -18,6 +16,7 @@ import java.awt.*;
 public class GameWorld {
     private int lever = 1;
     private int countEnemy = 0;
+    private int scopeBom = 48;
     private int gameState;
     public final int titleState = 0;
     public final int playState = 1;
@@ -50,45 +49,68 @@ public class GameWorld {
                     player = new Player(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * backgroundMap.tileSize + 24, this);
                     player.setTeamType(ParticularObject.LEAGUE_TEAM);
                     particularObjectManager.addObject(player);
-                } else if (backgroundMap.map[i].charAt(j) == '1') {
+                }
+                else if (backgroundMap.map[i].charAt(j) == '1') {
                     ParticularObject balloom = new Balloom(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     balloom.setDirection(ParticularObject.LEFT_DIR);
                     balloom.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(balloom);
-                }
-                else if (backgroundMap.map[i].charAt(j) == '*')
-                {
-                    ParticularObject brick = new Brick(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                } else if (backgroundMap.map[i].charAt(j) == '*') {
+                    ParticularObject brick = new Brick(j * backgroundMap.tileSize
+                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     brick.setDirection(ParticularObject.LEFT_DIR);
                     particularObjectManager.addObject(brick);
                 } else if (backgroundMap.map[i].charAt(j) == 's') {
-                    ParticularObject speedItem = new SpeedItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject speedItem = new SpeedItem(j * backgroundMap.tileSize
+                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(speedItem);
                 } else if (backgroundMap.map[i].charAt(j) == 'b') {
-                    ParticularObject bombItem = new BombItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject bombItem = new BombItem(j * backgroundMap.tileSize
+                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(bombItem);
                 } else if (backgroundMap.map[i].charAt(j) == 'f') {
-                    ParticularObject flameItem = new FlameItem(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject flameItem = new FlameItem(j * backgroundMap.tileSize
+                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(flameItem);
+                } else if (backgroundMap.map[i].charAt(j) == 't') {
+                    ParticularObject bloodItem = new BloodItem(j * backgroundMap.tileSize
+                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    particularObjectManager.addObject(bloodItem);
+                }  else if (backgroundMap.map[i].charAt(j) == 'i') {
+                    ParticularObject immortalItem = new ImmortalItem(j * backgroundMap.tileSize
+                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    particularObjectManager.addObject(immortalItem);
                 } else if (backgroundMap.map[i].charAt(j) == 'x') {
-                    ParticularObject Portal = new Portal ( j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject Portal = new Portal ( j * backgroundMap.tileSize
+                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     particularObjectManager.addObject(Portal);
                 } else if (backgroundMap.map[i].charAt(j) == '2') {
-                    ParticularObject Oneal = new Oneal(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject Oneal = new Oneal(j * backgroundMap.tileSize
+                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     Oneal.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(Oneal);
-                } else if (backgroundMap.map[i].charAt(j) == '3') {
-                    ParticularObject Minvo = new Minvo(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                }
+                else if (backgroundMap.map[i].charAt(j) == '3') {
+                    ParticularObject Minvo = new Minvo(j * backgroundMap.tileSize
+                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     Minvo.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(Minvo);
                 } else if (backgroundMap.map[i].charAt(j) == '4') {
-                    ParticularObject Doll = new Doll(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject Doll = new Doll(j * backgroundMap.tileSize
+                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     Doll.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(Doll);
                 } else if (backgroundMap.map[i].charAt(j) == '5') {
-                    ParticularObject Kondoria = new Kondoria(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject Kondoria = new Kondoria(j * backgroundMap.tileSize
+                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
                     Kondoria.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(Kondoria);
+                }
+                else if (backgroundMap.map[i].charAt(j) == '#') {
+                ParticularObject wall = new Wall(j * backgroundMap.tileSize
+                        + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                wall.setTeamType(ParticularObject.NO_TEAM);
+                particularObjectManager.addObject(wall);
                 }
             }
         }
@@ -101,15 +123,14 @@ public class GameWorld {
             if (player.getStatePlayer() == false) {
                 setGameState(gameOverState);
             }
-            if (player.getOppenTheDoor() == true && this.lever < CacheDataLoader.MAX_LEVER) {
+            if (player.getOppenTheDoor() == true && this.lever <= CacheDataLoader.MAX_LEVER) {
                 setGameState(nextLever);
                 this.lever++;
             }
-            if (player.getOppenTheDoor() == true && this.lever == CacheDataLoader.MAX_LEVER) {
+            if (player.getOppenTheDoor() == true && this.lever > CacheDataLoader.MAX_LEVER) {
                 setGameState(winGame);
             }
-        }
-        if (getGameState() == nextLever) {
+        } if (getGameState() == nextLever) {
             nextLever();
         }
     }
@@ -117,6 +138,7 @@ public class GameWorld {
     // Next lever.
     public void nextLever() {
         player.setOppenTheDoor(false);
+        setScopeBom(48);
         camera = new Camera(0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, this);
         particularObjectManager.Clear();
         backgroundMap.setMap(this.lever);
@@ -154,5 +176,13 @@ public class GameWorld {
 
     public void setCountEnemy(int countEnemy) {
         this.countEnemy = countEnemy;
+    }
+
+    public int getScopeBom() {
+        return scopeBom;
+    }
+
+    public void setScopeBom(int scopeBom) {
+        this.scopeBom = scopeBom;
     }
 }

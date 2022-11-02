@@ -1,14 +1,11 @@
-package gameobject.paticularObject.Entity.Enemy;
+package gameobject.PaticularObject.Entity.Enemy;
 
 import effect.Animation;
 import effect.CacheDataLoader;
-import gameobject.paticularObject.ParticularObject;
 import gameobject.GameWorld;
-import gameobject.paticularObject.ParticularObjectManager;
-import gameobject.paticularObject.Tile.Brick;
+import gameobject.PaticularObject.Tile.Brick;
 
 
-import java.awt.*;
 import java.util.Random;
 
 public class Kondoria extends Enemy {

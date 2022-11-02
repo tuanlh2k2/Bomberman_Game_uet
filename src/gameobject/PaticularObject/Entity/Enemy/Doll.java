@@ -1,27 +1,22 @@
-package gameobject.paticularObject.Entity.Enemy;
+package gameobject.PaticularObject.Entity.Enemy;
 
-import effect.Animation;
 import effect.CacheDataLoader;
 import gameobject.GameWorld;
-import gameobject.paticularObject.Entity.Entity;
-import gameobject.paticularObject.ParticularObject;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class Balloom extends Enemy {
+public class Doll extends Enemy {
     private long setTimeReset;
     private List<Integer> listdirection = new ArrayList<>();
-    public Balloom(double posX, double posY, GameWorld gameWorld) {
+    public Doll(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY,  gameWorld);
         setNewDirection();
 
-        left = CacheDataLoader.getInstance().getAnimation("lballom");
-        right = CacheDataLoader.getInstance().getAnimation("rballom");
-        die = CacheDataLoader.getInstance().getAnimation("balloomdie");
-        stand = CacheDataLoader.getInstance().getAnimation("fballom");
+        left = CacheDataLoader.getInstance().getAnimation("lDoll");
+        right = CacheDataLoader.getInstance().getAnimation("rDoll");
+        die = CacheDataLoader.getInstance().getAnimation("Dolldie");
+        stand = CacheDataLoader.getInstance().getAnimation("fDoll");
     }
 
     @Override
@@ -35,24 +30,24 @@ public class Balloom extends Enemy {
     public void run() {
         if (getHaveCollision() == true || System.currentTimeMillis()- setTimeReset > 6000 ) {
             setTimeReset = System.currentTimeMillis();
-            setDirection(this.listdirection.get(3));
+            setDirection(this.listdirection.get(0));
             resetDirection();
         }
         if (getDirection() == LEFT_DIR) {
-            setSpeedX(-1);
+            setSpeedX(-2);
         } else if (getDirection() == RIGHT_DIR) {
-            setSpeedX(1);
+            setSpeedX(2);
         } else if (getDirection() == TOP_DIR) {
-            setSpeedY(-1);
+            setSpeedY(-2);
         } else if (getDirection() == DOWN_DIR) {
-            setSpeedY(1);
+            setSpeedY(2);
         }
     }
     @Override
     public void stopRun() {
     }
 
-    // Khoi tao mang quy dinh huong cho balloom.
+    // Khoi tao mang quy dinh huong cho doll.
     public void setNewDirection() {
         listdirection.add(0);
         listdirection.add(2);
@@ -60,7 +55,7 @@ public class Balloom extends Enemy {
         listdirection.add(3);
     }
 
-    // cai lai huong cho balloom khi no cham tuong.
+    // cai lai huong cho doll khi no cham tuong.
 
     public void resetDirection() {
         int tmp = this.listdirection.get(3);

@@ -2,7 +2,7 @@ package gameobject.GameFuncion;
 
 import gameobject.GameObject;
 import gameobject.GameWorld;
-import gameobject.paticularObject.Entity.Bomber.Player;
+import gameobject.PaticularObject.Entity.Bomber.Player;
 
 public class Camera extends GameObject {
     private double widthView;

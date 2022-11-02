@@ -1,19 +1,23 @@
-package gameobject.paticularObject.Tile.Item;
+package gameobject.PaticularObject.Tile.Item;
 
 import effect.CacheDataLoader;
 import effect.FrameImage;
 import gameobject.GameWorld;
-import gameobject.paticularObject.Entity.Bomber.Player;
-import gameobject.paticularObject.ParticularObject;
+import gameobject.PaticularObject.Entity.Bomber.Player;
+import gameobject.PaticularObject.ParticularObject;
 
 import java.awt.*;
 
+/**
+ * Khi giết hết quái thì sẽ qua màn.
+ */
 public class Portal extends Item {
     FrameImage portal;
 
     public Portal(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, gameWorld);
         hideItem();
+        setRigid(false);
         setTeamType(WEAPON_TEAM);
         portal = CacheDataLoader.getInstance().getFrameImage("portal");
     }
@@ -39,11 +43,12 @@ public class Portal extends Item {
         if (checkCollisionWithPlayer != null) {
             if (checkCollisionWithPlayer instanceof Player) {
                 if (getGameWorld().getCountEnemy() == 0) {
+                    soundEatItem.play();
                     ((Player) checkCollisionWithPlayer).setOppenTheDoor(true);
                 }
             }
         } else {
-            setHide(false);
+            setHide(false); // khong bi an nua.
         }
     }
 }

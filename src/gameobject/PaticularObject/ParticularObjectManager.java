@@ -1,9 +1,8 @@
-package gameobject.paticularObject;
+package gameobject.PaticularObject;
 
 import gameobject.GameWorld;
-import gameobject.paticularObject.Entity.Bomber.Player;
-import gameobject.paticularObject.Entity.Enemy.Enemy;
-import gameobject.paticularObject.ParticularObject;
+import gameobject.PaticularObject.Entity.Bomber.Player;
+import gameobject.PaticularObject.Entity.Enemy.Enemy;
 
 import java.awt.*;
 import java.util.Collections;
@@ -100,10 +99,10 @@ public class ParticularObjectManager {
         }
     }
 
-    public ParticularObject checkCollisionWithFire(ParticularObject particularObject, Rectangle rect) {
+    public ParticularObject checkCollisionWithFire(Rectangle rect) {
         synchronized (particularObjects) {
             for (ParticularObject check : particularObjects) {
-                if (check != particularObject && check.getBoundForCollisionWithEnemy().intersects(rect)) {
+                if (check.getBoundForCollisionWithEnemy().intersects(rect)) {
                     return check;
                 }
             }

@@ -1,22 +1,22 @@
-package gameobject.paticularObject.Tile.Item;
+package gameobject.PaticularObject.Tile.Item;
 
 import effect.CacheDataLoader;
 import effect.FrameImage;
 import gameobject.GameWorld;
-import gameobject.paticularObject.Entity.Bomber.Player;
-import gameobject.paticularObject.ParticularObject;
+import gameobject.PaticularObject.Entity.Bomber.Player;
+import gameobject.PaticularObject.ParticularObject;
 
 import java.awt.*;
 
-public class BombItem extends Item {
-
+/**
+ * Sẽ không chết khi chạm vào bom trong n s.
+ */
+public class ImmortalItem extends Item {
     private FrameImage item;
 
-    public BombItem(double posX, double posY, GameWorld gameWorld) {
+    public ImmortalItem(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, gameWorld);
-        hideItem();
-        setTeamType(WEAPON_TEAM);
-        item = CacheDataLoader.getInstance().getFrameImage("bombItem");
+        item = CacheDataLoader.getInstance().getFrameImage("immortalItem");
     }
 
     @Override
@@ -29,7 +29,6 @@ public class BombItem extends Item {
             g2.drawImage(item.getImage(), (int) (getPosX() - getWidth()/2 - getGameWorld().camera.getPosX()),
                     (int) (getPosY() - getHeight()/2 - getGameWorld().camera.getPosY()), 48,48, null);
         }
-//        drawBoundForCollisionWithEnemy(g2);
     }
 
     @Override
@@ -38,7 +37,9 @@ public class BombItem extends Item {
         ParticularObject checkCollisionWithPlayer = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
         if (checkCollisionWithPlayer != null) {
             if (checkCollisionWithPlayer instanceof Player) {
-                getGameWorld().player.setMAX_WEAPON(2);
+                soundEatItem.play();
+                checkCollisionWithPlayer.setTimeStartImmotal(System.currentTimeMillis());
+                checkCollisionWithPlayer.setState(IMMORTAL);
                 setState(DEATH);
             }
         } else {
