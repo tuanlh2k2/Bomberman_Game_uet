@@ -13,7 +13,7 @@ import java.util.Hashtable;
  * Dung de load du lieu trong file.
  */
 public class CacheDataLoader {
-    public static final int MAX_LEVER = 2;
+    public static final int MAX_LEVER = 3;
     private static CacheDataLoader instance;
     private String framefile = "/data/frame.txt";
     private String animationfile = "/data/animation.txt";

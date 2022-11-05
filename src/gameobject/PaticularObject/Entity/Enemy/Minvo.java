@@ -5,6 +5,9 @@ import gameobject.GameWorld;
 
 import java.util.Random;
 
+/**
+ * ..........
+ */
 public class Minvo extends Enemy {
 
     private long setTimeReset;

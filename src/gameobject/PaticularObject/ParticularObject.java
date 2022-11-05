@@ -165,7 +165,7 @@ public abstract class ParticularObject extends GameObject {
             if (System.currentTimeMillis() - timeStartNoBeHurt > 1500) {
                 setState(ALIVE);
             }
-        } else if (getState() == IMMORTAL && System.currentTimeMillis() - timeStartImmotal > 5000) {
+        } else if (getState() == IMMORTAL && System.currentTimeMillis() - timeStartImmotal > 10000) {
             setState(ALIVE);
         }
     }

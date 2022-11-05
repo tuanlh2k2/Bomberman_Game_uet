@@ -40,7 +40,7 @@ public class SpeedItem extends Item {
         if (checkCollisionWithPlayer != null) {
             if (checkCollisionWithPlayer.getTeamType() == LEAGUE_TEAM) {
                 soundEatItem.play();
-                checkCollisionWithPlayer.setRunSpeed(6);
+                checkCollisionWithPlayer.setRunSpeed(5);
                 setState(DEATH);
             }
         } else {

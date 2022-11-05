@@ -2,17 +2,23 @@ package gameobject.PaticularObject.Entity.Enemy;
 
 import effect.CacheDataLoader;
 import gameobject.GameWorld;
+import gameobject.PaticularObject.Entity.Enemy.AI.AI;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Quái xuyên gạch.
+ */
 public class Doll extends Enemy {
     private long setTimeReset;
+    private AI ai;
     private List<Integer> listdirection = new ArrayList<>();
     public Doll(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY,  gameWorld);
-        setNewDirection();
+        setThroughBrick(true);
 
+        ai = new AI(this, getGameWorld());
         left = CacheDataLoader.getInstance().getAnimation("lDoll");
         right = CacheDataLoader.getInstance().getAnimation("rDoll");
         die = CacheDataLoader.getInstance().getAnimation("Dolldie");
@@ -28,11 +34,7 @@ public class Doll extends Enemy {
     }
 
     public void run() {
-        if (getHaveCollision() == true || System.currentTimeMillis()- setTimeReset > 6000 ) {
-            setTimeReset = System.currentTimeMillis();
-            setDirection(this.listdirection.get(0));
-            resetDirection();
-        }
+        ai.AI_Pursue();
         if (getDirection() == LEFT_DIR) {
             setSpeedX(-2);
         } else if (getDirection() == RIGHT_DIR) {
@@ -45,21 +47,5 @@ public class Doll extends Enemy {
     }
     @Override
     public void stopRun() {
-    }
-
-    // Khoi tao mang quy dinh huong cho doll.
-    public void setNewDirection() {
-        listdirection.add(0);
-        listdirection.add(2);
-        listdirection.add(1);
-        listdirection.add(3);
-    }
-
-    // cai lai huong cho doll khi no cham tuong.
-
-    public void resetDirection() {
-        int tmp = this.listdirection.get(3);
-        this.listdirection.remove(3);
-        this.listdirection.add(0, tmp);
     }
 }

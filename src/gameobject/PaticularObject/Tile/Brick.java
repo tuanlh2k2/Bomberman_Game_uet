@@ -4,6 +4,7 @@ import effect.Animation;
 import effect.CacheDataLoader;
 import effect.FrameImage;
 import gameobject.GameWorld;
+import gameobject.PaticularObject.Entity.Entity;
 import gameobject.PaticularObject.ParticularObject;
 
 import java.awt.*;
@@ -44,5 +45,20 @@ public class Brick extends ParticularObject {
     @Override
     public void Update() {
         super.Update();
+    }
+
+    @Override
+    public boolean getRigid() {
+        ParticularObject object = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
+        if (object != null) {
+            if (object instanceof Entity) {
+                if (((Entity) object).getThroughBrick() == true) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        return true;
     }
 }

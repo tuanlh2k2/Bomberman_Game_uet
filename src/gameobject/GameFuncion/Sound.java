@@ -18,6 +18,7 @@ public class Sound {
         soundURL[5] = getClass().getResource("/sounds/winGame.wav");
         soundURL[6] = getClass().getResource("/sounds/eat_item.wav");
         soundURL[7] = getClass().getResource("/sounds/bom_set.wav");
+        soundURL[8] = getClass().getResource("/sounds/behurt.wav");
     }
 
     public void setFile(String name) {
@@ -64,6 +65,8 @@ public class Sound {
             return 6;
         } else if (name == "bomSet") {
             return 7;
+        } else if (name == "beHurt") {
+            return 8;
         }
         return -1;
     }

@@ -8,6 +8,9 @@ import gameobject.PaticularObject.Tile.Brick;
 
 import java.util.Random;
 
+/**
+ * Quái sinh tường.
+ */
 public class Kondoria extends Enemy {
     private long setTimeReset;
     private Integer[] direcsion = new Integer[4];

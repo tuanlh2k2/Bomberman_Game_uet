@@ -74,7 +74,13 @@ public class UI {
         g2.setColor(Color.white);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
         String text = "Lever " + gameWorld.getLever();
-        g2.drawString(text,48 * 5, 36);
+        g2.drawString(text,0, GameFrame.SCREEN_HEIGHT - 48);
+
+        // Hiển thị thời gian chơi game.
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
+        text = "Time " + (System.currentTimeMillis() - gameWorld.timePlayGame) / 1000;
+        g2.drawString(text,GameFrame.SCREEN_WIDTH - 48 * 4, GameFrame.SCREEN_HEIGHT - 48);
 
         // Ve hinh so quai con lai.
         g2.drawImage(monster.getImage(), 48 * 18,0, 48,48, null);
@@ -111,15 +117,15 @@ public class UI {
         g2.drawImage(stage1.getImage(), 0, 0 , GameFrame.SCREEN_WIDTH,GameFrame.SCREEN_HEIGHT,null);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 128F));
         String text = "STAGE " + gameWorld.getLever();
-
+//
         int x = getXforCenteredText(text);
-        int y = GameFrame.SCREEN_HEIGHT/2 - 48 * 4;
+        int y = GameFrame.SCREEN_HEIGHT/2 + 48 * 4;
 
         // In bóng.
         g2.setColor(Color.black);
         g2.drawString(text, x + 6, y + 6);
         // In chữ.
-        g2.setColor(Color.orange);
+        g2.setColor(Color.white);
         g2.drawString(text, x, y);
 
 
@@ -128,8 +134,8 @@ public class UI {
         text = "Press Enter to continue....";
 
         x = GameFrame.WIDTH/2 + 48 * 12;
-        y = GameFrame.SCREEN_HEIGHT/2 - 48 * 3;
-        g2.setColor(Color.ORANGE);
+        y += 48;
+        g2.setColor(Color.white);
         g2.drawString(text, x, y);
 
     }
@@ -137,7 +143,6 @@ public class UI {
     // Hien thi menu man hinh Menu.
     public void drawTitleScreen() {
         g2.drawImage(backGround.getImage(), 0,0,GameFrame.SCREEN_WIDTH,GameFrame.SCREEN_HEIGHT,null);
-
         String text;
         int x;
         int y;
@@ -178,11 +183,17 @@ public class UI {
 
     // Ve khi game ket thuc.
     public void drawGameOver() {
+        // Ve hinh chu nhat.
+        int x = 48 * 3;
+        int y = GameFrame.SCREEN_HEIGHT/2 - 48 * 5;
+        g2.setColor(Color.darkGray);
+        g2.fillRect(x, y, GameFrame.SCREEN_WIDTH - 48 * 6, GameFrame.SCREEN_HEIGHT - 48 * 5);
+        // Ve chu.
         g2.setColor(Color.orange);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 96F));
         String text = "GAME OVER";
-        int x = getXforCenteredText(text);
-        int y = GameFrame.SCREEN_HEIGHT/2 - 48 - 24;
+        x = getXforCenteredText(text);
+        y = GameFrame.SCREEN_HEIGHT/2 - 48 - 24;
         g2.drawString(text, x, y);
 
         // Menu.
@@ -247,6 +258,8 @@ public class UI {
         } else if (gameWorld.getGameState() == gameWorld.winGame) {
             soundPlayGame.stop();
             soundWinGame.playMusic();
+        } else if (gameWorld.getGameState() == gameWorld.gameOverState) {
+            soundPlayGame.stop();
         }
     }
 }

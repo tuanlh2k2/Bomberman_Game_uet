@@ -19,6 +19,7 @@ public class Bomb extends Weapon {
     private long timeHT;
     List<Flame> frame = new ArrayList<Flame>();
     private Sound nobomb = new Sound();
+    private Sound setBomb = new Sound();
 
     public Bomb(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, 48, 48, 1, gameWorld);
@@ -29,11 +30,13 @@ public class Bomb extends Weapon {
 
         bomb = CacheDataLoader.getInstance().getAnimation("bomb");
         nobomb.setFile("bom");  // load am thanh.
+        setBomb.setFile("bomSet"); // am thanh dat bom.
+
+        setBomb.play();
     }
 
     @Override
     public void attack() {
-
     }
 
     @Override
@@ -103,7 +106,7 @@ public class Bomb extends Weapon {
         for (int i = 1; 48 * i <= getGameWorld().getScopeBom(); i++) {
             // Check va chạm.
             rectUp.y = rectUp.y - 48;
-            ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithFire(rectUp);
+            ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithRect(rectUp);
             if (object instanceof Wall) {
                 rectUp.y += 48;
                 break;
@@ -127,9 +130,8 @@ public class Bomb extends Weapon {
         rectDown.y += 48;
         for (int i = 1; 48 * i <= getGameWorld().getScopeBom(); i++) {
             // Check va chạm.
-            ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithFire(rectDown);
+            ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithRect(rectDown);
             if (object instanceof Wall) {
-                rectDown.y -= 48;
                 break;
             }
             else if (object instanceof Brick) {
@@ -155,7 +157,7 @@ public class Bomb extends Weapon {
         for (int i = 1; 48 * i <= getGameWorld().getScopeBom(); i++) {
             // Check va chạm.
             rectLeft.x -= 48;
-            ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithFire(rectLeft);
+            ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithRect(rectLeft);
             if (object instanceof Wall) {
                 rectLeft.x += 48;
                 break;
@@ -180,9 +182,8 @@ public class Bomb extends Weapon {
         rectRight.x += 48;
         for (int i = 1; 48 * i <= getGameWorld().getScopeBom(); i++) {
             // Check va chạm.
-            ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithFire(rectRight);
+            ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithRect(rectRight);
             if (object instanceof Wall) {
-                rectRight.x -= 48;
                 break;
             }
             else if (object instanceof Brick) {

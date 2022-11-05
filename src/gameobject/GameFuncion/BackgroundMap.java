@@ -5,6 +5,7 @@ import effect.FrameImage;
 import gameobject.GameFuncion.Camera;
 import gameobject.GameObject;
 import gameobject.GameWorld;
+import userinterface.GameFrame;
 
 import java.awt.*;
 
@@ -14,16 +15,13 @@ import java.awt.*;
 public class BackgroundMap extends GameObject {
     public String[] map;
     public int tileSize;
-    FrameImage glass = new FrameImage();
-    FrameImage wall = new FrameImage();
+    FrameImage grass = new FrameImage();
 
     public BackgroundMap(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, gameWorld);
         map = CacheDataLoader.getInstance().getPhys_map(1);
         tileSize = 48;
-
-        glass = CacheDataLoader.getInstance().getFrameImage("glass");
-        wall = CacheDataLoader.getInstance().getFrameImage("wall");
+        grass = CacheDataLoader.getInstance().getFrameImage("grass");
     }
 
     @Override
@@ -31,14 +29,7 @@ public class BackgroundMap extends GameObject {
     }
 
     public void draw(Graphics2D g2) {
-        Camera camera = getGameWorld().camera;
-
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[0].length(); j++) {
-                g2.drawImage(glass.getImage(), (int) getPosX() + j * tileSize - (int) camera.getPosX(),
-                            (int) getPosY() + i * tileSize - (int) camera.getPosY(),tileSize,tileSize, null);
-            }
-        }
+        g2.drawImage(grass.getImage(), 0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, null);
     }
 
     public void setMap(int lever) {

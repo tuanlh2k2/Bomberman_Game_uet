@@ -71,6 +71,22 @@ public class ParticularObjectManager {
         return null;
     }
 
+    // Kiểm tra va chạm với đối tượng khác và kiểm tra xem đối tượng va chạm có độ cứng theo yêu cầu.
+    public ParticularObject getCollisionWithEnemyObject(ParticularObject object, boolean rigid) {
+        synchronized (particularObjects) {
+            for (int i = 0; i < particularObjects.size(); i++) {
+                ParticularObject tmpOj = particularObjects.get(i);
+                // Kiem tra xem hai hinh bao cua 2 doi tuong co va cham nhau hay khong ?
+                if (object.getTeamType() != tmpOj.getTeamType() && object.getBoundForCollisionWithEnemy().intersects(tmpOj.getBoundForCollisionWithEnemy())) {
+                    if (tmpOj.getRigid() == rigid) {
+                        return tmpOj;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     // Update cua ta ca doi tuong.
     public void UpdateObjects() {
         synchronized (particularObjects) {
@@ -90,7 +106,7 @@ public class ParticularObjectManager {
         }
     }
 
-    // Ve doi tuong.
+    // Ve tat ca doi tuong.
     public void draw(Graphics2D g2) {
         synchronized (particularObjects) {
             for (ParticularObject object : particularObjects) {
@@ -99,7 +115,8 @@ public class ParticularObjectManager {
         }
     }
 
-    public ParticularObject checkCollisionWithFire(Rectangle rect) {
+    // Tìm kiếm xem có đối tượng nào va chạm với hình chữ nhật hay không ?
+    public ParticularObject checkCollisionWithRect(Rectangle rect) {
         synchronized (particularObjects) {
             for (ParticularObject check : particularObjects) {
                 if (check.getBoundForCollisionWithEnemy().intersects(rect)) {
@@ -110,6 +127,19 @@ public class ParticularObjectManager {
         }
     }
 
+    // Tìm kiếm xem có đối tượng nào va chạm với hình chữ nhật đã cho hay không.
+    public boolean checkCollisionWithRigid(Rectangle rect) {
+        synchronized (particularObjects) {
+            for (ParticularObject check : particularObjects) {
+                if (check.getBoundForCollisionWithEnemy().intersects(rect)) {
+                    return check.getRigid();
+                }
+            }
+            return false;
+        }
+    }
+
+    // Đếm số quái còn lại
     public void countEnemy() {
         synchronized (particularObjects) {
             int count = 0;

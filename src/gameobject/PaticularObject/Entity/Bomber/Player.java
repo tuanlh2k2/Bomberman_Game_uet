@@ -19,11 +19,12 @@ public class Player extends Entity {
     private Animation runLeft, runRight, runUp, runDown;
     private Animation idleup, idledown, idleleft, idleRight;
     private Animation playerdie;
-    private Sound gameover = new Sound();
+    Sound beBurt = new Sound();
+    Sound beDie = new Sound();
 
     public Player(double x, double y, GameWorld gameWorld) {
         super(x, y, 48, 48, 3, gameWorld);
-        setRunSpeed(4);
+        setRunSpeed(3);
         setRigid(false);
         setTeamType(LEAGUE_TEAM);
 
@@ -39,7 +40,8 @@ public class Player extends Entity {
 
         playerdie = CacheDataLoader.getInstance().getAnimation("playerdie");
 
-        gameover.setFile("overGame");
+        beBurt.setFile("beHurt");
+        beDie.setFile("overGame");
     }
 
     public void Update() {
@@ -72,8 +74,8 @@ public class Player extends Entity {
     public void attack() {
         if (this.count_bomb < MAX_WEAPON) {
             // Cai dat toa do cho bomb de bomb no nhieu huong nhat.
-            int posXBom = (int) (getPosX()/ 48) * 48 + 24;
-            int posYBom = (int) (getPosY() / 48) * 48 + 24;
+            int posXBom = (int) (getPosX()/ GameWorld.tileSize) * GameWorld.tileSize + GameWorld.tileSize/2;
+            int posYBom = (int) (getPosY() / GameWorld.tileSize) * GameWorld.tileSize + GameWorld.tileSize/2;
             Weapon bomb = new Bomb(posXBom, posYBom, getGameWorld());
             bomb.setHaveMove(true);
                 this.count_bomb ++;
@@ -92,9 +94,7 @@ public class Player extends Entity {
             case ALIVE:
             case IMMORTAL:
             case NOBEHURT:
-                if(getState() == NOBEHURT && (System.nanoTime()/10000000)%2!=1)
-                {
-                    System.out.println("Plash...");
+                if(getState() == NOBEHURT && (System.nanoTime()/10000000)%2!=1) {
                 } else {
                     if (getSpeedX() > 0) {
                         runRight.Update(System.nanoTime());
@@ -130,7 +130,12 @@ public class Player extends Entity {
                 }
                 break;
             case BEHURT:
-                gameover.play();
+                if (getBlood() > 0) {
+                    beBurt.play();
+                    beBurt.setFile("beHurt");
+                } else {
+                    beDie.play();
+                }
                 playerdie.Update(System.nanoTime());
                 playerdie.draw((int) (getPosX() - getGameWorld().camera.getPosX() - 12), (int) getPosY() - (int) getGameWorld().camera.getPosY() - 12, g2);
                 break;

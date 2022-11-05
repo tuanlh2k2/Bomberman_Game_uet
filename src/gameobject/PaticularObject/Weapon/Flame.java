@@ -66,13 +66,13 @@ public class Flame extends ParticularObject {
         } else if (direction == directionRight) {
             fireright.Update(System.nanoTime());
             fireright.draw((int) (getPosX() + 10 - getGameWorld().camera.getPosX()),
-                    (int) (getPosY() + 8 - getGameWorld().camera.getPosY()), (int) getWidth(), (int) getHeight(), g2);
+                    (int) (getPosY() + 10 - getGameWorld().camera.getPosY()), (int) getWidth(), (int) getHeight(), g2);
         }
     }
 
     @Override
     public void Update() {
-        ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithFire(getBoundForCollisionWithEnemy());
+        ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithRect(getBoundForCollisionWithEnemy());
         if (object != null) {
             if (object.getTeamType() != WEAPON_TEAM && object.getState() == ALIVE) {
                 object.setTimeStartBeHurt(System.currentTimeMillis());

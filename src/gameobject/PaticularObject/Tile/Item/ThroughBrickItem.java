@@ -9,16 +9,17 @@ import gameobject.PaticularObject.ParticularObject;
 import java.awt.*;
 
 /**
- * Sẽ không chết khi chạm vào bom trong n s.
+ * Nhân vật sẽ có thể đi xuyên qua tường (kí hiệu là chữ g).
  */
-public class ImmortalItem extends Item {
+public class ThroughBrickItem extends Item {
     private FrameImage item;
 
-    public ImmortalItem(double posX, double posY, GameWorld gameWorld) {
+    public ThroughBrickItem(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, gameWorld);
         hideItem();
-        item = CacheDataLoader.getInstance().getFrameImage("immortalItem");
+        item = CacheDataLoader.getInstance().getFrameImage("throughBrickItem");
     }
+
 
     @Override
     public void attack() {
@@ -39,8 +40,7 @@ public class ImmortalItem extends Item {
         if (checkCollisionWithPlayer != null) {
             if (checkCollisionWithPlayer instanceof Player) {
                 soundEatItem.play();
-                checkCollisionWithPlayer.setTimeStartImmotal(System.currentTimeMillis());
-                checkCollisionWithPlayer.setState(IMMORTAL);
+                ((Player) checkCollisionWithPlayer).setThroughBrick(true);
                 setState(DEATH);
             }
         } else {

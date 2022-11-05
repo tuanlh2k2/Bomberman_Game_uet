@@ -14,6 +14,7 @@ import userinterface.GameFrame;
 import java.awt.*;
 
 public class GameWorld {
+    public static final int tileSize = 48;
     private int lever = 1;
     private int countEnemy = 0;
     private int scopeBom = 48;
@@ -25,17 +26,18 @@ public class GameWorld {
     public final int nextLever = 4;
     public final int winGame = 5;
 
+    public long timePlayGame; // thời gian chơi game.
+
     public Player player;
-    public PhysicalMap physicalMap;
     public ParticularObjectManager particularObjectManager; // dung de chua cac doi tuong.
     public BackgroundMap backgroundMap;
     public Camera camera;
     public UI ui;
 
     public GameWorld() {
+        timePlayGame = System.currentTimeMillis();
         setGameState(titleState);
         ui = new UI(this);
-        physicalMap = new PhysicalMap(0, 0, this);
         backgroundMap = new BackgroundMap(0, 0, this);
         camera = new Camera(0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, this);
         particularObjectManager = new ParticularObjectManager(this);
@@ -46,69 +48,77 @@ public class GameWorld {
         for (int i = 0; i < backgroundMap.map.length; i++) {
             for (int j = 0; j < backgroundMap.map[0].length(); j++) {
                 if (backgroundMap.map[i].charAt(j) == 'p') {
-                    player = new Player(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * backgroundMap.tileSize + 24, this);
+                    player = new Player(j * backgroundMap.tileSize + backgroundMap.tileSize / 2,
+                            i * backgroundMap.tileSize + tileSize/2, this);
                     player.setTeamType(ParticularObject.LEAGUE_TEAM);
                     particularObjectManager.addObject(player);
-                }
-                else if (backgroundMap.map[i].charAt(j) == '1') {
-                    ParticularObject balloom = new Balloom(j * backgroundMap.tileSize + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                } else if (backgroundMap.map[i].charAt(j) == '1') {
+                    ParticularObject balloom = new Balloom(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     balloom.setDirection(ParticularObject.LEFT_DIR);
                     balloom.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(balloom);
                 } else if (backgroundMap.map[i].charAt(j) == '*') {
-                    ParticularObject brick = new Brick(j * backgroundMap.tileSize
-                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject brick = new Brick(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     brick.setDirection(ParticularObject.LEFT_DIR);
                     particularObjectManager.addObject(brick);
                 } else if (backgroundMap.map[i].charAt(j) == 's') {
-                    ParticularObject speedItem = new SpeedItem(j * backgroundMap.tileSize
-                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject speedItem = new SpeedItem(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     particularObjectManager.addObject(speedItem);
                 } else if (backgroundMap.map[i].charAt(j) == 'b') {
-                    ParticularObject bombItem = new BombItem(j * backgroundMap.tileSize
-                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject bombItem = new BombItem(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     particularObjectManager.addObject(bombItem);
                 } else if (backgroundMap.map[i].charAt(j) == 'f') {
-                    ParticularObject flameItem = new FlameItem(j * backgroundMap.tileSize
-                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject flameItem = new FlameItem(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     particularObjectManager.addObject(flameItem);
                 } else if (backgroundMap.map[i].charAt(j) == 't') {
-                    ParticularObject bloodItem = new BloodItem(j * backgroundMap.tileSize
-                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject bloodItem = new BloodItem(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     particularObjectManager.addObject(bloodItem);
                 }  else if (backgroundMap.map[i].charAt(j) == 'i') {
-                    ParticularObject immortalItem = new ImmortalItem(j * backgroundMap.tileSize
-                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject immortalItem = new ImmortalItem(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     particularObjectManager.addObject(immortalItem);
+                }  else if (backgroundMap.map[i].charAt(j) == 'g') {
+                    ParticularObject throughBrickItem = new ThroughBrickItem (j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
+                    particularObjectManager.addObject(throughBrickItem);
                 } else if (backgroundMap.map[i].charAt(j) == 'x') {
-                    ParticularObject Portal = new Portal ( j * backgroundMap.tileSize
-                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject Portal = new Portal ( j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     particularObjectManager.addObject(Portal);
                 } else if (backgroundMap.map[i].charAt(j) == '2') {
-                    ParticularObject Oneal = new Oneal(j * backgroundMap.tileSize
-                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject Oneal = new Oneal(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     Oneal.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(Oneal);
-                }
-                else if (backgroundMap.map[i].charAt(j) == '3') {
-                    ParticularObject Minvo = new Minvo(j * backgroundMap.tileSize
-                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                } else if (backgroundMap.map[i].charAt(j) == '3') {
+                    ParticularObject Minvo = new Minvo(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     Minvo.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(Minvo);
                 } else if (backgroundMap.map[i].charAt(j) == '4') {
-                    ParticularObject Doll = new Doll(j * backgroundMap.tileSize
-                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject Doll = new Doll(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     Doll.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(Doll);
                 } else if (backgroundMap.map[i].charAt(j) == '5') {
-                    ParticularObject Kondoria = new Kondoria(j * backgroundMap.tileSize
-                            + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                    ParticularObject Kondoria = new Kondoria(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
                     Kondoria.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(Kondoria);
-                }
-                else if (backgroundMap.map[i].charAt(j) == '#') {
-                ParticularObject wall = new Wall(j * backgroundMap.tileSize
-                        + backgroundMap.tileSize / 2, i * 48 + 24, this);
+                } else if (backgroundMap.map[i].charAt(j) == '6') {
+                    ParticularObject mommy = new Mommy(j * backgroundMap.tileSize + tileSize / 2,
+                            i * tileSize + tileSize/2, this);
+                    mommy.setTeamType(ParticularObject.ENEMY_TEAM);
+                    particularObjectManager.addObject(mommy);
+                } else if (backgroundMap.map[i].charAt(j) == '#') {
+                ParticularObject wall = new Wall(j * backgroundMap.tileSize + tileSize / 2,
+                        i * tileSize + tileSize/2, this);
                 wall.setTeamType(ParticularObject.NO_TEAM);
                 particularObjectManager.addObject(wall);
                 }
@@ -143,6 +153,7 @@ public class GameWorld {
         particularObjectManager.Clear();
         backgroundMap.setMap(this.lever);
         initEnemies();
+        timePlayGame = System.currentTimeMillis();
     }
 
     public void Render(Graphics2D g2) {

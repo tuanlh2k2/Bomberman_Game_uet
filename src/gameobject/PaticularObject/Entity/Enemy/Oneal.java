@@ -5,6 +5,9 @@ import gameobject.GameWorld;
 
 import java.util.Random;
 
+/**
+ * Quái với thuật toán AI.
+ */
 public class Oneal extends Enemy {
     private long setTimeReset;
     private Integer[] direcsion = new Integer[4];
