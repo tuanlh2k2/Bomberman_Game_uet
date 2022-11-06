@@ -38,7 +38,7 @@ public class ThroughBrickItem extends Item {
         super.Update();
         ParticularObject checkCollisionWithPlayer = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
         if (checkCollisionWithPlayer != null) {
-            if (checkCollisionWithPlayer instanceof Player) {
+            if (checkCollisionWithPlayer instanceof Player && getHide() == false) {
                 soundEatItem.play();
                 ((Player) checkCollisionWithPlayer).setThroughBrick(true);
                 setState(DEATH);

@@ -41,7 +41,7 @@ public class Portal extends Item {
         super.Update();
         ParticularObject checkCollisionWithPlayer = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
         if (checkCollisionWithPlayer != null) {
-            if (checkCollisionWithPlayer instanceof Player) {
+            if (checkCollisionWithPlayer instanceof Player && getHide() == false) {
                 if (getGameWorld().getCountEnemy() == 0) {
                     soundEatItem.play();
                     ((Player) checkCollisionWithPlayer).setOppenTheDoor(true);

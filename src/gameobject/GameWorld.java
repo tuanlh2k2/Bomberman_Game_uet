@@ -4,7 +4,7 @@ import effect.CacheDataLoader;
 import gameobject.GameFuncion.*;
 import gameobject.PaticularObject.Entity.Enemy.*;
 import gameobject.PaticularObject.Entity.Bomber.Player;
-import gameobject.PaticularObject.Entity.Enemy.AI.PathFinder;
+import gameobject.PaticularObject.Entity.Enemy.AI.AStart;
 import gameobject.PaticularObject.ParticularObject;
 import gameobject.PaticularObject.ParticularObjectManager;
 import gameobject.PaticularObject.Tile.Brick;
@@ -34,7 +34,6 @@ public class GameWorld {
     public BackgroundMap backgroundMap;
     public Camera camera;
     public UI ui;
-    public PathFinder pathFinder;
 
     public GameWorld() {
         timePlayGame = System.currentTimeMillis();
@@ -43,7 +42,6 @@ public class GameWorld {
         backgroundMap = new BackgroundMap(0, 0, this);
         camera = new Camera(0, 0, GameFrame.SCREEN_WIDTH, GameFrame.SCREEN_HEIGHT, this);
         particularObjectManager = new ParticularObjectManager(this);
-        pathFinder = new PathFinder(this);
         initEnemies();
     }
 
@@ -61,8 +59,7 @@ public class GameWorld {
                     balloom.setDirection(ParticularObject.LEFT_DIR);
                     balloom.setTeamType(ParticularObject.ENEMY_TEAM);
                     particularObjectManager.addObject(balloom);
-                }
-                else if (backgroundMap.map[i].charAt(j) == '*') {
+                } else if (backgroundMap.map[i].charAt(j) == '*') {
                     ParticularObject brick = new Brick(j * backgroundMap.tileSize + tileSize / 2,
                             i * tileSize + tileSize/2, this);
                     brick.setDirection(ParticularObject.LEFT_DIR);

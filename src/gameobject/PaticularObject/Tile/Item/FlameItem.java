@@ -3,6 +3,7 @@ package gameobject.PaticularObject.Tile.Item;
 import effect.CacheDataLoader;
 import effect.FrameImage;
 import gameobject.GameWorld;
+import gameobject.PaticularObject.Entity.Bomber.Player;
 import gameobject.PaticularObject.ParticularObject;
 
 import java.awt.*;
@@ -36,7 +37,7 @@ public class FlameItem extends Item {
         super.Update();
         ParticularObject checkCollisionWithPlayer = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
         if (checkCollisionWithPlayer != null) {
-            if (checkCollisionWithPlayer.getTeamType() == LEAGUE_TEAM) {
+            if (checkCollisionWithPlayer instanceof Player &&  getHide() == false) {
                 soundEatItem.play();
                 getGameWorld().setScopeBom(96);
                 setState(DEATH);

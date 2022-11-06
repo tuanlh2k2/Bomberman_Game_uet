@@ -1,26 +1,24 @@
 package gameobject.PaticularObject.Entity.Enemy.AI;
 
-import gameobject.GameFuncion.BackgroundMap;
 import gameobject.GameWorld;
-import gameobject.PaticularObject.Entity.Entity;
 import gameobject.PaticularObject.ParticularObject;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PathFinder {
+public class AStart {
     private int maxWorldCol;
     private int maxWorldRow;
     GameWorld gameWorld;
     Node [][] node;
-    Boolean[][] checkColistion;
+    protected Boolean[][] checkColistion;
     ArrayList <Node> openList = new ArrayList<>();
     public ArrayList<Node> pathList = new ArrayList<>();
     Node startNode, goalNode, currentNode;
     boolean goalReached = false;
     int step = 0;
 
-    public PathFinder(GameWorld gameWorld) {
+    public AStart(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
         maxWorldCol = gameWorld.backgroundMap.map[0].length(); // 31
         maxWorldRow = gameWorld.backgroundMap.map.length; //13

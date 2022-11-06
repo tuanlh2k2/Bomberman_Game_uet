@@ -18,7 +18,7 @@ public class Doll extends Enemy {
     private List<Integer> listdirection = new ArrayList<>();
     public Doll(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY,  gameWorld);
-        setRunSpeed(1);
+        setRunSpeed(2);
 
         ai = new AI(this, getGameWorld());
         left = CacheDataLoader.getInstance().getAnimation("lDoll");

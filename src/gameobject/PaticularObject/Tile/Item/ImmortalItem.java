@@ -37,7 +37,7 @@ public class ImmortalItem extends Item {
         super.Update();
         ParticularObject checkCollisionWithPlayer = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
         if (checkCollisionWithPlayer != null) {
-            if (checkCollisionWithPlayer instanceof Player) {
+            if (checkCollisionWithPlayer instanceof Player &&  getHide() == false) {
                 soundEatItem.play();
                 checkCollisionWithPlayer.setTimeStartImmotal(System.currentTimeMillis());
                 checkCollisionWithPlayer.setState(IMMORTAL);
