@@ -2,6 +2,7 @@ package gameobject.PaticularObject.Entity.Enemy;
 
 import effect.Animation;
 import gameobject.GameWorld;
+import gameobject.PaticularObject.Entity.Enemy.AI.AI;
 import gameobject.PaticularObject.Entity.Entity;
 import gameobject.PaticularObject.ParticularObject;
 
@@ -9,10 +10,11 @@ import java.awt.*;
 
 public abstract class Enemy extends Entity {
     protected Animation left, right, die, stand;
-
+    protected AI ai;
     public Enemy(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY, 48, 48, 1, gameWorld);
         setRigid(false);
+        ai = new AI(this, gameWorld);
     }
 
     @Override
@@ -43,24 +45,21 @@ public abstract class Enemy extends Entity {
                     left.Update(System.nanoTime());
                     left.draw((int) (getPosX() - getGameWorld().camera.getPosX() - getWidth()/2) + 10,
                             (int) (getPosY() - getGameWorld().camera.getPosY() - getHeight()/2) + 10, g2);
-//                    drawBoundForCollisionWithEnemy(g2);
                 } else if (getDirection() == RIGHT_DIR) {
                     right.Update(System.nanoTime());
                     right.draw((int) (getPosX() - getGameWorld().camera.getPosX() - getWidth()/2) + 10,
                             (int) (getPosY() - getGameWorld().camera.getPosY() - getHeight()/2) + 10, g2);
-//                      drawBoundForCollisionWithEnemy(g2);
                 } else {
                     stand.Update(System.nanoTime());
                     stand.draw((int) (getPosX() - getGameWorld().camera.getPosX() - getWidth()/2) + 10,
                             (int) (getPosY() - getGameWorld().camera.getPosY() - getHeight()/2) + 10, g2);
-//                    drawBoundForCollisionWithEnemy(g2);
                 }
+//                drawBoundForCollisionWithEnemy(g2);
                 break;
             case BEHURT:
                 die.Update(System.nanoTime());
                 die.draw((int) (getPosX() - getGameWorld().camera.getPosX() - getWidth()/2) + 10,
                         (int) (getPosY() - getGameWorld().camera.getPosY() - getHeight()/2) + 10, g2);
-//                drawBoundForCollisionWithEnemy(g2);
                 break;
         }
     }

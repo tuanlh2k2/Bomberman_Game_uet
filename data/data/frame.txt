@@ -1,4 +1,4 @@
-87
+97
 up1
 image image/gameImage.png
 x 0
@@ -377,43 +377,43 @@ x 128
 y 128
 w 16
 h 16
-lDoll1
+lMommy1
 image image/gameImage.png
 x 208
 y 0
 w 16
 h 16
-lDoll2
+lMommy2
 image image/gameImage.png
 x 208
 y 16
 w 16
 h 16
-lDoll3
+lMommy3
 image image/gameImage.png
 x 208
 y 32
 w 16
 h 16
-rDoll1
+rMommy1
 image image/gameImage.png
-x 214
+x 224
 y 0
 w 16
 h 16
-rDoll2
+rMommy2
 image image/gameImage.png
-x 214
+x 224
 y 16
 w 16
 h 16
-rDoll3
+rMommy3
 image image/gameImage.png
-x 214
+x 224
 y 32
 w 16
 h 16
-Dolldie
+Mommydie
 image image/gameImage.png
 x 208
 y 48
@@ -480,7 +480,7 @@ y 0
 w 1680
 h 1050
 stage1
-image image/stage1.jpg
+image image/stage1.png
 x 0
 y 0
 w 1000
@@ -517,7 +517,67 @@ w 16
 h 16
 immortalItem
 image image/gameImage.png
-x 80
+x 96
 y 160
+w 16
+h 16
+throughBrickItem
+image image/gameImage.png
+x 48
+y 160
+w 16
+h 16
+grass
+image image/grass.jpg
+x 0
+y 0
+w 1000
+h 700
+egg
+image image/egg.png
+x 0
+y 0
+w 256
+h 256
+lDoll1
+image image/gameImage.png
+x 96
+y 80
+w 16
+h 16
+lDoll2
+image image/gameImage.png
+x 96
+y 96
+w 16
+h 16
+lDoll3
+image image/gameImage.png
+x 96
+y 112
+w 16
+h 16
+rDoll1
+image image/gameImage.png
+x 112
+y 80
+w 16
+h 16
+rDoll2
+image image/gameImage.png
+x 112
+y 96
+w 16
+h 16
+rDoll3
+image image/gameImage.png
+x 112
+y 112
+w 16
+h 16
+Dolldie
+image image/gameImage.png
+x 96
+y 128
 w 16
 h 16

@@ -72,6 +72,15 @@ public class AI {
             checkDirection();
             randomDirection();
         }
+        if (entity.getDirection() == entity.LEFT_DIR) {
+            entity.setSpeedX(-entity.getRunSpeed());
+        } else if (entity.getDirection() == entity.RIGHT_DIR) {
+            entity.setSpeedX(entity.getRunSpeed());
+        } else if (entity.getDirection() == entity.TOP_DIR) {
+            entity.setSpeedY(- entity.getRunSpeed());
+        } else if (entity.getDirection() == entity.DOWN_DIR) {
+            entity.setSpeedY(entity.getRunSpeed());
+        }
     }
 
     // biết đuổi theo người khi có đường đuổi.
@@ -94,6 +103,7 @@ public class AI {
         }
     }
 
+    // random huong.
     public void randomDirection() {
         Random random = new Random();
         int leng = 0;
@@ -104,5 +114,51 @@ public class AI {
         }
         int rand = random.nextInt(1001) % leng;
         entity.setDirection(dir[rand]);
+    }
+
+    // Tim duong di theo thuat toan A*.
+    public void searchPath(int goalPosX, int goalPosY) {
+        int startPosX = (int) entity.getPosX()  / 48;
+        int startPosY = (int) entity.getPosY() / 48;
+        gameWorld.pathFinder.setNodes(startPosX, startPosY, goalPosX, goalPosY);
+        if (gameWorld.pathFinder.search() == true) {
+            // Next worldX & worldY.
+            int nextX = gameWorld.pathFinder.pathList.get(0).posX;
+            int nextY = gameWorld.pathFinder.pathList.get(0).posY;
+
+            //Entity's solidArea position.
+            int tileSize = GameWorld.tileSize;
+
+
+            if (nextX == startPosX) {
+                entity.setPosX(nextX * tileSize + tileSize/2);
+            }
+            if (nextY == startPosY) {
+                entity.setPosY(nextY * tileSize + tileSize/2);
+            }
+            if (startPosY < nextY) {
+                entity.setDirection(entity.DOWN_DIR);
+            } else if (startPosY > nextY) {
+                entity.setDirection(entity.TOP_DIR);
+            }
+            else if (startPosX < nextX) {
+                entity.setDirection(entity.RIGHT_DIR);
+            } else if (startPosX > nextX) {
+                entity.setDirection(entity.LEFT_DIR);
+            }
+        } else {
+            AI_Basic();
+        }
+
+        // set speed.
+        if (entity.getDirection() == entity.LEFT_DIR) {
+            entity.setSpeedX(-entity.getRunSpeed());
+        } else if (entity.getDirection() == entity.RIGHT_DIR) {
+            entity.setSpeedX(entity.getRunSpeed());
+        } else if (entity.getDirection() == entity.TOP_DIR) {
+            entity.setSpeedY(- entity.getRunSpeed());
+        } else if (entity.getDirection() == entity.DOWN_DIR) {
+            entity.setSpeedY(entity.getRunSpeed());
+        }
     }
 }

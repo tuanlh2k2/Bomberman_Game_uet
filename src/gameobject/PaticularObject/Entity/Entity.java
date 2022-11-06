@@ -10,6 +10,7 @@ public abstract class Entity extends ParticularObject {
     private double oldPosY; // tọa độ cũ của đối tượng.
     private boolean haveCollision; // Kiểm tra xem có va chạm hay không.
     private boolean throughBrick = false; // Xét xem thực thể có thể xuyên qua gạch hay không.
+    public boolean onPath = false;
     public Entity(double posX, double posY, double width, double height, int blood, GameWorld gameWorld) {
         super(posX, posY, width, height, blood, gameWorld);
         setState(ALIVE);

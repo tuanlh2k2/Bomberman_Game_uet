@@ -17,7 +17,6 @@ public class Kondoria extends Enemy {
     private int length;
     private String[] map;
     private boolean state = true;
-    private Animation after;
     public Kondoria(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY,  gameWorld);
         setDirection(DOWN_DIR);

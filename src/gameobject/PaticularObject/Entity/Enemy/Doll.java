@@ -3,7 +3,9 @@ package gameobject.PaticularObject.Entity.Enemy;
 import effect.CacheDataLoader;
 import gameobject.GameWorld;
 import gameobject.PaticularObject.Entity.Enemy.AI.AI;
+import gameobject.PaticularObject.ParticularObject;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class Doll extends Enemy {
     private List<Integer> listdirection = new ArrayList<>();
     public Doll(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY,  gameWorld);
-        setThroughBrick(true);
+        setRunSpeed(1);
 
         ai = new AI(this, getGameWorld());
         left = CacheDataLoader.getInstance().getAnimation("lDoll");
@@ -31,18 +33,16 @@ public class Doll extends Enemy {
     @Override
     public void Update() {
         super.Update();
+        onPath = true;
     }
 
     public void run() {
-        ai.AI_Pursue();
-        if (getDirection() == LEFT_DIR) {
-            setSpeedX(-2);
-        } else if (getDirection() == RIGHT_DIR) {
-            setSpeedX(2);
-        } else if (getDirection() == TOP_DIR) {
-            setSpeedY(-2);
-        } else if (getDirection() == DOWN_DIR) {
-            setSpeedY(2);
+        if (onPath == true) {
+            int goalPosX = (int) (getGameWorld().player.getPosX()/48);
+            int goalPosY = (int) (getGameWorld().player.getPosY()/48);
+            ai.searchPath(goalPosX, goalPosY);
+        } else {
+            ai.AI_Basic();
         }
     }
     @Override
