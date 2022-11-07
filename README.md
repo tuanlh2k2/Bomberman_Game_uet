@@ -150,7 +150,19 @@ Người chơi sẽ chỉ đạo chuyển động của nhân vật để đặt
     </ul>
     	<div align="center">------------------------------------</div>
     <br />
-    	<h3>6. Doll</h3>
+    	<h3>6. Mivno</h3>
+    <div align="center">
+        <img src="data/sample/Minvo.png" alt="">
+    </div>
+    <br />
+    <p>Di chuyển theo thuật toán A_Pursue:</p>
+    <ul>
+      <li>Tìm toạ độ nhân vật, nếu nhìn thấy nhân vật trên một đường thẳng thì tăng tốc đuổi theo nhân vật.</li>
+      <li>Có thể hồi sinh 1 lần.</li>
+    </ul>    
+    	<div align="center">------------------------------------</div>
+    <br />
+    	<h3>7. Doll</h3>
     <div align="center">
         <img src="data/sample/Doll.png" alt="">
     </div>
