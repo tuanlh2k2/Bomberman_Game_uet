@@ -17,7 +17,7 @@ public class Bomb extends Weapon {
     private Animation bomb;
     public long timeBegin;
     private long timeHT;
-    List<Flame> frame = new ArrayList<Flame>();
+    List<Flame> frame = new ArrayList<Flame>(); // Chua cac doi tuong lua.
     private Sound nobomb = new Sound();
     private Sound setBomb = new Sound();
 
@@ -78,7 +78,7 @@ public class Bomb extends Weapon {
             nobomb.play();
             setState(BEHURT);
             this.timeBegin = timeHT;
-            checkWallOfFrame();
+            checkWallOfFrame(); // Sinh ra cac doi tuong lua (kiem tra va cham cua lua voi tuong).
         } else if (timeHT - timeBegin > 900 && getState() == BEHURT) {
             setState(DEATH);
             getGameWorld().player.setCount_bomb(getGameWorld().player.getCount_bomb()  - 1);
@@ -91,6 +91,7 @@ public class Bomb extends Weapon {
     }
 
     public void checkWallOfFrame() {
+        int tileSize = GameWorld.tileSize;
         int scope = 0;
         // frame position.
         Rectangle rectPos = new Rectangle((int) (getPosX() - getWidth()/2),
@@ -103,18 +104,18 @@ public class Bomb extends Weapon {
         // Check frame top.
         Rectangle rectUp = new Rectangle((int) (getPosX() - getWidth()/2),
                 (int) (getPosY() - getHeight()/2), (int) getWidth(), (int) getHeight());
-        for (int i = 1; 48 * i <= getGameWorld().getScopeBom(); i++) {
+        for (int i = 1; tileSize * i <= getGameWorld().getScopeBom(); i++) {
             // Check va chạm.
-            rectUp.y = rectUp.y - 48;
+            rectUp.y = rectUp.y - tileSize;
             ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithRect(rectUp);
             if (object instanceof Wall) {
-                rectUp.y += 48;
+                rectUp.y += tileSize;
                 break;
             } else if (object instanceof Brick) {
-                scope += 48;
+                scope += tileSize;
                 break;
             } else {
-                scope += 48;
+                scope += tileSize;
             }
         }
         rectUp.height = scope;
@@ -127,21 +128,21 @@ public class Bomb extends Weapon {
         scope = 0;
         Rectangle rectDown = new Rectangle((int) (getPosX() - getWidth()/2),
                 (int) (getPosY() - getHeight()/2), (int) getWidth(), (int) getHeight());
-        rectDown.y += 48;
-        for (int i = 1; 48 * i <= getGameWorld().getScopeBom(); i++) {
+        rectDown.y += tileSize;
+        for (int i = 1; tileSize * i <= getGameWorld().getScopeBom(); i++) {
             // Check va chạm.
             ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithRect(rectDown);
             if (object instanceof Wall) {
                 break;
             }
             else if (object instanceof Brick) {
-                scope += 48;
-                rectDown.y += 48;
+                scope += tileSize;
+                rectDown.y += tileSize;
                 break;
             } else {
-                scope += 48;
+                scope += tileSize;
             }
-            rectDown.y += 48;
+            rectDown.y += tileSize;
         }
         rectDown.y -= scope;
         rectDown.height = scope;
@@ -154,19 +155,19 @@ public class Bomb extends Weapon {
         scope = 0;
         Rectangle rectLeft = new Rectangle((int) (getPosX() - getWidth()/2),
                 (int) (getPosY() - getHeight()/2), (int) getWidth(), (int) getHeight());
-        for (int i = 1; 48 * i <= getGameWorld().getScopeBom(); i++) {
+        for (int i = 1; tileSize * i <= getGameWorld().getScopeBom(); i++) {
             // Check va chạm.
-            rectLeft.x -= 48;
+            rectLeft.x -= tileSize;
             ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithRect(rectLeft);
             if (object instanceof Wall) {
-                rectLeft.x += 48;
+                rectLeft.x += tileSize;
                 break;
             }
             else if (object instanceof Brick) {
-                scope += 48;
+                scope += tileSize;
                 break;
             } else {
-                scope += 48;
+                scope += tileSize;
             }
         }
         rectLeft.width = scope;
@@ -179,21 +180,21 @@ public class Bomb extends Weapon {
         scope = 0;
         Rectangle rectRight = new Rectangle((int) (getPosX() - getWidth()/2),
                 (int) (getPosY() - getHeight()/2), (int) getWidth(), (int) getHeight());
-        rectRight.x += 48;
-        for (int i = 1; 48 * i <= getGameWorld().getScopeBom(); i++) {
+        rectRight.x += tileSize;
+        for (int i = 1; tileSize * i <= getGameWorld().getScopeBom(); i++) {
             // Check va chạm.
             ParticularObject object = getGameWorld().particularObjectManager.checkCollisionWithRect(rectRight);
             if (object instanceof Wall) {
                 break;
             }
             else if (object instanceof Brick) {
-                scope += 48;
-                rectRight.x += 48;
+                scope += tileSize;
+                rectRight.x += tileSize;
                 break;
             } else {
-                scope += 48;
+                scope += tileSize;
             }
-            rectRight.x += 48;
+            rectRight.x += tileSize;
         }
         rectRight.x -= scope;
         rectRight.width = scope;

@@ -5,6 +5,7 @@ import effect.FrameImage;
 import gameobject.GameWorld;
 import gameobject.PaticularObject.Entity.Bomber.Player;
 import gameobject.PaticularObject.ParticularObject;
+import gameobject.PaticularObject.Tile.Brick;
 
 import java.awt.*;
 
@@ -32,13 +33,14 @@ public class Portal extends Item {
         if (getState() == ALIVE && getHide() == false) {
             g2.drawImage(portal.getImage(), (int) (getPosX() - getWidth()/2 - getGameWorld().camera.getPosX()),
                     (int) (getPosY() - getHeight()/2 - getGameWorld().camera.getPosY()), 48,48, null);
-            drawBoundForCollisionWithEnemy(g2);
+//            drawBoundForCollisionWithEnemy(g2);
         }
     }
 
     @Override
     public void Update() {
         super.Update();
+        // Kiem tra xem brick da no hay chua => hien item.
         ParticularObject checkCollisionWithPlayer = getGameWorld().particularObjectManager.getCollisionWithEnemyObject(this);
         if (checkCollisionWithPlayer != null) {
             if (checkCollisionWithPlayer instanceof Player && getHide() == false) {

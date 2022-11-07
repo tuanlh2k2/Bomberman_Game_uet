@@ -12,7 +12,6 @@ public class Oneal extends Enemy {
     public Oneal(double posX, double posY, GameWorld gameWorld) {
         super(posX, posY,  gameWorld);
         setDirection(DOWN_DIR);
-        setThroughBrick(true);
         setRunSpeed(1);
 
         left = CacheDataLoader.getInstance().getAnimation("lOneal");

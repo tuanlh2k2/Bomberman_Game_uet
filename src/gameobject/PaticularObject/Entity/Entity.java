@@ -45,7 +45,7 @@ public abstract class Entity extends ParticularObject {
     }
 
     /**
-     * Check vat di qua vat ko cho di chuyen.
+     * Xu ly va cham giua cac doi tuong.
      */
     public void checkCollisionWithRigid() {
         // Lưu lại tọa độ cũ.
@@ -67,10 +67,10 @@ public abstract class Entity extends ParticularObject {
             Rectangle rect = other.getBoundForCollisionWithEnemy();
             // Xử lý va chạm khi đi xuống hoặc đi lên.
             if (getDirection() == TOP_DIR || getDirection() == DOWN_DIR) {
-                // Xử lý mép bên phải.
+                // Xử lý mép bên trái.
                 if (rect.x - getPosX() >= 6) {
                     setPosX(rect.x - getWidth()/2);
-                } else if (getPosX() - rect.x - rect.width >= 8) { // Xử lý mép bên trái.
+                } else if (getPosX() - rect.x - rect.width >= 8) { // Xử lý mép bên phải.
                     setPosX(rect.x + getWidth() + getWidth()/2);
                 } else {
                     setHaveCollision(true);

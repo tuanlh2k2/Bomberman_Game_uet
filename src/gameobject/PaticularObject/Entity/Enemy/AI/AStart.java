@@ -7,16 +7,16 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class AStart {
-    private int maxWorldCol;
-    private int maxWorldRow;
-    GameWorld gameWorld;
-    Node [][] node;
-    protected Boolean[][] checkColistion;
-    ArrayList <Node> openList = new ArrayList<>();
-    public ArrayList<Node> pathList = new ArrayList<>();
-    Node startNode, goalNode, currentNode;
-    boolean goalReached = false;
-    int step = 0;
+    private int maxWorldCol; // Số cột của map.
+    private int maxWorldRow; // Số hàng của map.
+    private GameWorld gameWorld; // dùng để tương tác với các đối tượng khác.
+    private Node [][] node; // Mảng các node của đối tượng.
+    protected Boolean[][] checkColistion; // kiểm tra xem trong map có đối tượng nào có thể đi qua.
+    ArrayList <Node> openList = new ArrayList<>(); // chứa các node đã đi qua.
+    public ArrayList<Node> pathList = new ArrayList<>(); // đánh dấu địa chỉ.
+    Node startNode, goalNode, currentNode; // node đầu tiên, node đích, node trung gian.
+    boolean goalReached = false; // Chưa tìm thấy đích.
+    int step = 0; // số bước tìm.
 
     public AStart(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
@@ -25,18 +25,20 @@ public class AStart {
         instantiateNodes();
     }
 
+    // Khởi tạo các node.
     public void instantiateNodes() {
-        node = new Node[13][31];
-        for (int i = 0; i < 13; i++) {
-            for (int j = 0; j < 31; j++) {
+        node = new Node[maxWorldRow][maxWorldCol];
+        for (int i = 0; i < maxWorldRow; i++) {
+            for (int j = 0; j < maxWorldCol; j++) {
                 node[i][j] = new Node(i, j);
             }
         }
     }
 
+    // trước khi tìm sẽ reset lại các node.
     public void resetNodes() {
-        for (int i = 0; i < 13; i++) {
-            for (int j = 0; j < 31; j++) {
+        for (int i = 0; i < maxWorldRow; i++) {
+            for (int j = 0; j < maxWorldCol; j++) {
                 node[i][j].open = false;
                 node[i][j].solid = false;
                 node[i][j].checked = false;
@@ -50,25 +52,25 @@ public class AStart {
         step = 0;
     }
 
+    // Cài đặt các node.
     public void setNodes(int startPosX, int startPosY, int goalPosX, int goalPosY) {
         resetNodes();
         setCheckColistion();
-        //set start node and goal node.
+        // cài đặt node bắt đầu và node kết thúc.
         startNode = node[startPosY][startPosX];
-        currentNode = startNode;
+        currentNode = startNode; // gán cho node đi qua đầu tiên sẽ là node bắt đầu.
         goalNode = node[goalPosY][goalPosX];
         openList.add(currentNode);
 
-//        System.out.println(currentNode.row + " " + currentNode.col);
-        for (int i = 0; i < 13; i++) {
-            // CHECK TITLES.
-            for (int j = 0; j < 31; j++) {
+        // kiểm tra xem node đấy có đi qua được không (true => vật cứng).
+        for (int i = 0; i < maxWorldRow; i++) {
+            for (int j = 0; j < maxWorldCol; j++) {
                 if (checkColistion[i][j] == true) {
                     node[i][j].solid = true;
                 } else {
                     node[i][j].solid = false;
                 }
-                // SET COST.
+                // cài đặt chi phí của node.
                 getCost(node[i][j]);
             }
         }
@@ -76,20 +78,21 @@ public class AStart {
 
     public void getCost(Node node) {
 
-        // G cost.
+        // G cost. => khoảng cách từ node đến node ban đầu.
         int xDistance = Math.abs(node.posX - startNode.posX);
         int yDistance = Math.abs(node.posY - startNode.posY);
         node.gCost = xDistance + yDistance;
 
-        // H cost.
+        // H cost. => khoảng cách từ node đến node kết thúc.
         xDistance = Math.abs(node.posX - goalNode.posX);
         yDistance = Math.abs(node.posY - goalNode.posY);
         node.hCost = xDistance + yDistance;
 
-        // F cost.
+        // F cost. (tổng chi phí).
         node.fCost = node.gCost + node.hCost;
     }
 
+    // Tìm kiếm đường đi theo thuật toán.
     public boolean search() {
         while (goalReached == false && step < 500) {
             int posX = currentNode.posX;
@@ -126,12 +129,12 @@ public class AStart {
                 }
             }
 
-            // ........
+            // nếu không còn đường để đi => không có đường.
             if (openList.size() == 0) {
                 break;
             }
 
-            // ...........
+            // chọn node có chi phí đi thấp nhất để kiểm tra.
             currentNode = openList.get(bestNodeIndex);
             if (currentNode == goalNode) {
                 goalReached = true;
