@@ -222,3 +222,7 @@ Người chơi sẽ chỉ đạo chuyển động của nhân vật để đặt
     	<div align="center">------------------------------------</div>
 </div>
 <br />
+
+<div id="bottom" align="center"> 
+	<p> END </p>
+</div>
