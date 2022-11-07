@@ -34,7 +34,7 @@
 <!-- Game -->
 <br />
 
-## Đối tượng <a name="Object"></a>
+## Tổng quan <a name="Object"></a>
 ### Công nghệ 
 
 - Ngôn ngữ: [JAVA](https://www.java.com/en/)
